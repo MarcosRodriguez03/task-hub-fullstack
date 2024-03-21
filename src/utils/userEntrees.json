@@ -1,0 +1,32 @@
+[
+    {
+        "username": "marcos8301",
+        "email": "marcos@gmail.com",
+        "password": "securePassword123",
+        "id": 1,
+        "firstName": "Marcos",
+        "lastName": "Rodriguez",
+        "bio": "Greetings! How is your day?",
+        "profileImage": "https://randomimage.com/profile123.jpg"
+    },
+    {
+        "username": "johndoe456",
+        "email": "johndoe@example.com",
+        "password": "DoePass789",
+        "id": 2,
+        "firstName": "John",
+        "lastName": "Doe",
+        "bio": "Hey there! Hope you're doing well.",
+        "profileImage": "https://example.com/johndoe.jpg"
+    },
+    {
+        "username": "laurasmith789",
+        "email": "lsmith@yahoo.com",
+        "password": "LauraPass321",
+        "id": 3,
+        "firstName": "Laura",
+        "lastName": "Smith",
+        "bio": "Hello! How's everything going?",
+        "profileImage": "https://randomimage.com/laura_profile.jpg"
+    }
+]
