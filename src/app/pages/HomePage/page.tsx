@@ -43,13 +43,11 @@ const HomePage = () => {
           </div>
         </div>
         <ProjectCardComponent
-          percentText="25%"
-          percent="25"
-          projectName="hey Project"
+          percent="10"
+          projectName="New Project"
         />
         <ProjectCardComponent
-          percentText="50%"
-          percent="50"
+          percent="100"
           projectName="Old Project"
         />
       </div>
