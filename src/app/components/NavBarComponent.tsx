@@ -1,15 +1,24 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
-import taskHubLogo from "@/assets/taskhublogo.png";
+import Image, { StaticImageData } from "next/image";
 import messageIcon from "@/assets/messagesIcon.png";
 import notifications from "@/assets/fullNotifsIcon.png";
-import homelogo from '@/assets/homelogo.png';
-import mobilemessages from '@/assets/mobilemessagesicon.png';
-import fullnotif from '@/assets/mobilefullnotifs.png';
+import homelogo from "@/assets/homelogo.png";
+import mobilemessages from "@/assets/mobilemessagesicon.png";
+import fullnotif from "@/assets/mobilefullnotifs.png";
 
-const NavBarComponent = (prop: { title: string }) => {
+const NavBarComponent = (prop: {
+  title: string;
+  setTitle: (input:string) => void;
+  logo: StaticImageData;
+  logoText: string;
+  notificationBtn: (input: string) => void;
+  notificationCheck: string;
+  pageNotification: (input:string) => void;
+  pageNotificationToggle: string;
+  pageNotificationTwo: (input:string) => void;
+}) => {
   return (
     <div>
       <div className="block lg:hidden">
@@ -27,10 +36,10 @@ const NavBarComponent = (prop: { title: string }) => {
           <div className="my-auto text-[24px] text-[#CB76F2]">
             <Image
               className="inline me-[20px] cursor-pointer"
-              src={taskHubLogo}
+              src={prop.logo}
               alt="task hub logo"
             />
-            <span className="my-auto">Task Hub</span>
+            <span className="my-auto">{prop.logoText}</span>
           </div>
           <div className="flex">
             <div className="my-auto">
@@ -44,27 +53,55 @@ const NavBarComponent = (prop: { title: string }) => {
             </div>
             <div className="my-auto">
               <Image
+                onClick={() => {
+                  if (prop.notificationCheck === "hidden lg:hidden") {
+                    prop.notificationBtn("hidden lg:block");
+                  } else {
+                    prop.notificationBtn("hidden lg:hidden");
+                  }
+                }}
                 height={50}
                 width={50}
                 className="mx-[30px] cursor-pointer"
                 src={notifications}
-                alt="not full notifications icon"
+                alt="notifications icon"
               />
             </div>
             <div className="my-auto rounded-[50px] bg-white h-[50px] w-[50px] cursor-pointer"></div>
           </div>
         </div>
         <div className="flex lg:hidden justify-evenly h-[79px]">
-            <div className="my-auto cursor-pointer">
-                <Image src={homelogo} alt="home icon"/>
-            </div>
-            <div className="my-auto cursor-pointer">
-                <Image src={mobilemessages} alt="messages icon"/>
-            </div>
-            <div className="my-auto cursor-pointer">
-                <Image src={fullnotif} alt="notifications icon"/>
-            </div>
-            <div className="my-auto rounded-[50px] bg-white h-[50px] w-[50px] cursor-pointer"></div>
+          <div className="my-auto cursor-pointer">
+            <Image 
+            onClick={() => {
+              prop.pageNotification('block lg:block');
+              prop.pageNotificationTwo('hidden lg:hidden');
+              prop.setTitle('Projects');
+            }}
+            src={homelogo} height={50} width={50} alt="home icon" />
+          </div>
+          <div className="my-auto cursor-pointer">
+            <Image
+              src={mobilemessages}
+              height={50}
+              width={50}
+              alt="messages icon"
+            />
+          </div>
+          <div className="my-auto cursor-pointer">
+            <Image
+              onClick={() => {
+                prop.pageNotification('hidden lg:block');
+                prop.pageNotificationTwo('block lg:hidden');
+                prop.setTitle('Notifications');
+              }}
+              src={fullnotif}
+              height={50}
+              width={50}
+              alt="notifications icon"
+            />
+          </div>
+          <div className="my-auto rounded-[50px] bg-white h-[50px] w-[50px] cursor-pointer"></div>
         </div>
       </div>
     </div>
