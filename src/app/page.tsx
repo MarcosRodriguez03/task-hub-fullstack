@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import HomePage from "./pages/HomePage/page";
 import Image from "next/image";
 import loginLogo from '@/assets/loginLogo.png'
+import TaskPage from "./pages/TaskPage/page";
 
 
 
@@ -49,54 +50,64 @@ export default function Home() {
   }
 
   return (
+    <TaskPage />
+    // <div className="bg-image">
+    //   <div className="grid md:grid-cols-2 grid-cols-1">
 
-    <div className="bg-image">
-      <div className="grid grid-cols-2">
+    //     <div className="flex justify-center px-[20px]  ">
+    //       <div className="min-h-screen w-[600px] pt-[15%]">
 
-        <div>
-          <Image src={loginLogo} alt="Logo" />
-        </div>
+    //         <div className="flex items-center mb-[50px]">
+    //           <Image src={loginLogo} alt="Logo" className="mr-[25px]" />
+    //           <p className="text-[30px] text-[#CB76F2] ">TaskHub</p>
+    //         </div>
 
-        <div>
+    //         <div className="text-white mb-[50px]">
+    //           <p className="text-[34px] pb-[15px]">{switchBool ? "Create account" : "Login "}</p>
+    //           <p className="text-[20px] md:text-[24px]">{switchBool ? "It all starts with an account" : "For all you managing needs"}.</p>
+    //         </div>
 
-        </div>
+    //         <div className="mb-[50px]">
+    //           <div className="bg-[#282828] rounded-[10px] border-b border-[#808080] mb-[25px]">
+    //             <input
+    //               required onChange={(e) => setUserName(e.target.value)}
+    //               placeholder="Username"
+    //               className=" border border-transparent bg-transparent focus:outline-none focus:ring-0 text-[20px] md:text-[24px]  text-[#808080]" type="text" />
+    //           </div>
 
-      </div>
-    </div>
+    //           <div className="bg-[#282828] rounded-[10px] border-b border-[#808080] ">
+    //             <input
+    //               required onChange={(e) => setPassword(e.target.value)}
+    //               placeholder=" Password"
+    //               className=" border border-transparent bg-transparent focus:outline-none focus:ring-0 text-[20px] md:text-[24px]  text-[#808080]" type="text" />
+    //           </div>
+    //         </div>
 
-    // <div className=" loginBg  min-h-screen flex justify-center items-center p-[10px]">
-    //   <div className="bg-white rounded-lg w-[600px] p-[20px] md:p-[50px]">
-    //     <div className="flex items-center pb-[25px] md:pb-[50px]">
-    //       <img src="https://picsum.photos/200" className="w-[50px] pe-2 h-auto" alt="" />
-    //       <h1 className="text-lg md:text-2xl text-[#6E387C]">TaskHub</h1>
+
+    //         <div
+    //           onClick={handleSubmit}
+    //           className="bg-[#CB76F2] rounded-[10px] h-[70px] flex items-center justify-center mb-[50px]">
+    //           <p className="text-[24px] md:text-[34px]  text-white">{switchBool ? "Create account" : "Login"}</p>
+    //         </div>
+
+    //         <div className="flex justify-center" onClick={handleSwitch}>
+    //           <span className="md:flex text-center text-white text-[20px] md:text-[24px] ">
+    //             <p className="me-2">{switchBool ? "Have an account?" : "Dont have an account?"} </p>
+    //             <p className="font-bold"> {switchBool ? "Login here" : "Register now"}</p>
+    //           </span>
+    //         </div>
+    //       </div>
     //     </div>
-    //     <div className="pb-[50px]">
-    //       <p className="text-lg md:text-2xl font-bold ">{switchBool ? "Login " : "Create account"}</p>
-    //       <p className="hidden md:block text-lg  md:text-xl">{switchBool ? "For all you managing needs" : "It all starts with an email"}.</p>
+
+
+    //     <div className=" grid-cols-none md:grid-cols-1">
+
     //     </div>
-    //     {/* {
-    //       !switchBool ? <div className="pb-[25px]">
-    //         <p className="text-lg md:text-xl">Email Address</p>
-    //         <input className=" w-full rounded-lg" type="text" />
-    //       </div> : ""
-    //     } */}
-    //     <div className="pb-[25px]">
-    //       <p className="text-lg md:text-xl">Username</p>
-    //       <input className=" w-full rounded-lg" type="text" required onChange={(e) => setUserName(e.target.value)} />
-    //     </div>
-    //     <div className="pb-[50px]">
-    //       <p className="text-lg md:text-xl">Password</p>
-    //       <input className=" w-full rounded-lg" type="text" required onChange={(e) => setPassword(e.target.value)} />
-    //     </div>
-    //     <button
-    //       onClick={handleSubmit}
-    //       className="mb-[50px] w-full bg-[#6E387C] text-lg md:text-2xl h-[50px] rounded-lg text-white">{switchBool ? "Login" : "Create account"}</button>
-    //     <div
-    //       onClick={handleSwitch}
-    //       className="flex justify-center">
-    //       <span className="cursor-pointer text-center md:flex text-lg md:text-xl"><p className="text-center me-2">{switchBool ? "Dont have an account?" : "Have an account?"}</p><p onClick={handleSwitch}>{switchBool ? "Register now" : "Login here"}</p></span>
-    //     </div>
+
     //   </div>
     // </div>
+
+
+
   );
 }
