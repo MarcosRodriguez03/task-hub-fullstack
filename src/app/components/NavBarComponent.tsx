@@ -19,6 +19,7 @@ const NavBarComponent = (prop: {
   pageNotification: (input: string) => void;
   pageNotificationToggle: string;
   pageNotificationTwo: (input: string) => void;
+  pageProfile: (input: string) => void;
 }) => {
 
   let router = useRouter()
@@ -42,7 +43,10 @@ const NavBarComponent = (prop: {
         <div className="hidden lg:flex justify-between h-full">
           <div className="my-auto text-[24px] text-[#CB76F2]">
             <Image
-              onClick={GoToHome}
+              onClick={() => {
+                GoToHome()
+                prop.setTitle('Profile');
+              }}
               className="inline me-[20px] cursor-pointer"
               src={prop.logo}
               alt="task hub logo"
@@ -75,7 +79,10 @@ const NavBarComponent = (prop: {
                 alt="notifications icon"
               />
             </div>
-            <div className="my-auto rounded-[50px] bg-white h-[50px] w-[50px] cursor-pointer"></div>
+            <div onClick={() => {
+              prop.pageProfile('block lg:block');
+              prop.setTitle('Profile');
+          }} className="my-auto rounded-[50px] bg-white h-[50px] w-[50px] cursor-pointer"></div>
           </div>
         </div>
         <div className="flex lg:hidden justify-evenly h-[79px]">
@@ -84,6 +91,7 @@ const NavBarComponent = (prop: {
               onClick={() => {
                 prop.pageNotification('block lg:block');
                 prop.pageNotificationTwo('hidden lg:hidden');
+                prop.pageProfile('hidden lg:hidden');
                 prop.setTitle('Projects');
                 GoToHome()
               }}
@@ -102,6 +110,7 @@ const NavBarComponent = (prop: {
               onClick={() => {
                 prop.pageNotification('hidden lg:block');
                 prop.pageNotificationTwo('block lg:hidden');
+                prop.pageProfile('hidden lg:hidden');
                 prop.setTitle('Notifications');
               }}
               src={fullnotif}
@@ -110,7 +119,12 @@ const NavBarComponent = (prop: {
               alt="notifications icon"
             />
           </div>
-          <div className="my-auto rounded-[50px] bg-white h-[50px] w-[50px] cursor-pointer"></div>
+          <div onClick={() => {
+            prop.pageNotification('hidden lg:block');
+            prop.pageNotificationTwo('hidden lg:hidden');
+            prop.pageProfile('block lg:block');
+            prop.setTitle('Profile');
+          }} className="my-auto rounded-[50px] bg-white h-[50px] w-[50px] cursor-pointer"></div>
         </div>
       </div>
     </div>

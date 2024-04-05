@@ -26,10 +26,13 @@ const TaskPage = () => {
         useState<string>("hidden lg:hidden");
     const [notificationsPage, setNotificationsPage] = useState<string>('block lg:block');
     const [notificationsPageClick, setNotificationsPageClick] = useState<string>('hidden lg:hidden');
+    const [profilePage, setProfilePage] = useState<string>('hidden lg:hidden');
 
     return (
         <div>
-            <ProfilePageComponent />
+            <div className={profilePage}>
+                <ProfilePageComponent pageProfile={setProfilePage}/>
+            </div>
             {/* <div className='w-full h-[80px] lg:h-[70px] bg-white'>header</div> */}
             <NavBarComponent title={mobileTitle}
                 setTitle={setMobileTitle}
@@ -39,12 +42,12 @@ const TaskPage = () => {
                 notificationCheck={toggleNotifications}
                 pageNotification={setNotificationsPage}
                 pageNotificationTwo={setNotificationsPageClick}
-                pageNotificationToggle={notificationsPage} />
+                pageNotificationToggle={notificationsPage} 
+                pageProfile={setProfilePage}
+                />
 
             <div className={toggleNotifications}>
-                <div className="grid absolute right-[110px]">
-                    <NotificationBoxComponent message="Tyler sent a message" />
-                </div>
+                <NotificationBoxComponent message="Tyler sent a message" />
             </div>
 
             <div className={notificationsPage}>

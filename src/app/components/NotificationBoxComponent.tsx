@@ -6,7 +6,7 @@ import removeNotifs from "@/assets/removeNotifsIcon.png";
 
 const NotificationBoxComponent = (prop: { message: string }) => {
   return (
-    <div className="bg-[#D9D9D9] w-full lg:w-[400px] h-[77px] rounded-[15px] my-[25px] lg:my-[15px] text-[20px] lg:text-[24px] z-10">
+    <div className="bg-[#D9D9D9] w-full lg:w-[400px] h-[77px] rounded-[15px] my-[25px] lg:my-[15px] text-[20px] lg:text-[24px] z-10 lg:grid lg:absolute lg:right-[110px]">
       <div className="flex justify-between mx-[15px] lg:mx-[25px] h-full">
         <p className="my-auto">{prop.message}</p>
         <Image
