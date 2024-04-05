@@ -32,7 +32,9 @@ const TaskPage = () => {
 
     return (
         <div>
-            {/* <ProfilePageComponent /> */}
+            <div className={profilePage}>
+                <ProfilePageComponent pageProfile={setProfilePage}/>
+            </div>
             {/* <div className='w-full h-[80px] lg:h-[70px] bg-white'>header</div> */}
             {/* <AddUserComponent /> */}
             <CreateTaskComponent />
