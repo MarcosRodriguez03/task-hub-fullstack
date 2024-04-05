@@ -11,6 +11,8 @@ import emptyPfp from '@/assets/emptyPfp.png'
 import addPeople from '@/assets/addPeople.png'
 import plusSign from '@/assets/plusSign.png'
 import TaskSqaureComponent from '@/app/component/TaskSqaureComponent';
+import { Button } from 'flowbite-react';
+
 
 
 
@@ -18,8 +20,10 @@ const TaskPage = () => {
 
     return (
         <div>
-            <div className='w-full h-[70px] bg-white'>header</div>
-            <div className="flex flex-col lg:flex-row bg-[#080808] absolute top-[54px] bottom-0 w-full">
+            <div className='w-full h-[80px] lg:h-[70px] bg-white'>header</div>
+
+
+            <div className="flex flex-col lg:flex-row bg-[#080808] absolute top-[80px] lg:top-[70px] bottom-[80px] lg:bottom-0 w-full">
                 <div className="border-y lg:border-r border-[#525252] lg:w-[100px] items-center w-full lg:h-full h-[54px] bg-[#181818] flex lg:flex-col overflow-x-scroll  lg:overflow-auto ">
 
                     <>
@@ -64,6 +68,7 @@ const TaskPage = () => {
                             <div className=' w-full overflow-auto '>
                                 <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
 
+
                                 <p className='text-white'>left input</p>
                             </div>
 
@@ -99,7 +104,7 @@ const TaskPage = () => {
                     </div>
 
 
-                    <div className='lg:hidden  overflow-y-auto absolute top-[162px] left-0 right-0 bottom-[80px] px-[20px] lg:bottom-[80px]   '>
+                    <div className='lg:hidden  overflow-y-auto absolute top-[162px] left-0 right-0 bottom-0 px-[20px] lg:bottom-[80px]   '>
                         <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
                         <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
                         <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
@@ -135,6 +140,7 @@ const TaskPage = () => {
                 </div>
             </div>
             {/* <div className='bg-white w-full h-[80px] absolute bottom-0'>footer</div> */}
+
         </div>
 
 

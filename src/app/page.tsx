@@ -52,7 +52,7 @@ export default function Home() {
   return (
     <TaskPage />
     // <div className="bg-image">
-    //   <div className="grid md:grid-cols-2 grid-cols-1">
+    //   <div className="grid lg:grid-cols-2 grid-cols-1">
 
     //     <div className="flex justify-center px-[20px]  ">
     //       <div className="min-h-screen w-[600px] pt-[15%]">
@@ -64,7 +64,7 @@ export default function Home() {
 
     //         <div className="text-white mb-[50px]">
     //           <p className="text-[34px] pb-[15px]">{switchBool ? "Create account" : "Login "}</p>
-    //           <p className="text-[20px] md:text-[24px]">{switchBool ? "It all starts with an account" : "For all you managing needs"}.</p>
+    //           <p className="text-[20px] lg:text-[24px]">{switchBool ? "It all starts with an account" : "For all you managing needs"}.</p>
     //         </div>
 
     //         <div className="mb-[50px]">
@@ -72,14 +72,14 @@ export default function Home() {
     //             <input
     //               required onChange={(e) => setUserName(e.target.value)}
     //               placeholder="Username"
-    //               className=" border border-transparent bg-transparent focus:outline-none focus:ring-0 text-[20px] md:text-[24px]  text-[#808080]" type="text" />
+    //               className=" border border-transparent bg-transparent focus:outline-none focus:ring-0 text-[20px] lg:text-[24px]  text-[#808080]" type="text" />
     //           </div>
 
     //           <div className="bg-[#282828] rounded-[10px] border-b border-[#808080] ">
     //             <input
     //               required onChange={(e) => setPassword(e.target.value)}
     //               placeholder=" Password"
-    //               className=" border border-transparent bg-transparent focus:outline-none focus:ring-0 text-[20px] md:text-[24px]  text-[#808080]" type="text" />
+    //               className=" border border-transparent bg-transparent focus:outline-none focus:ring-0 text-[20px] lg:text-[24px]  text-[#808080]" type="text" />
     //           </div>
     //         </div>
 
@@ -87,11 +87,11 @@ export default function Home() {
     //         <div
     //           onClick={handleSubmit}
     //           className="bg-[#CB76F2] rounded-[10px] h-[70px] flex items-center justify-center mb-[50px]">
-    //           <p className="text-[24px] md:text-[34px]  text-white">{switchBool ? "Create account" : "Login"}</p>
+    //           <p className="text-[24px] lg:text-[34px]  text-white">{switchBool ? "Create account" : "Login"}</p>
     //         </div>
 
     //         <div className="flex justify-center" onClick={handleSwitch}>
-    //           <span className="md:flex text-center text-white text-[20px] md:text-[24px] ">
+    //           <span className="lg:flex text-center text-white text-[20px] lg:text-[24px] ">
     //             <p className="me-2">{switchBool ? "Have an account?" : "Dont have an account?"} </p>
     //             <p className="font-bold"> {switchBool ? "Login here" : "Register now"}</p>
     //           </span>
@@ -100,7 +100,7 @@ export default function Home() {
     //     </div>
 
 
-    //     <div className=" grid-cols-none md:grid-cols-1">
+    //     <div className=" grid-cols-none lg:grid-cols-1">
 
     //     </div>
 
