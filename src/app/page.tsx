@@ -72,14 +72,14 @@ export default function Home() {
                 <input
                   required onChange={(e) => setUserName(e.target.value)}
                   placeholder="Username"
-                  className="  rounded-[10px] w-full border border-transparent bg-transparent focus:outline-none focus:ring-0 text-[20px] lg:text-[24px]  text-[#808080]" type="text" />
+                  className="px-[15px] lg:px-[20px]  rounded-[10px] w-full border border-transparent bg-transparent focus:outline-none focus:ring-0 text-[20px] lg:text-[24px]  text-[#808080] placeholder:text-[#808080]" type="text" />
               </div>
 
               <div className="bg-[#282828] rounded-[10px] border-b border-[#808080] ">
                 <input
                   required onChange={(e) => setPassword(e.target.value)}
-                  placeholder=" Password"
-                  className="w-full rounded-[10px]  border border-transparent bg-transparent focus:outline-none focus:ring-0 text-[20px] lg:text-[24px]  text-[#808080]" type="text" />
+                  placeholder="Password"
+                  className="px-[15px] lg:px-[20px] w-full rounded-[10px]  border border-transparent bg-transparent focus:outline-none focus:ring-0 text-[20px] lg:text-[24px]  text-[#808080] placeholder:text-[#808080]" type="text" />
               </div>
             </div>
 
