@@ -1,77 +1,83 @@
-'use client';
-'use client';
+"use client";
 
-import React, { useEffect } from 'react'
-import Image from 'next/image';
-import messageIcon from '@/assets/messagesIcon.png';
-import noNotifications from '@/assets/notFullNotifsIcon.png';
-import plusIcon from '@/assets/plusIcon.png';
-import ProjectCardComponent from '@/app/components/ProjectCardComponent';
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import taskHubLogo from "@/assets/taskhublogo.png";
+import homelogo from "@/assets/homelogo.png";
+import plusIcon from "@/assets/plusIcon.png";
+import ProjectCardComponent from "@/app/components/ProjectCardComponent";
+import NavBarComponent from "@/app/components/NavBarComponent";
+import NotificationBoxComponent from "@/app/components/NotificationBoxComponent";
 
 const HomePage = () => {
+  const [mobileTitle, setMobileTitle] = useState<string>('Projects');
+  const [toggleNotifications, setToggleNotifications] =
+    useState<string>("hidden lg:hidden");
+  const [notificationsPage, setNotificationsPage] = useState<string>('block lg:block');
+  const [notificationsPageClick, setNotificationsPageClick] = useState<string>('hidden lg:hidden');
 
-    useEffect(() => {
-        document.body.style.backgroundColor = '#FDFDFD';
-    }, [])
+  useEffect(() => {
+    document.body.style.backgroundColor = "#080808";
+  }, []);
 
+  return (
+    <div>
+      <NavBarComponent
+        title={mobileTitle}
+        setTitle={setMobileTitle}
+        logo={taskHubLogo}
+        logoText="TaskHub"
+        notificationBtn={setToggleNotifications}
+        notificationCheck={toggleNotifications}
+        pageNotification={setNotificationsPage}
+        pageNotificationTwo={setNotificationsPageClick}
+        pageNotificationToggle={notificationsPage}
+      />
 
-    useEffect(() => {
-        document.body.style.backgroundColor = '#FDFDFD';
-    }, [])
-
-    return (
-        <div>
-            <div className='h-[100px] bg-black px-[25px] opacity-85'>
-                <div className='flex justify-between h-full'>
-                    <div className='text-white my-auto text-[24px] ps-[75px]'>
-                        Task Hub
-                    </div>
-                    <div className='flex'>
-                        <div className='my-auto'>
-                            <Image className='cursor-pointer' height={50} width={50} src={messageIcon} alt='messaging icon' />
-                        </div>
-                        <div className='my-auto'>
-                            <Image height={50} width={50} className='mx-[75px] cursor-pointer' src={noNotifications} alt='not full notifications icon' />
-                        </div>
-                        <div className='my-auto rounded-[75px] bg-white h-[75px] w-[75px] cursor-pointer'></div>
-                    </div>
-
-                </div>
-
-                <div className='grid justify-end'>
-                    <div className='bg-[#D9D9D9] w-[400px] h-[77px] rounded-[15px]'>
-                        <div className='flex justify-between'>
-                            <p>Hello</p>
-                            <p>hey</p>
-                        </div>
-                    </div>
-                    <div>Hello</div>
-                    <div>Hello</div>
-                    <div>Hello</div>
-                    <div>Hello</div>
-                    <div>Hello</div>
-                    <div className='ms-18'>Hello</div>
-                </div>
-
-            </div>
-
-            <div className='grid grid-cols-5 px-[75px] mt-[100px]'>
-                <div className='grid justify-center'>
-                    <div className='h-[365px] w-[304px] bg-[#3B3B3B] rounded-[15px] border-[#717171] border-[3px] cursor-pointer text-center'>
-                        <div className='grid justify-center mt-[115px] mb-[75px]'>
-                            <Image height={75} width={75} src={plusIcon} alt='plus icon' />
-                        </div>
-                        <div className='text-white text-[24px]'>Create Project</div>
-                    </div>
-                </div>
-                <ProjectCardComponent percentText='50%' percent='50' projectName='Old Project' />
-            </div>
-
-
-
-
+      <div className={toggleNotifications}>
+        <div className="grid absolute right-[110px]">
+          <NotificationBoxComponent message="Tyler sent a message" />
         </div>
-    )
-}
+      </div>
 
-export default HomePage
+      <div className={notificationsPage}>
+        <div className="grid grid-cols-1 lg:grid-cols-4 xl:grid-cols-5 px-[20px] xl:px-[30px] mt-[20px] lg:mt-[60px]">
+          <div className="lg:grid lg:justify-center">
+            <div className="h-[50px] w-full lg:h-[340px] lg:w-[240px] 2xl:h-[365px] 2xl:w-[290px] bg-[#CB76F2] lg:bg-[#181818] rounded-[15px] border-[#525252] border-[1px] lg:border-[3px] cursor-pointer lg:text-center mb-[20px] 2xl:mb-[30px]">
+              <div className="hidden lg:block">
+                <div className="grid justify-center mt-[85px] 2xl:mt-[115px] mb-[65px] 2xl:mb-[70px]">
+                  <Image
+                    height={75}
+                    width={75}
+                    src={plusIcon}
+                    alt="plus icon"
+                  />
+                </div>
+              </div>
+              <div className="h-full lg:h-0 flex lg:grid justify-between lg:justify-normal lg: px-[25px] lg:px-0">
+                <p className="text-white text-[20px] lg:text-[24px] my-auto truncate">
+                  Create Project
+                </p>
+                <Image
+                  src={plusIcon}
+                  className=" lg:hidden inline h-[30px] w-[30px] my-auto"
+                  alt="plus icon"
+                />
+              </div>
+            </div>
+          </div>
+          <ProjectCardComponent percent="10" projectName="New Project" />
+          <ProjectCardComponent percent="100" projectName="Old Project" />
+        </div>
+      </div>
+
+      <div className={notificationsPageClick}>
+        <div className="mx-[20px]">
+          <NotificationBoxComponent message="Tyler sent a message"/>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default HomePage;
