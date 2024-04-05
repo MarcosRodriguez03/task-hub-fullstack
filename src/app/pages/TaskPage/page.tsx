@@ -16,6 +16,8 @@ import { Button } from 'flowbite-react';
 import NavBarComponent from '@/app/components/NavBarComponent';
 import NotificationBoxComponent from '@/app/components/NotificationBoxComponent';
 import ProfilePageComponent from '@/app/components/ProfilePageComponent';
+import AddUserComponent from '@/app/component/AddUserComponent';
+import CreateTaskComponent from '@/app/component/CreateTaskComponent';
 
 
 
@@ -29,8 +31,11 @@ const TaskPage = () => {
 
     return (
         <div>
-            <ProfilePageComponent />
+            {/* <ProfilePageComponent /> */}
             {/* <div className='w-full h-[80px] lg:h-[70px] bg-white'>header</div> */}
+            {/* <AddUserComponent /> */}
+            <CreateTaskComponent />
+
             <NavBarComponent title={mobileTitle}
                 setTitle={setMobileTitle}
                 logo={homelogo}
