@@ -8,6 +8,7 @@ import plusIcon from "@/assets/plusIcon.png";
 import ProjectCardComponent from "@/app/components/ProjectCardComponent";
 import NavBarComponent from "@/app/components/NavBarComponent";
 import NotificationBoxComponent from "@/app/components/NotificationBoxComponent";
+import ProfilePageComponent from "@/app/components/ProfilePageComponent";
 
 const HomePage = () => {
     const [mobileTitle, setMobileTitle] = useState<string>('Projects');
@@ -15,6 +16,7 @@ const HomePage = () => {
         useState<string>("hidden lg:hidden");
     const [notificationsPage, setNotificationsPage] = useState<string>('block lg:block');
     const [notificationsPageClick, setNotificationsPageClick] = useState<string>('hidden lg:hidden');
+    const [profilePage, setProfilePage] = useState<string>('hidden lg:hidden');
 
     useEffect(() => {
         document.body.style.backgroundColor = "#080808";
@@ -22,6 +24,10 @@ const HomePage = () => {
 
     return (
         <div>
+            <div className={profilePage}>
+                <ProfilePageComponent pageProfile={setProfilePage}/>
+            </div>
+
             <NavBarComponent
                 title={mobileTitle}
                 setTitle={setMobileTitle}
@@ -32,13 +38,13 @@ const HomePage = () => {
                 pageNotification={setNotificationsPage}
                 pageNotificationTwo={setNotificationsPageClick}
                 pageNotificationToggle={notificationsPage}
+                pageProfile={setProfilePage}
             />
 
             <div className={toggleNotifications}>
-                <div className="grid absolute right-[110px]">
-                    <NotificationBoxComponent message="Tyler sent a message" />
-                </div>
+                <NotificationBoxComponent message="Tyler sent a message" />
             </div>
+
 
             <div className={notificationsPage}>
                 <div className="grid grid-cols-1 lg:grid-cols-4 xl:grid-cols-5 px-[20px] xl:px-[30px] mt-[20px] lg:mt-[60px]">
