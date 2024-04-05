@@ -101,7 +101,7 @@ export default function Home() {
 
 
         <div className=" grid-cols-none lg:grid-cols-1">
-
+<p>sjiodsjdsiodjs</p>
         </div>
 
       </div>
