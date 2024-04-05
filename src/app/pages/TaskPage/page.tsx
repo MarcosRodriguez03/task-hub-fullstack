@@ -15,6 +15,7 @@ import TaskSqaureComponent from '@/app/component/TaskSqaureComponent';
 import { Button } from 'flowbite-react';
 import NavBarComponent from '@/app/components/NavBarComponent';
 import NotificationBoxComponent from '@/app/components/NotificationBoxComponent';
+import ProfilePageComponent from '@/app/components/ProfilePageComponent';
 
 
 
@@ -28,6 +29,7 @@ const TaskPage = () => {
 
     return (
         <div>
+            <ProfilePageComponent />
             {/* <div className='w-full h-[80px] lg:h-[70px] bg-white'>header</div> */}
             <NavBarComponent title={mobileTitle}
                 setTitle={setMobileTitle}
