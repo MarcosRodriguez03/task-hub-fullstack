@@ -27,6 +27,10 @@ const NavBarComponent = (prop: {
   const GoToHome = () => {
     router.push("./HomePage")
   }
+
+  const GoToMessage = () => {
+    router.push("./MessagePage")
+  }
   return (
     <div>
       <div className="block lg:hidden">
@@ -61,6 +65,7 @@ const NavBarComponent = (prop: {
                 width={50}
                 src={messageIcon}
                 alt="messaging icon"
+                onClick={GoToMessage}
               />
             </div>
             <div className="my-auto">
@@ -82,7 +87,7 @@ const NavBarComponent = (prop: {
             <div onClick={() => {
               prop.pageProfile('block lg:block');
               prop.setTitle('Profile');
-          }} className="my-auto rounded-[50px] bg-white h-[50px] w-[50px] cursor-pointer"></div>
+            }} className="my-auto rounded-[50px] bg-white h-[50px] w-[50px] cursor-pointer"></div>
           </div>
         </div>
         <div className="flex lg:hidden justify-evenly h-[79px]">
@@ -103,6 +108,13 @@ const NavBarComponent = (prop: {
               height={50}
               width={50}
               alt="messages icon"
+              onClick={() => {
+                GoToMessage()
+                prop.pageNotificationTwo('hidden lg:hidden');
+                prop.pageProfile('hidden lg:hidden');
+                prop.setTitle('Messages');
+              }}
+
             />
           </div>
           <div className="my-auto cursor-pointer">

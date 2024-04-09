@@ -33,11 +33,12 @@ const TaskPage = () => {
     return (
         <div>
             <div className={profilePage}>
-                <ProfilePageComponent pageProfile={setProfilePage}/>
+                <ProfilePageComponent pageProfile={setProfilePage} />
             </div>
             {/* <div className='w-full h-[80px] lg:h-[70px] bg-white'>header</div> */}
             {/* <AddUserComponent /> */}
-            <CreateTaskComponent />
+            {/* <CreateTaskComponent /> */}
+            {/* <AddUserComponent /> */}
 
             <NavBarComponent title={mobileTitle}
                 setTitle={setMobileTitle}
@@ -47,9 +48,9 @@ const TaskPage = () => {
                 notificationCheck={toggleNotifications}
                 pageNotification={setNotificationsPage}
                 pageNotificationTwo={setNotificationsPageClick}
-                pageNotificationToggle={notificationsPage} 
+                pageNotificationToggle={notificationsPage}
                 pageProfile={setProfilePage}
-                />
+            />
 
             <div className={toggleNotifications}>
                 <NotificationBoxComponent message="Tyler sent a message" />

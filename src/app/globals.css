@@ -17,3 +17,7 @@ body {
   width: 100vw;
   height: 100%;
 }
+
+::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(50%)
+}
