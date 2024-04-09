@@ -9,6 +9,7 @@ import ProjectCardComponent from "@/app/components/ProjectCardComponent";
 import NavBarComponent from "@/app/components/NavBarComponent";
 import NotificationBoxComponent from "@/app/components/NotificationBoxComponent";
 import ProfilePageComponent from "@/app/components/ProfilePageComponent";
+import EditProfileComponent from "@/app/component/EditProfileComponent";
 
 const HomePage = () => {
     const [mobileTitle, setMobileTitle] = useState<string>('Projects');
@@ -24,6 +25,7 @@ const HomePage = () => {
 
     return (
         <div>
+            <EditProfileComponent/>
             <div className={profilePage}>
                 <ProfilePageComponent pageProfile={setProfilePage}/>
             </div>
