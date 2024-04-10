@@ -16,10 +16,12 @@ const NavBarComponent = (prop: {
   logoText: string;
   notificationBtn: (input: string) => void;
   notificationCheck: string;
-  pageNotification: (input: string) => void;
-  pageNotificationToggle: string;
+  homePage: (input: string) => void;
+  messagesPage: (input: string) => void;
+  taskPage: (input: string) => void;
   pageNotificationTwo: (input: string) => void;
   pageProfile: (input: string) => void;
+  profilePicture: StaticImageData;
 }) => {
 
   let router = useRouter()
@@ -87,18 +89,22 @@ const NavBarComponent = (prop: {
             <div onClick={() => {
               prop.pageProfile('block lg:block');
               prop.setTitle('Profile');
-            }} className="my-auto rounded-[50px] bg-white h-[50px] w-[50px] cursor-pointer"></div>
+            }} className="my-auto rounded-[50px] bg-white h-[50px] w-[50px] cursor-pointer">
+              <Image className="h-[50px] w-[50px] rounded-[50px]" src={prop.profilePicture} alt="profile picture"/>
+            </div>
           </div>
         </div>
         <div className="flex lg:hidden justify-evenly h-[79px]">
           <div className="my-auto cursor-pointer">
             <Image
               onClick={() => {
-                prop.pageNotification('block lg:block');
+                GoToHome()
+                prop.homePage('block lg:block');
+                prop.messagesPage('hidden lg:block');
+                prop.taskPage('hidden lg:block');
                 prop.pageNotificationTwo('hidden lg:hidden');
                 prop.pageProfile('hidden lg:hidden');
                 prop.setTitle('Projects');
-                GoToHome()
               }}
               src={homelogo} height={50} width={50} alt="home icon" />
           </div>
@@ -110,6 +116,9 @@ const NavBarComponent = (prop: {
               alt="messages icon"
               onClick={() => {
                 GoToMessage()
+                prop.homePage('hidden lg:block');
+                prop.messagesPage('block lg:block');
+                prop.taskPage('hidden lg:block');
                 prop.pageNotificationTwo('hidden lg:hidden');
                 prop.pageProfile('hidden lg:hidden');
                 prop.setTitle('Messages');
@@ -120,7 +129,9 @@ const NavBarComponent = (prop: {
           <div className="my-auto cursor-pointer">
             <Image
               onClick={() => {
-                prop.pageNotification('hidden lg:block');
+                prop.homePage('hidden lg:block');
+                prop.messagesPage('hidden lg:block');
+                prop.taskPage('hidden lg:block');
                 prop.pageNotificationTwo('block lg:hidden');
                 prop.pageProfile('hidden lg:hidden');
                 prop.setTitle('Notifications');
@@ -132,11 +143,15 @@ const NavBarComponent = (prop: {
             />
           </div>
           <div onClick={() => {
-            prop.pageNotification('hidden lg:block');
+            prop.homePage('hidden lg:block');
+            prop.messagesPage('hidden lg:block');
+            prop.taskPage('hidden lg:block');
             prop.pageNotificationTwo('hidden lg:hidden');
             prop.pageProfile('block lg:block');
             prop.setTitle('Profile');
-          }} className="my-auto rounded-[50px] bg-white h-[50px] w-[50px] cursor-pointer"></div>
+          }} className="my-auto rounded-[50px] bg-white h-[50px] w-[50px] cursor-pointer">
+            <Image className="h-[50px] w-[50px] rounded-[50px]" src={prop.profilePicture} alt="profile picture"/>
+          </div>
         </div>
       </div>
     </div>

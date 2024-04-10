@@ -26,9 +26,11 @@ const TaskPage = () => {
     const [mobileTitle, setMobileTitle] = useState<string>('Tasks');
     const [toggleNotifications, setToggleNotifications] =
         useState<string>("hidden lg:hidden");
-    const [notificationsPage, setNotificationsPage] = useState<string>('block lg:block');
+    const [homePage, setHomePage] = useState<string>('block lg:block');
     const [notificationsPageClick, setNotificationsPageClick] = useState<string>('hidden lg:hidden');
     const [profilePage, setProfilePage] = useState<string>('hidden lg:hidden');
+    const [messagesPage, setMessagesPage] = useState<string>("block lg:block");
+    const [taskPage, setTaskPage] = useState<string>("block lg:block");
 
     return (
         <div>
@@ -46,17 +48,19 @@ const TaskPage = () => {
                 logoText=""
                 notificationBtn={setToggleNotifications}
                 notificationCheck={toggleNotifications}
-                pageNotification={setNotificationsPage}
+                homePage={setHomePage}
+                messagesPage={setMessagesPage}
+                taskPage={setTaskPage}
                 pageNotificationTwo={setNotificationsPageClick}
-                pageNotificationToggle={notificationsPage}
                 pageProfile={setProfilePage}
+                profilePicture={homelogo}
             />
 
             <div className={toggleNotifications}>
                 <NotificationBoxComponent message="Tyler sent a message" />
             </div>
 
-            <div className={notificationsPage}>
+            <div className={homePage}>
                 <div className="flex flex-col lg:flex-row bg-[#080808] absolute top-[80px] lg:top-[70px] bottom-[80px] lg:bottom-0 w-full" >
                     <div className="border-y lg:border-r border-[#525252] lg:w-[100px] items-center w-full lg:h-full h-[54px] bg-[#181818] flex lg:flex-col overflow-x-scroll  lg:overflow-auto ">
 

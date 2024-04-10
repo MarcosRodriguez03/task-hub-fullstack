@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 const ProjectCardComponent = (prop: {
   percent: string;
   projectName: string;
+  taskPage: (input: string) => void;
 }) => {
 
 
@@ -20,7 +21,10 @@ const ProjectCardComponent = (prop: {
 
   return (
     <div
-      onClick={GoToTask}
+      onClick={()=> {
+        prop.taskPage('block lg:block');
+        GoToTask()
+      }}
       className="lg:grid lg:justify-center">
       <div className="h-[100px] lg:h-[340px] w-full lg:w-[240px] 2xl:h-[365px] 2xl:w-[290px] bg-[#181818] rounded-[15px] border-[#525252] border-[1px] lg:border-[3px] cursor-pointer lg:text-center mb-[20px] 2xl:mb-[30px]">
         <div className="lg:grid lg:justify-end lg:me-[15px] 2xl:me-[25px] lg:mt-[15px] 2xl:mt-[25px] mb-[13px]">
