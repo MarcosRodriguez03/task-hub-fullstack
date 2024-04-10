@@ -9,6 +9,7 @@ import ProjectCardComponent from "@/app/components/ProjectCardComponent";
 import NavBarComponent from "@/app/components/NavBarComponent";
 import NotificationBoxComponent from "@/app/components/NotificationBoxComponent";
 import ProfilePageComponent from "@/app/components/ProfilePageComponent";
+import CreateProjectComponent from "@/app/component/CreateProjectComponent";
 
 const HomePage = () => {
     const [mobileTitle, setMobileTitle] = useState<string>('Projects');
@@ -19,14 +20,21 @@ const HomePage = () => {
     const [profilePage, setProfilePage] = useState<string>('hidden lg:hidden');
     const [messagesPage, setMessagesPage] = useState<string>("block lg:block");
     const [taskPage, setTaskPage] = useState<string>("block lg:block");
+    const [createProject, setCreateProject] = useState<string>('hidden');
 
     useEffect(() => {
         document.body.style.backgroundColor = "#080808";
     }, []);
 
+        const handleCreateProject = () => {
+            setCreateProject('block');
+        }
+
     return (
         <div>
-
+            <div className={createProject}>
+                <CreateProjectComponent setCreateProject={setCreateProject}/>
+            </div>
             <div className={profilePage}>
                 <ProfilePageComponent pageProfile={setProfilePage}/>
             </div>
@@ -54,7 +62,9 @@ const HomePage = () => {
             <div className={homePage}>
                 <div className="grid grid-cols-1 lg:grid-cols-4 xl:grid-cols-5 px-[20px] xl:px-[30px] mt-[20px] lg:mt-[60px]">
                     <div className="lg:grid lg:justify-center">
-                        <div className="h-[50px] w-full lg:h-[340px] lg:w-[240px] 2xl:h-[365px] 2xl:w-[290px] bg-[#CB76F2] lg:bg-[#181818] rounded-[15px] border-[#525252] border-[1px] lg:border-[3px] cursor-pointer lg:text-center mb-[20px] 2xl:mb-[30px]">
+                        <div
+                        onClick={handleCreateProject}
+                        className="h-[50px] w-full lg:h-[340px] lg:w-[240px] 2xl:h-[365px] 2xl:w-[290px] bg-[#CB76F2] lg:bg-[#181818] rounded-[15px] border-[#525252] border-[1px] lg:border-[3px] cursor-pointer lg:text-center mb-[20px] 2xl:mb-[30px]">
                             <div className="hidden lg:block">
                                 <div className="grid justify-center mt-[85px] 2xl:mt-[115px] mb-[65px] 2xl:mb-[70px]">
                                     <Image

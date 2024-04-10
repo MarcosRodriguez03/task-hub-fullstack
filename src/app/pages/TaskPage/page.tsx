@@ -31,9 +31,17 @@ const TaskPage = () => {
     const [profilePage, setProfilePage] = useState<string>('hidden lg:hidden');
     const [messagesPage, setMessagesPage] = useState<string>("block lg:block");
     const [taskPage, setTaskPage] = useState<string>("block lg:block");
+    const [addUser, setAddUser] = useState<string>('hidden');
+
+    const handleAddUser = () => {
+        setAddUser('block');
+    }
 
     return (
         <div>
+            <div className={addUser}>
+                <AddUserComponent setAddUser={setAddUser}/>
+            </div>
             <div className={profilePage}>
                 <ProfilePageComponent pageProfile={setProfilePage} />
             </div>
@@ -65,7 +73,9 @@ const TaskPage = () => {
                     <div className="border-y lg:border-r border-[#525252] lg:w-[100px] items-center w-full lg:h-full h-[54px] bg-[#181818] flex lg:flex-col overflow-x-scroll  lg:overflow-auto ">
 
                         <>
-                            <Image className='ml-[20px] lg:ml-0 lg:mt-[20px] w-[34px] h-[34px]' alt='add' src={addPeople} />
+                            <Image 
+                            onClick={handleAddUser}
+                            className='ml-[20px] lg:ml-0 lg:mt-[20px] w-[34px] h-[34px] cursor-pointer' alt='add' src={addPeople} />
                         </>
 
                         <>
