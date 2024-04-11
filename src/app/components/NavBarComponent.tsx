@@ -35,7 +35,7 @@ const NavBarComponent = (prop: {
   }
   return (
     <div>
-      <div className="block lg:hidden">
+      <div className={` ${prop.title == "Messages" ? "hidden" : "block lg:hidden"} `}>
         <div className="px-[20px] h-[80px] bg-[#181818] border-b-[1px] border-[#525252]">
           <div className="flex h-full">
             <p className="text-[30px] text-[#CB76F2] my-auto font-semibold">
@@ -90,7 +90,7 @@ const NavBarComponent = (prop: {
               prop.pageProfile('block lg:block');
               prop.setTitle('Profile');
             }} className="my-auto rounded-[50px] bg-white h-[50px] w-[50px] cursor-pointer">
-              <Image className="h-[50px] w-[50px] rounded-[50px]" src={prop.profilePicture} alt="profile picture"/>
+              <Image className="h-[50px] w-[50px] rounded-[50px]" src={prop.profilePicture} alt="profile picture" />
             </div>
           </div>
         </div>
@@ -150,7 +150,7 @@ const NavBarComponent = (prop: {
             prop.pageProfile('block lg:block');
             prop.setTitle('Profile');
           }} className="my-auto rounded-[50px] bg-white h-[50px] w-[50px] cursor-pointer">
-            <Image className="h-[50px] w-[50px] rounded-[50px]" src={prop.profilePicture} alt="profile picture"/>
+            <Image className="h-[50px] w-[50px] rounded-[50px]" src={prop.profilePicture} alt="profile picture" />
           </div>
         </div>
       </div>
