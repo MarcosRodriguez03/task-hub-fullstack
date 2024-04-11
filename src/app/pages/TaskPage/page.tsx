@@ -32,6 +32,7 @@ const TaskPage = () => {
     const [messagesPage, setMessagesPage] = useState<string>("block lg:block");
     const [taskPage, setTaskPage] = useState<string>("block lg:block");
     const [addUser, setAddUser] = useState<string>('hidden');
+    const [createTask, setCreateTask] = useState<string>('hidden');
 
     const handleAddUser = () => {
         setAddUser('block');
@@ -39,6 +40,9 @@ const TaskPage = () => {
 
     return (
         <div>
+            <div className={createTask}>
+                <CreateTaskComponent setCreateTask={setCreateTask}/>
+            </div>
             <div className={addUser}>
                 <AddUserComponent setAddUser={setAddUser}/>
             </div>
@@ -93,17 +97,29 @@ const TaskPage = () => {
                             <div className='grid grid-cols-3 px-[30px] gap-[30px] pt-[30px]'>
                                 <div className=' w-full h-[59px] bg-[#CB76F2] rounded-[10px] flex items-center justify-between p-[25px]'>
                                     <p className='text-[24px] text-white'>Ideas</p>
-                                    <Image alt="add" className='w-[30px] h-[30px]' src={purplePlus} />
+                                    <Image 
+                                    onClick={()=> {
+                                        setCreateTask('block')
+                                    }}
+                                    alt="add" className='w-[30px] h-[30px] cursor-pointer' src={purplePlus} />
                                 </div>
 
                                 <div className=' w-full h-[59px] bg-[#04BAAD] rounded-[10px] flex items-center justify-between p-[25px]'>
                                     <p className='text-[24px] text-white'>In Progress</p>
-                                    <Image alt="add" className='w-[30px] h-[30px]' src={greenPlus} />
+                                    <Image
+                                    onClick={()=> {
+                                        setCreateTask('block')
+                                    }}
+                                    alt="add" className='w-[30px] h-[30px] cursor-pointer' src={greenPlus} />
                                 </div>
 
                                 <div className=' w-full h-[59px] bg-[#EC5A52] rounded-[10px] flex items-center justify-between p-[25px]'>
                                     <p className='text-[24px] text-white'>Done</p>
-                                    <Image alt="add" className='w-[30px] h-[30px]' src={redPlus} />
+                                    <Image
+                                    onClick={()=> {
+                                        setCreateTask('block')
+                                    }}
+                                    alt="add" className='w-[30px] h-[30px] cursor-pointer' src={redPlus} />
                                 </div>
                             </div>
                         </div>
@@ -134,17 +150,21 @@ const TaskPage = () => {
 
                         <div className='lg:hidden'>
                             <div className='grid grid-cols-3 gap-x-[20px] px-[20px] mt-[20px]'>
-                                <div className='bg-[#CB76F2] h-[50px] flex items-center rounded-[10px] justify-center'>
+                                <div className='cursor-pointer bg-[#CB76F2] h-[50px] flex items-center rounded-[10px] justify-center'>
                                     <p className='text-[16px] text-white font-semibold' >Ideas</p>
                                 </div>
-                                <div className='bg-[#04BAAD] h-[50px] flex items-center rounded-[10px] justify-center'>
+                                <div className='cursor-pointer bg-[#04BAAD] h-[50px] flex items-center rounded-[10px] justify-center'>
                                     <p className='text-[16px] text-white font-semibold' >In Progress</p>
                                 </div>
-                                <div className='bg-[#EC5A52] h-[50px] flex items-center rounded-[10px] justify-center'>
+                                <div className='cursor-pointer bg-[#EC5A52] h-[50px] flex items-center rounded-[10px] justify-center'>
                                     <p className='text-[16px] text-white font-semibold' >Done</p>
                                 </div>
 
-                                <div className=' mt-[20px] col-span-3 h-[50px] bg-[#181818] border border-[#525252] rounded-[10px] flex items-center justify-between'>
+                                <div 
+                                onClick={()=> {
+                                    setCreateTask('block')
+                                }}
+                                className='cursor-pointer mt-[20px] col-span-3 h-[50px] bg-[#181818] border border-[#525252] rounded-[10px] flex items-center justify-between'>
                                     <p className='ml-[25px] text-[20px] text-white'>Create Task</p>
                                     <Image className='mr-[25px] w-[30px] h-[30px]' alt='add' src={plusSign} />
                                 </div>

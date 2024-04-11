@@ -99,12 +99,12 @@ const MessagePage = () => {
                 <div className={`absolute lg:top-[70px] top-[80px] lg:bottom-0 bottom-[80px] w-full   grid grid-cols-12`}>
                     <div className={`${removeCol} col-span-12 lg:col-span-3 bg-[#181818] h-full  border-r border-[#525252] lg:block `} >
                         <div className="flex items-center  py-[25px] border-b px-[25px]  border-[#525252] ">
-                            <input className="w-full bg-[#282828] border  rounded-[10px] border-[#707070]" type="text" />
-                            <Image className="h-[40px] w-[40px]" alt="src" src={plusFill} />
+                            <input className="w-full bg-[#282828] border  rounded-[10px] border-[#707070] text-[#808080]" type="text" />
+                            <Image className="cursor-pointer h-[40px] w-[40px]" alt="src" src={plusFill} />
                         </div>
                         <div className=" absolute  top-[93px] w-full lg:w-1/4 bottom-0 overflow-auto">
 
-                            <div className="flex items-center  px-[25px] py-[10px] border-b border-[#525252] justify-between " >
+                            <div className="cursor-pointer flex items-center  px-[25px] py-[10px] border-b border-[#525252] justify-between " >
                                 <div
                                     onClick={handleOpen}
                                     className="flex items-center gap-[20px]">
@@ -149,8 +149,8 @@ const MessagePage = () => {
 
                             <div className="bg-[#080808]  p-[15px] lg:p-[30px] ">
                                 <div className="w-full h-full relative">
-                                    <Image alt="send" src={sendIcon} className="w-[40px] h-[40px] absolute right-[0] bottom-0" />
-                                    <textarea placeholder="Type your message..." className="w-full pr-[50px] px-4 py-2 rounded-lg bg-[#282828] border border-[#707070] focus:outline-none focus:border-blue-500 resize-y h-full"></textarea>
+                                    <Image alt="send" src={sendIcon} className="cursor-pointer w-[40px] h-[40px] absolute right-[0] bottom-0" />
+                                    <textarea placeholder="Type your message..." className="text-[#808080] placeholder:text-[#808080] w-full pr-[50px] px-4 py-2 rounded-lg bg-[#282828] border border-[#707070] focus:outline-none focus:border-blue-500 resize-y h-full"></textarea>
                                 </div>
 
 

@@ -6,7 +6,7 @@ import highWarning from '@/assets/highWarning.png'
 import Image from 'next/image';
 
 
-const CreateTaskComponent = () => {
+const CreateTaskComponent = (prop : {setCreateTask: (input: string) => void;}) => {
 
     const [open, setOpen] = useState("hidden");
 
@@ -18,8 +18,8 @@ const CreateTaskComponent = () => {
         }
     }
     return (
-        <div className='absolute top-1/2 -translate-y-1/2 z-50 justify-center  flex w-full bg-black h-screen  items-center'>
-            <div className='flex flex-col  w-[604px] bg-[#181818]  mx-[10px] border-[#808080] border  rounded-[10px] p-[20px] lg:p-[30px]  h-fit  relative overflow-auto'>
+        <div className='absolute top-1/2 -translate-y-1/2 z-50 justify-center  flex w-full bg-black bg-opacity-80 h-screen  items-center'>
+            <div className='flex flex-col w-full md:w-[604px] bg-[#181818]  mx-[10px] border-[#808080] border  rounded-[10px] p-[20px] lg:p-[30px]  h-fit  relative overflow-auto'>
 
                 <div className='w-auto h-[44px] rounded-[10px] mb-[25px] bg-[#282828] border-b border-[#808080]'>
                     <input type="text" placeholder='Task name' className='placeholder:text-[#808080] text-[#808080] w-full rounded-[10px] border border-transparent bg-transparent' />
@@ -59,10 +59,18 @@ const CreateTaskComponent = () => {
                 <hr className='border-t-1 border-[#808080]' />
 
                 <div className='flex justify-end mt-[25px] '>
-                    <button className='bg-[#282828] rounded-[10px] me-[25px]'>
+                    <button 
+                    onClick={() => {
+                        prop.setCreateTask('hidden')
+                    }}
+                    className='bg-[#282828] rounded-[10px] me-[25px]'>
                         <p className='text-white text-[20px] px-[20px] py-[10px]'>Cancel</p>
                     </button>
-                    <button className='bg-[#CB76F2] rounded-[10px]'>
+                    <button
+                    onClick={() => {
+                        prop.setCreateTask('hidden')
+                    }}
+                    className='bg-[#CB76F2] rounded-[10px]'>
                         <p className='text-white text-[20px] px-[20px] py-[10px]'>Create Task</p>
                     </button>
                 </div>
