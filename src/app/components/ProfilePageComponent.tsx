@@ -10,26 +10,26 @@ const ProfilePageComponent = (prop: {
   pageProfile: (input: string) => void;
 }) => {
 
-    const [editProfile, setEditProfile] = useState<string>('hidden');
+  const [editProfile, setEditProfile] = useState<string>('hidden');
 
-    let router = useRouter();
+  let router = useRouter();
 
-    const LogOut = () => {
-        router.push('/');
+  const LogOut = () => {
+    router.push('/');
+  }
+
+  const handleEditProfile = () => {
+    if (editProfile === 'hidden') {
+      setEditProfile('block');
+    } else {
+      setEditProfile('hidden');
     }
-
-    const handleEditProfile = () => {
-        if(editProfile === 'hidden'){
-            setEditProfile('block');
-        }else{
-            setEditProfile('hidden');
-        }
-    }
+  }
 
   return (
     <div>
       <div className={editProfile}>
-        <EditProfileComponent setEditProfile={setEditProfile}/>
+        <EditProfileComponent setEditProfile={setEditProfile} />
       </div>
       <div className="w-full lg:bg-black lg:bg-opacity-80 h-screen absolute right-0 lg:z-40">
         <span className="hidden lg:flex items-center bg-[#181818] border-l border-[#808080] w-[604px] absolute right-0 px-[30px] pb-[20px] pt-[30px] ">
@@ -69,15 +69,15 @@ const ProfilePageComponent = (prop: {
               </p>
               <p className="text-white text-[20px] font-medium">descriptions</p>
             </div>
-            <div className="flex justify-center mb-6">
-              <button 
-              onClick={handleEditProfile}
-              className="bg-[#5C5C5C] text-[24px] text-white font-semibold h-[49px] w-[193px] rounded-[10px]">
+            <div className="flex justify-center mb-6 w-full">
+              <button
+                onClick={handleEditProfile}
+                className="bg-[#5C5C5C] text-[24px] text-white font-semibold h-[49px] w-full max-w-[174px] rounded-[10px]">
                 Edit
               </button>
-              <button 
-              onClick={LogOut}
-              className="ms-[25px] bg-[#ED473D] text-[24px] text-white font-semibold h-[49px] w-[193px] rounded-[10px]">
+              <button
+                onClick={LogOut}
+                className="ms-[25px] bg-[#ED473D] text-[24px] text-white font-semibold h-[49px] w-full max-w-[174px] rounded-[10px]">
                 Sign Out
               </button>
             </div>

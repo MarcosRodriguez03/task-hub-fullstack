@@ -1,0 +1,38 @@
+[
+    {
+        "ID": 1,
+        "ProjectID": 11,
+        "TaskName": "Design Logo",
+        "TaskDescription": "Create a new logo design for the company website.",
+        "UserID": 707,
+        "DueDate": "2024-04-20",
+        "TaskDuration": "4 hours",
+        "Priority": "Low Urgency",
+        "Status": "In Progress",
+        "IsDeleted": false
+    },
+    {
+        "ID": 2,
+        "ProjectID": 12,
+        "TaskName": "Brainstorm Ideas",
+        "TaskDescription": null,
+        "UserID": 808,
+        "DueDate": null,
+        "TaskDuration": null,
+        "Priority": "Medium Urgency",
+        "Status": "Ideas",
+        "IsDeleted": false
+    },
+    {
+        "ID": 3,
+        "ProjectID": 13,
+        "TaskName": "Update Documentation",
+        "TaskDescription": "Update user documentation with the latest features.",
+        "UserID": 909,
+        "DueDate": "2024-04-25",
+        "TaskDuration": "3 days",
+        "Priority": "High Urgency",
+        "Status": "Done",
+        "IsDeleted": false
+    }
+]
