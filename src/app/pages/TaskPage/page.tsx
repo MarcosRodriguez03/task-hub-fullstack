@@ -18,11 +18,13 @@ import NotificationBoxComponent from '@/app/components/NotificationBoxComponent'
 import ProfilePageComponent from '@/app/components/ProfilePageComponent';
 import AddUserComponent from '@/app/component/AddUserComponent';
 import CreateTaskComponent from '@/app/component/CreateTaskComponent';
+import newData from '@/app/TestTask.json'
 
 
 
 
 const TaskPage = () => {
+
     const [mobileTitle, setMobileTitle] = useState<string>('Tasks');
     const [toggleNotifications, setToggleNotifications] =
         useState<string>("hidden lg:hidden");
@@ -33,24 +35,20 @@ const TaskPage = () => {
     const [taskPage, setTaskPage] = useState<string>("block lg:block");
     const [addUser, setAddUser] = useState<string>('hidden');
     const [createTask, setCreateTask] = useState<string>('hidden');
+    const [dummyData, setDummyData] = useState<any>(newData)
 
     const handleAddUser = () => {
         setAddUser('block');
     }
 
-    const fetchTask = async () => {
-        const response: any = await fetch("./TestTask.json");
-        const data: any = await response.json();
-        return data
-    }
+    // const fetchTask = async () => {
+    //     const response: any = await fetch("/task-hub-fullstack/src/app/pages/TaskPage/TestTask.json");
+    //     const data: any = await response.json();
+    //     return data
+    // }
 
     useEffect(() => {
-        const callMe = async () => {
-            const data: any = await fetchTask()
-            console.log(data)
-        }
-        callMe()
-
+        console.log(dummyData[0].TaskName)
     }, []);
 
     return (
@@ -149,6 +147,20 @@ const TaskPage = () => {
 
 
                                     <p className='text-white'>left input</p>
+
+                                    {dummyData.map((task: any) => {
+                                        if (task.Status == "Ideas" && task.IsDeleted == false) {
+                                            return <TaskSqaureComponent taskName={task.TaskName} pfp={task.pfp} priority={task.priority} />
+
+                                            // return <div key={task.ID} className='bg-white h-100 w-100'>
+                                            //     <h1 className='text-black'>{task.TaskName}</h1>
+                                            // </div>
+                                        }
+                                    })}
+                                    {dummyData.map((task: any) => (
+                                        <div key={task.ID} className='text-white'>{task.TaskName}</div>
+                                    ))}
+
                                 </div>
 
                                 <div className=' w-full  overflow-auto'>
