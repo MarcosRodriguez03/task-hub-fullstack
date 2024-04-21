@@ -15,6 +15,10 @@ export default function Home() {
   const [username, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [switchBool, setSwitchBool] = useState<boolean>(true);
+  const [hideModel, setHideModel] = useState("hidden");
+  const [modelBool, setModelBool] = useState(true);
+  const [textBox1, setTextBox1] = useState("block");
+  const [textBox2, setTextBox2] = useState("block");
 
   let router = useRouter();
 
@@ -29,8 +33,28 @@ export default function Home() {
       password: password
     }
     if (switchBool === true) {
-      //create account logic here
-      createAccount(userData)
+
+
+      if (await createAccount(userData)) {
+        setModelBool(true)
+        setTextBox1("block")
+        setTextBox2("hidden")
+        setHideModel("block")
+        setSwitchBool(!switchBool)
+
+
+      } else {
+        console.log("no")
+        setTextBox1("block")
+        setTextBox2("hidden")
+        setModelBool(false)
+        setHideModel("block")
+
+      }
+
+
+
+
 
     } else {
       //login logic here
@@ -38,12 +62,19 @@ export default function Home() {
       console.log(token)
 
       //checks to see if we succeed
+
+
+
+
+
       if (token.token != null) {
         localStorage.setItem("Token", token.token)
         getLoggedInUserData(username);
         router.push('/pages/HomePage');
       } else {
-        alert("login failed")
+        setTextBox2("block")
+        setTextBox1("hidden")
+        setHideModel("block")
 
       }
     }
@@ -103,6 +134,31 @@ export default function Home() {
         <div className=" grid-cols-none lg:grid-cols-1">
 
         </div>
+
+      </div>
+      <div className={`${hideModel} fixed inset-0 flex items-center justify-center bg-black bg-opacity-80`}>
+
+        <div className={` ${textBox1} bg-white h-[30%] max-w-[500px] w-full rounded shadow-[20px] p-[20px] flex-col flex justify-center mx-[15px] items-center`}>
+          <h1 className="text-2xl font-bold text-center"> {modelBool ? "Account Created Successfully" : "Error Creating Account Try a different user name."}</h1>
+          <button
+            onClick={() => { setHideModel("hidden") }}
+            className="mt-[20px] bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Ok
+          </button>
+        </div>
+
+        <div className={` ${textBox2} bg-white h-[30%] max-w-[500px] w-full rounded shadow-[20px] p-[20px] flex-col flex justify-center mx-[15px] items-center`}>
+          <h1 className="text-2xl font-bold text-center"> Could not find an account matching the username or password.</h1>
+          <button
+            onClick={() => { setHideModel("hidden") }}
+            className="mt-[20px] bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Ok
+          </button>
+        </div>
+
+
+
+
 
       </div>
     </div>

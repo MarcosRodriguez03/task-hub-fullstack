@@ -24,6 +24,7 @@ export const createAccount = async (createdUser: IUserInfo) => {
 
     const data = await res.json();
     console.log(data);
+    return data
 
 }
 
@@ -37,7 +38,7 @@ export const login = async (loignUser: IUserInfo) => {
     })
     if (!res.ok) {
         const message = "an error has occured " + res.status;
-        throw new Error(message);
+        // throw new Error(message);
     }
     const data: IToken = await res.json();
     return data;
