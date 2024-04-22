@@ -152,16 +152,14 @@ const TaskPage = () => {
 
                                     {dummyData.map((task: any) => {
                                         if (task.Status == "Ideas" && task.IsDeleted == false) {
-                                            return <TaskSqaureComponent taskName={task.TaskName} pfp={task.pfp} priority={task.priority} />
+                                            return <TaskSqaureComponent key={task.ID} taskName={task.TaskName} pfp={task.pfp} priority={task.priority} />
 
                                             // return <div key={task.ID} className='bg-white h-100 w-100'>
                                             //     <h1 className='text-black'>{task.TaskName}</h1>
                                             // </div>
                                         }
                                     })}
-                                    {dummyData.map((task: any) => (
-                                        <div key={task.ID} className='text-white'>{task.TaskName}</div>
-                                    ))}
+
 
                                 </div>
 
