@@ -47,6 +47,8 @@ const TaskPage = () => {
     //     return data
     // }
 
+
+
     useEffect(() => {
         console.log(dummyData[0].TaskName)
     }, []);
@@ -143,7 +145,7 @@ const TaskPage = () => {
                             <div className='  grid grid-cols-3 px-[30px] gap-[30px] absolute top-[109px]  bottom-[80px] w-full'>
 
                                 <div className=' w-full overflow-auto '>
-                                    <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
+                                    {/* <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} /> */}
 
 
                                     <p className='text-white'>left input</p>
@@ -200,6 +202,7 @@ const TaskPage = () => {
 
 
                         <div className='lg:hidden  overflow-y-auto absolute top-[162px] left-0 right-0 bottom-0 px-[20px] lg:bottom-[80px]   '>
+                            {/* <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
                             <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
                             <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
                             <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
@@ -213,8 +216,7 @@ const TaskPage = () => {
                             <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
                             <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
                             <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
-                            <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
-                            <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
+                            <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} /> */}
                             Content
                         </div>
 

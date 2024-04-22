@@ -1,0 +1,35 @@
+[
+    {
+        "ID": 1,
+        "Username": "john_doe",
+        "Salt": "sdf0987sdf09s8df09",
+        "Hash": "sdf90s8df09s8df09sdf09",
+        "FirstName": "John",
+        "LastName": "Doe",
+        "Contact": "john@example.com",
+        "Bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "Image": "https://example.com/profile-image1.jpg"
+    },
+    {
+        "ID": 2,
+        "Username": "jane_smith",
+        "Salt": "sdf0987sdf09s8df09",
+        "Hash": "sdf90s8df09s8df09sdf09",
+        "FirstName": "Jane",
+        "LastName": "Smith",
+        "Contact": "jane@example.com",
+        "Bio": "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "Image": "https://example.com/profile-image2.jpg"
+    },
+    {
+        "ID": 3,
+        "Username": "mike_jones",
+        "Salt": "sdf0987sdf09s8df09",
+        "Hash": "sdf90s8df09s8df09sdf09",
+        "FirstName": "Mike",
+        "LastName": "Jones",
+        "Contact": "mike@example.com",
+        "Bio": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "Image": "https://example.com/profile-image3.jpg"
+    }
+]
