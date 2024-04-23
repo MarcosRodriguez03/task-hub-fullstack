@@ -43,7 +43,7 @@ const TaskSqaureComponent = (props: iTaskSqaure) => {
             </div>
             <hr className='bg-[#525252] h-[1px] border-0' />
             <div className='flex items-center justify-between my-[7px]'>
-                <Image alt='pfp' src={props.pfp} className='w-[34px] h-[34px]' />
+                <Image alt='pfp' src={props.pfp && props.pfp} className='w-[34px] h-[34px]' />
                 <p className='font-bold text-[20px] rounded-[5px] py-[2px] px-[10px] text-[#7A7A7A] bg-[#353535]'>Edit</p>
             </div>
         </div>

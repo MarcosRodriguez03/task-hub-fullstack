@@ -20,6 +20,8 @@ export default function Home() {
   const [textBox1, setTextBox1] = useState("block");
   const [textBox2, setTextBox2] = useState("block");
 
+  const [globalName, setGlobalName] = useState<string>("");
+
   let router = useRouter();
 
   const handleSwitch = () => {
@@ -33,28 +35,30 @@ export default function Home() {
       password: password
     }
     if (switchBool === true) {
+      if (username != "" || password != "") {
+        if (await createAccount(userData)) {
+          setModelBool(true)
+          setTextBox1("block")
+          setTextBox2("hidden")
+          setHideModel("block")
+          setSwitchBool(!switchBool)
 
-
-      if (await createAccount(userData)) {
-        setModelBool(true)
-        setTextBox1("block")
-        setTextBox2("hidden")
-        setHideModel("block")
-        setSwitchBool(!switchBool)
-
-
+        } else {
+          setTextBox1("block")
+          setTextBox2("hidden")
+          setModelBool(false)
+          setHideModel("block")
+        }
       } else {
-        console.log("no")
         setTextBox1("block")
         setTextBox2("hidden")
         setModelBool(false)
         setHideModel("block")
-
       }
 
 
-
-
+      setPassword("")
+      setUserName("")
 
     } else {
       //login logic here
@@ -62,21 +66,18 @@ export default function Home() {
       console.log(token)
 
       //checks to see if we succeed
-
-
-
-
-
       if (token.token != null) {
         localStorage.setItem("Token", token.token)
         getLoggedInUserData(username);
         router.push('/pages/HomePage');
+
       } else {
         setTextBox2("block")
         setTextBox1("hidden")
         setHideModel("block")
-
       }
+      setPassword("")
+      setUserName("")
     }
   }
 
@@ -102,6 +103,7 @@ export default function Home() {
               <div className="bg-[#282828] rounded-[10px] border-b border-[#808080] mb-[25px]">
                 <input
                   required onChange={(e) => setUserName(e.target.value)}
+                  value={username}
                   placeholder="Username"
                   className="px-[15px] lg:px-[20px]  rounded-[10px] w-full border border-transparent bg-transparent focus:outline-none focus:ring-0 text-[20px] lg:text-[24px]  text-[#808080] placeholder:text-[#808080]" type="text" />
               </div>
@@ -109,14 +111,17 @@ export default function Home() {
               <div className="bg-[#282828] rounded-[10px] border-b border-[#808080] ">
                 <input
                   required onChange={(e) => setPassword(e.target.value)}
+                  value={password}
                   placeholder="Password"
-                  className="px-[15px] lg:px-[20px] w-full rounded-[10px]  border border-transparent bg-transparent focus:outline-none focus:ring-0 text-[20px] lg:text-[24px]  text-[#808080] placeholder:text-[#808080]" type="text" />
+                  type="password"
+                  className="px-[15px] lg:px-[20px] w-full rounded-[10px]  border border-transparent bg-transparent focus:outline-none focus:ring-0 text-[20px] lg:text-[24px]  text-[#808080] placeholder:text-[#808080]" />
               </div>
             </div>
 
 
             <div
               onClick={handleSubmit}
+
               className="bg-[#CB76F2] cursor-pointer rounded-[10px] h-[70px] flex items-center justify-center mb-[50px]">
               <p className="text-[24px] lg:text-[34px]  text-white">{switchBool ? "Create account" : "Login"}</p>
             </div>
