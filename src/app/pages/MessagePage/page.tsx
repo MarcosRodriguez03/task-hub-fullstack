@@ -1,6 +1,6 @@
 "use client";
 import NavBarComponent from "@/app/components/NavBarComponent";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import homeLogo from "@/assets/homelogo.png";
 import NotificationBoxComponent from "@/app/components/NotificationBoxComponent";
 import plusFill from "@/assets/plusFill.png";
@@ -9,6 +9,8 @@ import exit from "@/assets/taskExit.png";
 import ProfilePageComponent from "@/app/components/ProfilePageComponent";
 import leftArrow from '../../../assets/leftArrow.png'
 import sendIcon from '../../../assets/sendIcon.png'
+import { getLocalStorage } from "@/utils/localStorage";
+import { getLoggedInUserData } from "@/utils/DataService";
 
 const MessagePage = () => {
 
@@ -35,6 +37,16 @@ const MessagePage = () => {
 
         }
     }
+
+
+    useEffect(()=>{
+        const populateData = async()=>{
+            let input = getLocalStorage()
+            let info = await getLoggedInUserData(input)
+            console.log(info);
+        }
+        populateData()
+    })
 
     const [mobileTitle, setMobileTitle] = useState<string>("Messages");
     const [toggleNotifications, setToggleNotifications] =

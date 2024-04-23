@@ -9,6 +9,7 @@ import Image from "next/image";
 import loginLogo from '@/assets/loginLogo.png'
 import TaskPage from "./pages/TaskPage/page";
 import { useAppContext } from "@/Context/Context";
+import { saveLocalStorage } from "@/utils/localStorage";
 
 
 
@@ -68,6 +69,9 @@ export default function Home() {
 
       //checks to see if we succeed
       if (token.token != null) {
+
+        localStorage.clear();
+        saveLocalStorage(username)
         data.setPageTwoName(username);
         localStorage.setItem("Token", token.token)
         getLoggedInUserData(username);

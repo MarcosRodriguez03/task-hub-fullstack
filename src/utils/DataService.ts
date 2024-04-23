@@ -48,7 +48,7 @@ export const getLoggedInUserData = async (username: string) => {
     const res = await fetch(url + "/User/GetUserByUsername/" + username);
     const data = await res.json();
     userData = data;
-
+    return userData;
 }
 
 export const loggedInData = () => {
