@@ -8,6 +8,7 @@ import HomePage from "./pages/HomePage/page";
 import Image from "next/image";
 import loginLogo from '@/assets/loginLogo.png'
 import TaskPage from "./pages/TaskPage/page";
+import { useAppContext } from "@/Context/Context";
 
 
 
@@ -20,7 +21,7 @@ export default function Home() {
   const [textBox1, setTextBox1] = useState("block");
   const [textBox2, setTextBox2] = useState("block");
 
-  const [globalName, setGlobalName] = useState<string>("");
+  const data = useAppContext();
 
   let router = useRouter();
 
@@ -67,6 +68,7 @@ export default function Home() {
 
       //checks to see if we succeed
       if (token.token != null) {
+        data.setPageTwoName(username);
         localStorage.setItem("Token", token.token)
         getLoggedInUserData(username);
         router.push('/pages/HomePage');
