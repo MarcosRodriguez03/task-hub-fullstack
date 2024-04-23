@@ -83,7 +83,7 @@ const TaskPage = () => {
                 profilePicture={homelogo}
             />
 
-            <div className={toggleNotifications}>
+            <div className={`${toggleNotifications} absolute right-[110px] z-30`}>
                 <NotificationBoxComponent message="Tyler sent a message" />
             </div>
 

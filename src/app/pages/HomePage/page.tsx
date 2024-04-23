@@ -54,7 +54,16 @@ const HomePage = () => {
                 profilePicture={homelogo}
             />
 
-            <div className={toggleNotifications}>
+            <div className={`${toggleNotifications} absolute right-[110px] z-30`}>
+                <NotificationBoxComponent message="Tyler sent a message" />
+                <NotificationBoxComponent message="Tyler sent a message" />
+                <NotificationBoxComponent message="Tyler sent a message" />
+                <NotificationBoxComponent message="Tyler sent a message" />
+                <NotificationBoxComponent message="Tyler sent a message" />
+                <NotificationBoxComponent message="Tyler sent a message" />
+                <NotificationBoxComponent message="Tyler sent a message" />
+                <NotificationBoxComponent message="Tyler sent a message" />
+                <NotificationBoxComponent message="Tyler sent a message" />
                 <NotificationBoxComponent message="Tyler sent a message" />
             </div>
 
@@ -94,7 +103,7 @@ const HomePage = () => {
 
             <div className={notificationsPageClick}>
                 <div className="mx-[20px]">
-
+                    <NotificationBoxComponent message="Tyler sent a message" />
                 </div>
             </div>
         </div>

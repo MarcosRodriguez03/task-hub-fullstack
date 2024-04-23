@@ -66,7 +66,12 @@ const MessagePage = () => {
                 pageProfile={setProfilePage}
                 profilePicture={homeLogo}
             />
-            <div className={toggleNotifications}>
+            <div className={`${toggleNotifications} absolute right-[110px] z-30`}>
+                <NotificationBoxComponent message="Tyler sent a message" />
+                <NotificationBoxComponent message="Tyler sent a message" />
+                <NotificationBoxComponent message="Tyler sent a message" />
+                <NotificationBoxComponent message="Tyler sent a message" />
+                <NotificationBoxComponent message="Tyler sent a message" />
                 <NotificationBoxComponent message="Tyler sent a message" />
             </div>
             <div className={` ${topHeight} h-[80px] top-0 absolute w-full bg-[#181818] flex justify-between items-center px-[15px]`}>
