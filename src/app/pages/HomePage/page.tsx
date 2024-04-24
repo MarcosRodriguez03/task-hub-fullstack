@@ -10,6 +10,7 @@ import NavBarComponent from "@/app/components/NavBarComponent";
 import NotificationBoxComponent from "@/app/components/NotificationBoxComponent";
 import ProfilePageComponent from "@/app/components/ProfilePageComponent";
 import CreateProjectComponent from "@/app/component/CreateProjectComponent";
+import EditProfileComponent from "@/app/component/EditProfileComponent";
 
 const HomePage = () => {
     const [mobileTitle, setMobileTitle] = useState<string>('Projects');
@@ -21,6 +22,8 @@ const HomePage = () => {
     const [messagesPage, setMessagesPage] = useState<string>("block lg:block");
     const [taskPage, setTaskPage] = useState<string>("block lg:block");
     const [createProject, setCreateProject] = useState<string>('hidden');
+    const [editProfile, setEditProfile] = useState<string>('block');
+
 
     useEffect(() => {
         document.body.style.backgroundColor = "#080808";
@@ -32,6 +35,9 @@ const HomePage = () => {
 
     return (
         <div>
+
+
+
             <div className={createProject}>
                 <CreateProjectComponent setCreateProject={setCreateProject} />
             </div>
@@ -54,9 +60,11 @@ const HomePage = () => {
                 profilePicture={homelogo}
             />
 
+
+
             <div className={`${toggleNotifications} absolute right-[110px] z-30 px-[20px] bg-[#181818] border-[#808080] border-[1px] rounded-[10px] drop-shadow-md h-[85vh] overflow-y-auto`}>
                 <h1 className="text-white font-semibold text-[25px] my-5">Notifications</h1>
-                <hr/>
+                <hr />
                 <NotificationBoxComponent message="Tyler sent a message" />
                 <NotificationBoxComponent message="Tyler sent a message" />
                 <NotificationBoxComponent message="Tyler sent a message" />
