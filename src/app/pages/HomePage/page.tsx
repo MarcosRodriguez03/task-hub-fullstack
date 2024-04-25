@@ -11,6 +11,10 @@ import NotificationBoxComponent from "@/app/components/NotificationBoxComponent"
 import ProfilePageComponent from "@/app/components/ProfilePageComponent";
 import CreateProjectComponent from "@/app/component/CreateProjectComponent";
 import EditProfileComponent from "@/app/component/EditProfileComponent";
+import { getLocalStorage } from "@/utils/localStorage";
+import { GetAllProjects, GetAllProjectsUserIsIn, getLoggedInUserData } from "@/utils/DataService";
+import { IProject } from "@/interface/interface";
+import { useAppContext } from "@/Context/Context";
 
 const HomePage = () => {
     const [mobileTitle, setMobileTitle] = useState<string>('Projects');
@@ -23,11 +27,31 @@ const HomePage = () => {
     const [taskPage, setTaskPage] = useState<string>("block lg:block");
     const [createProject, setCreateProject] = useState<string>('hidden');
     const [editProfile, setEditProfile] = useState<string>('block');
+    const [allProjectsArr, setAllProjectsArr] = useState<any>([])
+    const [allProjectsArr2, setAllProjectsArr2] = useState<any>([])
 
+    const data = useAppContext()
 
     useEffect(() => {
         document.body.style.backgroundColor = "#080808";
-    }, []);
+        let profile = getLocalStorage();
+        const loadAll = async () => {
+            let usersID = await getLoggedInUserData(profile)
+            let allProjects = await GetAllProjectsUserIsIn(usersID.userId)
+            console.log(allProjects)
+            setAllProjectsArr(allProjects)
+
+            let allProjects2 = await GetAllProjects()
+            setAllProjectsArr2(allProjects2)
+
+
+
+        }
+        loadAll()
+
+
+
+    }, [data.pageTwoName2]);
 
     const handleCreateProject = () => {
         setCreateProject('block');
@@ -106,8 +130,25 @@ const HomePage = () => {
                             </div>
                         </div>
                     </div>
-                    <ProjectCardComponent taskPage={setTaskPage} percent="10" projectName="New Project" />
-                    <ProjectCardComponent taskPage={setTaskPage} percent="100" projectName="Old Project" />
+                    {allProjectsArr && allProjectsArr.map((project: any) => (
+                        allProjectsArr2 && allProjectsArr2.map((project2: any) => {
+                            if (project.projectID === project2.id) {
+                                return (
+                                    <ProjectCardComponent
+                                        key={project.projectID}
+                                        projectId={project.projectID}
+                                        taskPage={setTaskPage}
+                                        percent="10"
+                                        projectName={project2.projectName}
+                                    />
+                                );
+                            } else {
+                                return null; // Return null if no match found
+                            }
+                        })
+                    ))}
+
+
                 </div>
             </div>
 

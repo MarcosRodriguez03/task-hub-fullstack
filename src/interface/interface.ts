@@ -16,3 +16,12 @@ export interface IUserData {
     userId: number
     publisherName: string
 }
+
+
+export interface IProject {
+    ID: number
+    UserId: number
+    ProjectName: string
+    isDeleted: boolean
+
+}

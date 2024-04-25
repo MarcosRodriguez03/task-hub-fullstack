@@ -19,6 +19,7 @@ import ProfilePageComponent from '@/app/components/ProfilePageComponent';
 import AddUserComponent from '@/app/component/AddUserComponent';
 import CreateTaskComponent from '@/app/component/CreateTaskComponent';
 import newData from '@/app/TestTask.json'
+import { getLocalStorageProjectId } from '@/utils/localStorage';
 
 
 
@@ -51,6 +52,8 @@ const TaskPage = () => {
 
     useEffect(() => {
         console.log(dummyData[0].TaskName)
+        let currentProjectId = getLocalStorageProjectId();
+        console.log(currentProjectId + " this is the taks page")
     }, []);
 
     return (
