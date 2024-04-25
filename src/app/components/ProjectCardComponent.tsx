@@ -4,13 +4,17 @@ import React from "react";
 import Image from "next/image";
 import removeIcon from "@/assets/removeIcon.png";
 import { useRouter } from "next/navigation";
+import { saveLocalStorage, saveLocalStorageProjectId } from "@/utils/localStorage";
 
 
 const ProjectCardComponent = (prop: {
   percent: string;
   projectName: string;
   taskPage: (input: string) => void;
+  projectId: number
 }) => {
+
+  let currentProjectId = prop.projectId
 
 
   let router = useRouter();
@@ -21,8 +25,9 @@ const ProjectCardComponent = (prop: {
 
   return (
     <div
-      onClick={()=> {
+      onClick={() => {
         prop.taskPage('block lg:block');
+        saveLocalStorageProjectId(currentProjectId)
         GoToTask()
       }}
       className="lg:grid lg:justify-center">

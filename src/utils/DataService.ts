@@ -1,4 +1,4 @@
-import { IToken, IUserData, IUserInfo, } from "@/interface/interface";
+import { IProject, IToken, IUserData, IUserInfo, } from "@/interface/interface";
 
 
 const url = "https://taskhubbackenddb.azurewebsites.net";
@@ -99,3 +99,58 @@ export const publishEditUserInfo = async (id: number, firstName: string, lastNam
 
 }
 
+export const createProject = async (newProject: IProject) => {
+    const res = await fetch(url + `/Project/CreateProject`, {
+        method: "POST",
+        headers: {
+            'Content-Type': "application/json"
+        },
+        body: JSON.stringify(newProject)
+    })
+    //we need to check if post was succeesful
+    if (!res.ok) {
+        const message = "an error has occured " + res.status;
+        throw new Error(message);
+    }
+
+    const data = await res.json();
+    console.log(data);
+    return data
+}
+export const addUserToProject = async (userID: number, projectID: number) => {
+    const res = await fetch(url + `/Project/AddUserToProjectByUserId/${userID}/${projectID}`, {
+        method: "POST",
+        headers: {
+            'Content-Type': "application/json"
+        },
+        body: JSON.stringify({
+            userID,
+            projectID
+        })
+    })
+    //we need to check if post was succeesful
+    if (!res.ok) {
+        const message = "an error has occured " + res.status;
+        throw new Error(message);
+    }
+
+    const data = await res.json();
+    console.log(data);
+    return data
+}
+
+
+
+export const GetAllProjects = async () => {
+    const res = await fetch(url + '/Project/GetAllProjects')
+    let data = await res.json();
+    return data;
+}
+
+export const GetAllProjectsUserIsIn = async (userID: number) => {
+    const res = await fetch(url + `/Project/GetAllProjectsUserIsIn/${userID}`)
+    let data = await res.json();
+    return data;
+}
+
+// GetAllProjects
