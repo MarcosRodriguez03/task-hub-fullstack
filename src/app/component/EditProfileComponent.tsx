@@ -4,7 +4,8 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import loginBg from "@/assets/loginBg.jpg";
 import { FileInput } from "flowbite-react";
-import { publishEditUserInfo } from "@/utils/DataService";
+import { getLoggedInUserData, publishEditUserInfo } from "@/utils/DataService";
+import { getLocalStorage } from "@/utils/localStorage";
 
 
 
@@ -12,6 +13,7 @@ const EditProfileComponent = (prop: {
   setEditProfile: (input: string) => void;
 }) => {
 
+  const [inputID, setInputID] = useState<number>(0)
   const [first, setFirst] = useState<string>("");
   const [second, setSecond] = useState<string>("");
   const [contact, setContact] = useState<string>("");
@@ -23,8 +25,18 @@ const EditProfileComponent = (prop: {
   const handleContact = (e: React.ChangeEvent<HTMLInputElement>) => setContact(e.target.value);
   const handleBio = (e: any) => setBio(e.target.value);
 
+  let profile = getLocalStorage()
 
   useEffect(() => {
+    const startEditProfile = async () => {
+
+      let info = await getLoggedInUserData(profile);
+      setInputID(info.userId)
+
+
+
+    }
+    startEditProfile();
     console.log(first)
     console.log(second)
     console.log(contact)
@@ -38,17 +50,21 @@ const EditProfileComponent = (prop: {
     fileInputRef.current.click();
   }
   const handleEditProfile = async () => {
-    publishEditUserInfo(2, first, second, contact, bio, image)
+    await publishEditUserInfo(inputID, first, second, contact, bio, "image")
   }
 
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let reader = new FileReader();
     const file = e.target.files?.[0];
+    console.log(file);
     if (file) {
+      let reader = new FileReader();
       reader.onload = () => {
-        setImage(reader.result)
+        console.log(reader.result);
+        setImage(reader.result as string); // Set image state with selected file data (converted to Base64 string)
       }
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(file); // Read file as data URL
+    } else {
+      console.error("No file selected");
     }
   }
 
@@ -86,15 +102,9 @@ const EditProfileComponent = (prop: {
             <div className="order-1 lg:order-2 lg:col-span-4 grid justify-center lg:justify-end">
               <div>
 
-                <input
-                  type="file"
-                  onChange={handleImage}
-                  accept="image/png, image/jpg"
-                  id="Pictures"
-                  ref={fileInputRef}
-                  style={{ display: 'none' }}
-                  required
-                />
+
+                <FileInput ref={fileInputRef} onChange={handleImage} accept='image/png, image/jpg,' id="Pictures" required placeholder='Choose img' style={{ display: 'none' }} />
+
                 <div className="grid justify-center">
 
                   <Image

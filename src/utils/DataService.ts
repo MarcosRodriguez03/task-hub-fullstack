@@ -51,6 +51,13 @@ export const getLoggedInUserData = async (username: string) => {
     return userData;
 }
 
+export const getEntireUserProfile = async (username: string) => {
+    const res = await fetch(url + "/User/GetProfileByUserId/" + username);
+    const data = await res.json();
+    userData = data;
+    return userData;
+}
+
 export const loggedInData = () => {
     return userData;
 }
@@ -75,20 +82,14 @@ export const getBlogItemsByUserId = async (userId: number) => {
 
 
 export const publishEditUserInfo = async (id: number, firstName: string, lastName: string, contact: string, bio: string, image: string) => {
+
     const res = await fetch(url + `/User/UpdateUserInfo/${id}/${firstName}/${lastName}/${contact}/${bio}/${image}`, {
         method: "PUT",
         headers: {
             "Content-Type": 'application/json'
-        },
-        body: JSON.stringify({
-            id: id,
-            firstName: firstName,
-            lastName: lastName,
-            contact: contact,
-            bio: bio,
-            image: image
-        })
-    })
+        }
+
+    });
     if (!res.ok) {
         const message = "An Error has occured" + res.status;
         throw new Error(message);

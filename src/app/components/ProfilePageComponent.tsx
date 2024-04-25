@@ -1,16 +1,42 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import leftArrow from "@/assets/leftArrow.png";
 import Image from "next/image";
 import emptyPfp from "@/assets/emptyPfp.png";
 import EditProfileComponent from "../component/EditProfileComponent";
 import { useRouter } from "next/navigation";
+import { getLocalStorage } from "@/utils/localStorage";
+import { getEntireUserProfile } from "@/utils/DataService";
 
 const ProfilePageComponent = (prop: {
   pageProfile: (input: string) => void;
 }) => {
 
   const [editProfile, setEditProfile] = useState<string>('hidden');
+
+  const [profileFirstName, setProfileFirstName] = useState<any>("user")
+  const [profileLastName, setProfileLastName] = useState<any>("user")
+  const [profileContact, setProfileContact] = useState<any>("contact")
+  const [profileBio, setProfileBio] = useState<any>("")
+  const [profileImage, setProfileImage] = useState<any>("user")
+
+  let user = getLocalStorage();
+
+  useEffect(() => {
+    const loadProfile = async () => {
+      let fullProfile: any = await getEntireUserProfile(user)
+      console.log(fullProfile)
+      setProfileFirstName(fullProfile[0].firstName)
+      setProfileLastName(fullProfile[0].lastName)
+      setProfileContact(fullProfile[0].contact)
+      setProfileBio(fullProfile[0].bio)
+      setProfileImage(fullProfile[0].image)
+
+
+    }
+    loadProfile()
+  })
+
 
   let router = useRouter();
 
@@ -52,22 +78,22 @@ const ProfilePageComponent = (prop: {
           <div className="flex justify-center flex-col items-center mt-[25px]">
             <Image className=" w-[150px] h-[150px]" alt="pfp" src={emptyPfp} />
             <p className=" mt-[25px] text-[28px] font-bold text-white">
-              Tyler Nguyen
+              {profileFirstName && profileFirstName} {profileLastName && profileLastName}
             </p>
             <p className="text-[24px] font-bold text-[#B8B8B8] mt-1">
-              TylerAcc233
+              {user && user}
             </p>
             <div className="bg-[#282828] w-full mx-[20px] lg:mx-[30px] h-[257px] lg:h-[283px] rounded-[10px] my-6 overflow-y-auto p-[20px]">
               <p className="text-[#B8B8B8] text-[24px] font-semibold">
                 Contact
               </p>
               <p className="text-white text-[20px] font-medium">
-                free.99@gmail.com
+                {profileContact && profileContact}
               </p>
               <p className="text-[#B8B8B8] text-[24px] font-semibold mt-6">
                 Bio
               </p>
-              <p className="text-white text-[20px] font-medium">descriptions</p>
+              <p className="text-white text-[20px] font-medium">{profileBio && profileBio}</p>
             </div>
             <div className="flex justify-center mb-6 w-full">
               <button
