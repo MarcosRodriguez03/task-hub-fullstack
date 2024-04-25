@@ -6,6 +6,8 @@ import loginBg from "@/assets/loginBg.jpg";
 import { FileInput } from "flowbite-react";
 import { getLoggedInUserData, publishEditUserInfo } from "@/utils/DataService";
 import { getLocalStorage } from "@/utils/localStorage";
+import ProfilePageComponent from "../components/ProfilePageComponent";
+import { useAppContext } from "@/Context/Context";
 
 
 
@@ -19,15 +21,18 @@ const EditProfileComponent = (prop: {
   const [contact, setContact] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const [image, setImage] = useState<any>("");
+  const [isTrue, setIsTrue] = useState<boolean>(true)
+  const [profilePage, setProfilePage] = useState<string>('hidden');
 
   const handleFirst = (e: React.ChangeEvent<HTMLInputElement>) => setFirst(e.target.value);
   const handleSecond = (e: React.ChangeEvent<HTMLInputElement>) => setSecond(e.target.value);
   const handleContact = (e: React.ChangeEvent<HTMLInputElement>) => setContact(e.target.value);
   const handleBio = (e: any) => setBio(e.target.value);
 
-  let profile = getLocalStorage()
+  const data = useAppContext()
 
   useEffect(() => {
+    let profile = getLocalStorage()
     const startEditProfile = async () => {
 
       let info = await getLoggedInUserData(profile);
@@ -50,7 +55,11 @@ const EditProfileComponent = (prop: {
     fileInputRef.current.click();
   }
   const handleEditProfile = async () => {
-    await publishEditUserInfo(inputID, first, second, contact, bio, "image")
+    await publishEditUserInfo(inputID, first, second, contact, bio, "image");
+    setIsTrue(!isTrue)
+    data.setPageTwoName(`${isTrue}`)
+
+
   }
 
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {

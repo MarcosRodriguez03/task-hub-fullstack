@@ -7,9 +7,11 @@ import EditProfileComponent from "../component/EditProfileComponent";
 import { useRouter } from "next/navigation";
 import { getLocalStorage } from "@/utils/localStorage";
 import { getEntireUserProfile } from "@/utils/DataService";
+import { useAppContext } from "@/Context/Context";
 
 const ProfilePageComponent = (prop: {
   pageProfile: (input: string) => void;
+
 }) => {
 
   const [editProfile, setEditProfile] = useState<string>('hidden');
@@ -20,10 +22,14 @@ const ProfilePageComponent = (prop: {
   const [profileBio, setProfileBio] = useState<any>("")
   const [profileImage, setProfileImage] = useState<any>("user")
 
-  let user = getLocalStorage();
+
+  const { pageTwoName } = useAppContext();
+
 
   useEffect(() => {
+    let user = getLocalStorage();
     const loadProfile = async () => {
+
       let fullProfile: any = await getEntireUserProfile(user)
       console.log(fullProfile)
       setProfileFirstName(fullProfile[0].firstName)
@@ -35,7 +41,7 @@ const ProfilePageComponent = (prop: {
 
     }
     loadProfile()
-  })
+  }, [pageTwoName])
 
 
   let router = useRouter();
@@ -81,7 +87,7 @@ const ProfilePageComponent = (prop: {
               {profileFirstName && profileFirstName} {profileLastName && profileLastName}
             </p>
             <p className="text-[24px] font-bold text-[#B8B8B8] mt-1">
-              {user && user}
+              {profileFirstName && profileFirstName}
             </p>
             <div className="bg-[#282828] w-full mx-[20px] lg:mx-[30px] h-[257px] lg:h-[283px] rounded-[10px] my-6 overflow-y-auto p-[20px]">
               <p className="text-[#B8B8B8] text-[24px] font-semibold">
