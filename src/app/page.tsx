@@ -96,8 +96,11 @@ export default function Home() {
       <div className="grid lg:grid-cols-2 grid-cols-1">
 
         <div className="flex justify-center px-[20px]  ">
-          <div className="min-h-screen w-[600px] pt-[15%]">
+          <div className="min-h-screen w-[600px] grid">
 
+          <div className="my-auto">
+
+          
             <div className="flex items-center mb-[50px]">
               <Image src={loginLogo} alt="Logo" className="mr-[25px]" />
               <p className="text-[30px] text-[#CB76F2] ">TaskHub</p>
@@ -135,6 +138,7 @@ export default function Home() {
               </div>
             </div>
 
+            
 
             <div
               onClick={handleSubmit}
@@ -150,6 +154,8 @@ export default function Home() {
               </span>
             </div>
           </div>
+
+        </div>
         </div>
 
 
