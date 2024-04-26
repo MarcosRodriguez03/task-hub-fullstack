@@ -20,6 +20,8 @@ import AddUserComponent from '@/app/component/AddUserComponent';
 import CreateTaskComponent from '@/app/component/CreateTaskComponent';
 import newData from '@/app/TestTask.json'
 import { getLocalStorageProjectId } from '@/utils/localStorage';
+import { ITask } from '@/interface/interface';
+import { CreateTask, GetTasksByProjectID } from '@/utils/DataService';
 
 
 
@@ -37,23 +39,40 @@ const TaskPage = () => {
     const [addUser, setAddUser] = useState<string>('hidden');
     const [createTask, setCreateTask] = useState<string>('hidden');
     const [dummyData, setDummyData] = useState<any>(newData)
+    const [fullArr, setFullArr] = useState<any[]>([])
+
+
 
     const handleAddUser = () => {
         setAddUser('block');
     }
 
-    // const fetchTask = async () => {
-    //     const response: any = await fetch("/task-hub-fullstack/src/app/pages/TaskPage/TestTask.json");
-    //     const data: any = await response.json();
-    //     return data
-    // }
-
 
 
     useEffect(() => {
-        console.log(dummyData[0].TaskName)
-        let currentProjectId = getLocalStorageProjectId();
-        console.log(currentProjectId + " this is the taks page")
+        const fetchData = async () => {
+            try {
+                let currentProjectId = getLocalStorageProjectId();
+                console.log(currentProjectId + " this is the task page");
+
+                // Fetch tasks data asynchronously
+                let taskObjArr = await GetTasksByProjectID(currentProjectId);
+
+                // Update the state with the fetched tasks data
+                setFullArr(taskObjArr);
+
+                // Now the state has been updated, you can use it
+                console.log("Full array:", taskObjArr);
+            } catch (error) {
+                // Handle any errors that occur during the fetch operation
+                console.error("Error fetching tasks:", error);
+            }
+        };
+
+        // Call fetchData when the component mounts (empty dependency array)
+        // This ensures it runs once when the component initially renders
+        fetchData();
+
     }, []);
 
     return (
@@ -163,16 +182,11 @@ const TaskPage = () => {
 
 
                                     <p className='text-white'>left input</p>
-
-                                    {dummyData.map((task: any) => {
-                                        if (task.Status == "Ideas" && task.IsDeleted == false) {
-                                            return <TaskSqaureComponent key={task.ID} taskName={task.TaskName} pfp={task.pfp} priority={task.priority} />
-
-                                            // return <div key={task.ID} className='bg-white h-100 w-100'>
-                                            //     <h1 className='text-black'>{task.TaskName}</h1>
-                                            // </div>
-                                        }
-                                    })}
+                                    {fullArr && fullArr.map((task: ITask) => (
+                                        task.status === "Ideas" && (
+                                            <TaskSqaureComponent key={task.id} taskName={task.taskName} priority={task.priority} ID={task.userID} />
+                                        )
+                                    ))}
 
 
                                 </div>
@@ -180,11 +194,24 @@ const TaskPage = () => {
                                 <div className=' w-full  overflow-auto'>
 
                                     <p className='text-white'> middle input</p>
+
+                                    {fullArr && fullArr.map((task: ITask) => (
+                                        task.status === "In progress" && (
+                                            <TaskSqaureComponent key={task.id} taskName={task.taskName} priority={task.priority} ID={task.userID} />
+                                        )
+                                    ))}
+
                                 </div>
 
                                 <div className=' w-full overflow-auto '>
 
                                     <p className='text-white'>  right input</p>
+
+                                    {fullArr && fullArr.map((task: ITask) => (
+                                        task.status === "Done" && (
+                                            <TaskSqaureComponent key={task.id} taskName={task.taskName} priority={task.priority} ID={task.userID} />
+                                        )
+                                    ))}
                                 </div>
                             </div>
                         </div>
