@@ -1,6 +1,6 @@
 'use client'
 import { Button } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IToken } from '@/interface/interface';
 import { createAccount, getLoggedInUserData, login } from '@/utils/DataService';
 import { useRouter } from 'next/navigation';
@@ -28,6 +28,8 @@ export default function Home() {
 
   const handleSwitch = () => {
     setSwitchBool(!switchBool)
+    setPassword("")
+    setUserName("")
   }
 
   const handleSubmit = async () => {
@@ -87,6 +89,7 @@ export default function Home() {
     }
   }
 
+
   return (
     // <TaskPage />
     <div className="bg-image">
@@ -102,13 +105,17 @@ export default function Home() {
 
             <div className="text-white mb-[50px]">
               <p className="text-[34px] pb-[15px]">{switchBool ? "Create account" : "Login "}</p>
-              <p className="text-[20px] lg:text-[24px]">{switchBool ? "It all starts with an account" : "For all you managing needs"}.</p>
+              <p className="text-[20px] lg:text-[24px]">{switchBool ? "It all starts with an account" : "For all your managing needs"}.</p>
             </div>
 
             <div className="mb-[50px]">
               <div className="bg-[#282828] rounded-[10px] border-b border-[#808080] mb-[25px]">
                 <input
-                  required onChange={(e) => setUserName(e.target.value)}
+                  required onChange={(e) => {
+                    if(!/\s/.test(e.target.value)){
+                      setUserName(e.target.value)
+                    }
+                  }}
                   value={username}
                   placeholder="Username"
                   className="px-[15px] lg:px-[20px]  rounded-[10px] w-full border border-transparent bg-transparent focus:outline-none focus:ring-0 text-[20px] lg:text-[24px]  text-[#808080] placeholder:text-[#808080]" type="text" />
@@ -116,7 +123,11 @@ export default function Home() {
 
               <div className="bg-[#282828] rounded-[10px] border-b border-[#808080] ">
                 <input
-                  required onChange={(e) => setPassword(e.target.value)}
+                  required onChange={(e) => {
+                    if(!/\s/.test(e.target.value)){
+                    setPassword(e.target.value)
+                    }
+                  }}
                   value={password}
                   placeholder="Password"
                   type="password"
@@ -128,7 +139,7 @@ export default function Home() {
             <div
               onClick={handleSubmit}
 
-              className="bg-[#CB76F2] cursor-pointer rounded-[10px] h-[70px] flex items-center justify-center mb-[50px]">
+              className="bg-[#CB76F2] hover:bg-[#d186f3] cursor-pointer rounded-[10px] h-[70px] flex items-center justify-center mb-[50px]">
               <p className="text-[24px] lg:text-[34px]  text-white">{switchBool ? "Create account" : "Login"}</p>
             </div>
 
@@ -149,20 +160,20 @@ export default function Home() {
       </div>
       <div className={`${hideModel} fixed inset-0 flex items-center justify-center bg-black bg-opacity-80`}>
 
-        <div className={` ${textBox1} bg-white h-[30%] max-w-[500px] w-full rounded shadow-[20px] p-[20px] flex-col flex justify-center mx-[15px] items-center`}>
-          <h1 className="text-2xl font-bold text-center"> {modelBool ? "Account Created Successfully" : "Error Creating Account Try a different user name."}</h1>
+        <div className={` ${textBox1} bg-[#181818] h-[225px] max-w-[500px] w-full rounded-xl shadow-[20px] p-[30px] flex-col flex justify-center mx-[15px] items-center`}>
+          <h1 className="text-lg lg:text-2xl font-bold text-center text-white"> {modelBool ? "Account Successfully Created" : "An Error has Occured when Creating Account. Please try again."}</h1>
           <button
             onClick={() => { setHideModel("hidden") }}
-            className="mt-[20px] bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            className={modelBool ? "mt-[20px] bg-[#04BAAD] hover:bg-[#86f3ec]  text-white font-bold py-2 px-10 rounded" : "mt-[20px] bg-[#EC5A52] hover:bg-[#ff6961]  text-white font-bold py-2 px-10 rounded" }>
             Ok
           </button>
         </div>
 
-        <div className={` ${textBox2} bg-white h-[30%] max-w-[500px] w-full rounded shadow-[20px] p-[20px] flex-col flex justify-center mx-[15px] items-center`}>
-          <h1 className="text-2xl font-bold text-center"> Could not find an account matching the username or password.</h1>
+        <div className={` ${textBox2} bg-[#181818] h-[225px] max-w-[500px] w-full rounded-xl shadow-[20px] px-[30px] flex-col flex justify-center mx-[15px] items-center`}>
+          <h1 className="text-lg lg:text-2xl font-bold text-center text-white"> Could not find an account matching the username or password.</h1>
           <button
             onClick={() => { setHideModel("hidden") }}
-            className="mt-[20px] bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            className="mt-[20px] bg-[#EC5A52] hover:bg-[#ff6961] text-white font-bold py-2 px-10 rounded">
             Ok
           </button>
         </div>
