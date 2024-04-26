@@ -1,6 +1,6 @@
 "use client";
 import NavBarComponent from "@/app/components/NavBarComponent";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import homeLogo from "@/assets/homelogo.png";
 import NotificationBoxComponent from "@/app/components/NotificationBoxComponent";
 import plusFill from "@/assets/plusFill.png";
@@ -18,6 +18,8 @@ const MessagePage = () => {
     const [addCol, setAddCol] = useState("hidden")
     const [hideTop, setHideTop] = useState("block lg:hidden")
     const [topHeight, setTopHeight] = useState(" hidden")
+
+    const messageRef = useRef<HTMLDivElement>(null);
 
 
     const handleOpen = () => {
@@ -56,6 +58,13 @@ const MessagePage = () => {
             console.log(info);
         }
         populateData()
+
+        if(messageRef.current){
+            messageRef.current.scrollIntoView({
+                block: 'end',
+                behavior: 'smooth'
+            });
+        }
 
         // const handleClickOutside = () => {
         //     if(toggleNotifications == "hidden lg:block"){
@@ -163,7 +172,7 @@ const MessagePage = () => {
 
                             <div className="bg-black overflow-auto flex-1">
 
-                                <div className="flex flex-col-reverse p-[15px] lg:p-[30px]">
+                                <div ref={messageRef} className="flex flex-col p-[15px] lg:p-[30px]">
 
                                     <div className="flex items-end mt-[30px]">
                                         <Image alt="pfp" src={homeLogo} className="rounded-[50px] w-[40px] h-[40px] lg:w-[75px] lg:h-[75px]" />
@@ -174,6 +183,19 @@ const MessagePage = () => {
                                         <Image alt="pfp" src={homeLogo} className="rounded-[50px] w-[40px] h-[40px] lg:w-[75px] lg:h-[75px]" />
                                         <div className="bg-[#181818] text-white h-full p-2 rounded-lg w-full">Message 1Message 1Message 1Message 1Messagage 1Message 1Message 1</div>
                                     </div>
+                                    <div className="flex items-end mt-[30px] ">
+                                        <Image alt="pfp" src={homeLogo} className="rounded-[50px] w-[40px] h-[40px] lg:w-[75px] lg:h-[75px]" />
+                                        <div className="bg-[#181818] text-white h-full p-2 rounded-lg w-full">Message 1Message 1Message 1Message 1Messagage 1Message 1Message 1</div>
+                                    </div>
+                                    <div className="flex items-end mt-[30px] ">
+                                        <Image alt="pfp" src={homeLogo} className="rounded-[50px] w-[40px] h-[40px] lg:w-[75px] lg:h-[75px]" />
+                                        <div className="bg-[#181818] text-white h-full p-2 rounded-lg w-full">Message 1Message 1Message 1Message 1Messagage 1Message 1Message 1</div>
+                                    </div>
+                                    <div className="flex items-end mt-[30px] ">
+                                        <Image alt="pfp" src={homeLogo} className="rounded-[50px] w-[40px] h-[40px] lg:w-[75px] lg:h-[75px]" />
+                                        <div className="bg-[#181818] text-white h-full p-2 rounded-lg w-full">Message 1Message 1Message 1Message 1Messagage 1Message 1Message 1</div>
+                                    </div>
+
 
 
                                     {/*  tyler */}

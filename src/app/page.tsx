@@ -140,12 +140,12 @@ export default function Home() {
 
             
 
-            <div
+            <button
               onClick={handleSubmit}
-
-              className="bg-[#CB76F2] hover:bg-[#d186f3] cursor-pointer rounded-[10px] h-[70px] flex items-center justify-center mb-[50px]">
+              
+              className="w-full bg-[#CB76F2] hover:bg-[#d186f3] cursor-pointer rounded-[10px] h-[70px] flex items-center justify-center mb-[50px]">
               <p className="text-[24px] lg:text-[34px]  text-white">{switchBool ? "Create account" : "Login"}</p>
-            </div>
+            </button>
 
             <div className="flex justify-center" >
               <span className="lg:flex text-center text-white text-[20px] lg:text-[24px] ">
