@@ -22,6 +22,7 @@ const NavBarComponent = (prop: {
   pageNotificationTwo: (input: string) => void;
   pageProfile: (input: string) => void;
   profilePicture: StaticImageData;
+  closeTop : () => void;
 }) => {
 
   let router = useRouter()
@@ -135,6 +136,7 @@ const NavBarComponent = (prop: {
                 prop.pageNotificationTwo('block lg:hidden');
                 prop.pageProfile('hidden lg:hidden');
                 prop.setTitle('Notifications');
+                prop.closeTop();
               }}
               src={fullnotif}
               height={50}
@@ -149,6 +151,7 @@ const NavBarComponent = (prop: {
             prop.pageNotificationTwo('hidden lg:hidden');
             prop.pageProfile('block lg:block');
             prop.setTitle('Profile');
+            prop.closeTop();
           }} className="my-auto rounded-[50px] bg-white h-[50px] w-[50px] cursor-pointer">
             <Image className="h-[50px] w-[50px] rounded-[50px]" src={prop.profilePicture} alt="profile picture" />
           </div>
