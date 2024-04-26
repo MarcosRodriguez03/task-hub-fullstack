@@ -23,5 +23,17 @@ export interface IProject {
     UserId: number
     ProjectName: string
     isDeleted: boolean
+}
 
+export interface ITask {
+    id: number,
+    projectID: number,
+    taskName: string,
+    taskDescription: string,
+    taskDuration: string,
+    userID: number,
+    dueDate: string,
+    priority: string,
+    status: string,
+    isDeleted: boolean
 }

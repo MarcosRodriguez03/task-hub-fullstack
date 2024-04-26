@@ -1,4 +1,4 @@
-import { IProject, IToken, IUserData, IUserInfo, } from "@/interface/interface";
+import { IProject, ITask, IToken, IUserData, IUserInfo, } from "@/interface/interface";
 
 
 const url = "https://taskhubbackenddb.azurewebsites.net";
@@ -153,4 +153,28 @@ export const GetAllProjectsUserIsIn = async (userID: number) => {
     return data;
 }
 
-// GetAllProjects
+export const GetTasksByProjectID = async (projectID: number) => {
+    const res = await fetch(url + `/Task/GetTasksByProjectID/${projectID}`)
+    let data = await res.json();
+    return data;
+}
+
+
+
+export const CreateTask = async (TaskObj: ITask) => {
+    const res = await fetch(url + `/Task/CreateTask`, {
+        method: "POST",
+        headers: {
+            'Content-Type': "application/json"
+        },
+        body: JSON.stringify(TaskObj)
+    })
+    if (!res.ok) {
+        const message = "an error has occured " + res.status;
+        throw new Error(message);
+    }
+
+    const data = await res.json();
+    console.log(data);
+    return data
+}

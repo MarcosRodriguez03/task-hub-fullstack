@@ -13,12 +13,14 @@ import mediumWarning from '@/assets/mediumWarning.png'
 import highWarning from '@/assets/highWarning.png'
 
 function checkPriority(input: string) {
-    if (input == "Low Urgency ") {
+    if (input == "Low Urgency") {
         return lowWarning
     } else if (input == "Medium Urgency") {
         return mediumWarning
-    } else {
+    } else if (input == "High Urgency") {
         return highWarning
+    } else {
+        return ""
     }
 
 }
@@ -26,7 +28,7 @@ function checkPriority(input: string) {
 type iTaskSqaure = {
     taskName: string
     priority: string
-    pfp: StaticImageData
+    ID: number
 
 
 }
@@ -43,7 +45,7 @@ const TaskSqaureComponent = (props: iTaskSqaure) => {
             </div>
             <hr className='bg-[#525252] h-[1px] border-0' />
             <div className='flex items-center justify-between my-[7px]'>
-                <Image alt='pfp' src={props.pfp && props.pfp} className='w-[34px] h-[34px]' />
+                {/* <Image alt='pfp' src={props.ID && props.ID} className='w-[34px] h-[34px]' /> */}
                 <p className='font-bold text-[20px] rounded-[5px] py-[2px] px-[10px] text-[#7A7A7A] bg-[#353535]'>Edit</p>
             </div>
         </div>
