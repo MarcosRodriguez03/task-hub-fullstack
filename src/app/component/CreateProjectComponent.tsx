@@ -21,18 +21,21 @@ const CreateProjectComponent = (prop: { setCreateProject: (input: string) => voi
 
   const handleOnClick = async () => {
     console.log("work")
+    let projID = await createProject(projectObject)
+    
+    if(addedUser != ""){
     let addedUserId = await getLoggedInUserData(addedUser)
-
-    let projID = await createProject(dummy)
-    if (projID > 0) {
-      await addUserToProject(addedUserId.userId, projID)
+      if (projID > 0) {
+        await addUserToProject(addedUserId.userId, projID)
+      }
     }
+    
     setIsTrue(!isTrue)
     data.setPageTwoName2(`${isTrue}`)
 
   }
 
-  const dummy: IProject = {
+  const projectObject: IProject = {
     ID: 0,
     UserId: userID,
     ProjectName: projectName,
@@ -61,7 +64,11 @@ const CreateProjectComponent = (prop: { setCreateProject: (input: string) => voi
       <div className="fixed inset-0 flex items-center justify-center z-50">
         <div className=" bg-[#181818] border-[#808080] border-[1px] mx-[10px] w-full md:w-[424px] h-[242px] p-[30px] rounded-[10px] shadow-md">
           <input
-            onChange={(e) => setProjectName(e.target.value)}
+            onChange={(e) => {
+              if(e.target.value != ""){
+                setProjectName(e.target.value)
+              }
+              }}
             className="mb-[25px] rounded-[10px] bg-[#282828] border-[#808080] border-b-[1px] focus:outline-none px-[20px] w-full md:w-[364px] h-[44px] text-[20px] text-[#808080] placeholder:text-[#808080]" placeholder="Project name" />
           <input
             onChange={(e) => setAddedUser(e.target.value)}

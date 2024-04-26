@@ -40,6 +40,13 @@ const MessagePage = () => {
         }
     }
 
+    const closeTop = () => {
+        setRemoveCol(" ")
+        setAddCol("hidden")
+        setHideTop("block lg:hidden")
+        setTopHeight("hidden")
+    }
+
     const [mobileTitle, setMobileTitle] = useState<string>("Messages");
     const [toggleNotifications, setToggleNotifications] =
         useState<string>("hidden lg:hidden");
@@ -85,7 +92,7 @@ const MessagePage = () => {
                 <ProfilePageComponent pageProfile={setProfilePage} />
             </div>
             <NavBarComponent
-
+                closeTop={closeTop}
                 title={mobileTitle}
                 setTitle={setMobileTitle}
                 logo={homeLogo}
