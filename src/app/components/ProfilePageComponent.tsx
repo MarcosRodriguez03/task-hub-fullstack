@@ -16,11 +16,12 @@ const ProfilePageComponent = (prop: {
 
   const [editProfile, setEditProfile] = useState<string>('hidden');
 
-  const [profileFirstName, setProfileFirstName] = useState<any>("user")
-  const [profileLastName, setProfileLastName] = useState<any>("user")
-  const [profileContact, setProfileContact] = useState<any>("contact")
-  const [profileBio, setProfileBio] = useState<any>("")
-  const [profileImage, setProfileImage] = useState<any>("user")
+  const [username, setUsername] = useState<string>("admin");
+  const [profileFirstName, setProfileFirstName] = useState<string>("user")
+  const [profileLastName, setProfileLastName] = useState<string>("user")
+  const [profileContact, setProfileContact] = useState<string>("contact")
+  const [profileBio, setProfileBio] = useState<string>("")
+  const [profileImage, setProfileImage] = useState<string>("user")
 
 
   const { pageTwoName } = useAppContext();
@@ -32,6 +33,7 @@ const ProfilePageComponent = (prop: {
 
       let fullProfile: any = await getEntireUserProfile(user)
       console.log(fullProfile)
+      setUsername(fullProfile[0].username);
       setProfileFirstName(fullProfile[0].firstName)
       setProfileLastName(fullProfile[0].lastName)
       setProfileContact(fullProfile[0].contact)
@@ -80,16 +82,16 @@ const ProfilePageComponent = (prop: {
           <p className="text-[28px] text-[#B8B8B8] font-semibold ">Profile</p>
         </span>
 
-        <div className=" w-full lg:w-[604px]  absolute right-0 z-20 top-[80px] bottom-[80px] lg:bottom-0  lg:border-l lg:border-[#808080] bg-[#080808] lg:bg-[#181818] p-[20px] lg:p-[30px] overflow-auto">
+        <div className=" w-full lg:w-[604px] absolute right-0 z-20 top-[80px] bottom-[80px] lg:bottom-0  lg:border-l lg:border-[#808080] bg-[#080808] lg:bg-[#181818] p-[20px] lg:p-[30px] overflow-y-auto">
           <div className="flex justify-center flex-col items-center mt-[25px]">
             <Image className=" w-[150px] h-[150px]" alt="pfp" src={emptyPfp} />
             <p className=" mt-[25px] text-[28px] font-bold text-white">
               {profileFirstName && profileFirstName} {profileLastName && profileLastName}
             </p>
             <p className="text-[24px] font-bold text-[#B8B8B8] mt-1">
-              {profileFirstName && profileFirstName}
+              {username && username}
             </p>
-            <div className="bg-[#282828] w-full mx-[20px] lg:mx-[30px] h-[257px] lg:h-[283px] rounded-[10px] my-6 overflow-y-auto p-[20px]">
+            <div className="bg-[#282828] w-full mx-[20px] lg:mx-[30px] min-h-[300px] lg:h-[283px] rounded-[10px] my-6 p-[20px] lg:overflow-y-auto">
               <p className="text-[#B8B8B8] text-[24px] font-semibold">
                 Contact
               </p>
@@ -99,7 +101,7 @@ const ProfilePageComponent = (prop: {
               <p className="text-[#B8B8B8] text-[24px] font-semibold mt-6">
                 Bio
               </p>
-              <p className="text-white text-[20px] font-medium">{profileBio && profileBio}</p>
+              <p className="text-white text-[20px] font-medium break-words">{profileBio && profileBio}</p>
             </div>
             <div className="flex justify-center mb-6 w-full">
               <button
