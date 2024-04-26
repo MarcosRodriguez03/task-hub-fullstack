@@ -90,7 +90,7 @@ const MessagePage = () => {
                 pageProfile={setProfilePage}
                 profilePicture={homeLogo}
             />
-            <div className={`${toggleNotifications} absolute right-[105px] w-[520px] z-30 px-[20px] bg-[#181818] border-[#808080] border-[1px] rounded-[10px] drop-shadow-2xl shadow-2xl h-[85vh] overflow-y-auto -mt-1`}>
+            <div className={`${toggleNotifications} absolute right-[105px] w-[520px] z-30 px-[20px] bg-[#181818] border-[#808080] border-[1px] rounded-[10px] drop-shadow-2xl shadow-2xl h-[85vh] overflow-y-auto -mt-0.5`}>
                 <h1 className="text-white font-semibold text-[25px] mt-4 mb-3">Notifications</h1>
                 <hr/>
                 <NotificationBoxComponent message="Tyler sent a message" />
@@ -161,7 +161,7 @@ const MessagePage = () => {
                     <div className={`${addCol} col-span-12 lg:col-span-9 overflow-hidden  lg:block`}>
                         <div className="h-full flex  flex-col">
 
-                            <div className="overflow-auto flex-1">
+                            <div className="bg-black overflow-auto flex-1">
 
                                 <div className="flex flex-col-reverse p-[15px] lg:p-[30px]">
 
