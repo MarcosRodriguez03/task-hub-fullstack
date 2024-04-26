@@ -38,16 +38,6 @@ const MessagePage = () => {
         }
     }
 
-
-    useEffect(()=>{
-        const populateData = async()=>{
-            let input = getLocalStorage()
-            let info = await getLoggedInUserData(input)
-            console.log(info);
-        }
-        populateData()
-    })
-
     const [mobileTitle, setMobileTitle] = useState<string>("Messages");
     const [toggleNotifications, setToggleNotifications] =
         useState<string>("hidden lg:hidden");
@@ -58,6 +48,28 @@ const MessagePage = () => {
     const [profilePage, setProfilePage] = useState<string>("hidden lg:hidden");
     const [messagesPage, setMessagesPage] = useState<string>("block lg:block");
     const [taskPage, setTaskPage] = useState<string>("block lg:block");
+
+    useEffect(()=>{
+        const populateData = async()=>{
+            let input = getLocalStorage()
+            let info = await getLoggedInUserData(input)
+            console.log(info);
+        }
+        populateData()
+
+        // const handleClickOutside = () => {
+        //     if(toggleNotifications == "hidden lg:block"){
+        //         setToggleNotifications("hidden lg:hidden"); 
+        //     }
+        // }
+        // document.addEventListener('mousedown', handleClickOutside);
+
+        // return () => {
+        //     document.removeEventListener('mousedown', handleClickOutside);
+        // }
+    }, [])
+
+
     return (
         <div>
             <div className={profilePage}>
@@ -78,8 +90,8 @@ const MessagePage = () => {
                 pageProfile={setProfilePage}
                 profilePicture={homeLogo}
             />
-            <div className={`${toggleNotifications} absolute right-[110px] z-30 px-[20px] bg-[#181818] border-[#808080] border-[1px] rounded-[10px] drop-shadow-md h-[85vh] overflow-y-auto`}>
-                <h1 className="text-white font-semibold text-[25px] my-5">Notifications</h1>
+            <div className={`${toggleNotifications} absolute right-[105px] w-[520px] z-30 px-[20px] bg-[#181818] border-[#808080] border-[1px] rounded-[10px] drop-shadow-2xl shadow-2xl h-[85vh] overflow-y-auto -mt-1`}>
+                <h1 className="text-white font-semibold text-[25px] mt-4 mb-3">Notifications</h1>
                 <hr/>
                 <NotificationBoxComponent message="Tyler sent a message" />
                 <NotificationBoxComponent message="Tyler sent a message" />
@@ -122,7 +134,7 @@ const MessagePage = () => {
                 <div className={`absolute lg:top-[70px] top-[80px] lg:bottom-0 bottom-[80px] w-full   grid grid-cols-12`}>
                     <div className={`${removeCol} col-span-12 lg:col-span-3 bg-[#181818] h-full  border-r border-[#525252] lg:block `} >
                         <div className="flex items-center  py-[25px] border-b px-[25px]  border-[#525252] ">
-                            <input className="w-full bg-[#282828] border  rounded-[10px] border-[#707070] text-[#808080]" type="text" />
+                            <input className="w-full bg-[#282828] border h-[31px] rounded-[10px] border-[#707070] text-[#808080]" type="text" />
                             <Image className="cursor-pointer h-[40px] w-[40px]" alt="src" src={plusFill} />
                         </div>
                         <div className=" absolute  top-[93px] w-full lg:w-1/4 bottom-0 overflow-auto">
