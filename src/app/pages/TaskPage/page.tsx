@@ -47,6 +47,10 @@ const TaskPage = () => {
         setAddUser('block');
     }
 
+    const handleNothing = () => {
+
+    }
+
 
 
     useEffect(() => {
@@ -92,6 +96,7 @@ const TaskPage = () => {
             {/* <AddUserComponent /> */}
 
             <NavBarComponent title={mobileTitle}
+                closeTop={handleNothing}
                 setTitle={setMobileTitle}
                 logo={homelogo}
                 logoText=""
@@ -105,9 +110,9 @@ const TaskPage = () => {
                 profilePicture={homelogo}
             />
 
-            <div className={`${toggleNotifications} absolute right-[110px] z-30 px-[20px] bg-[#181818] border-[#808080] border-[1px] rounded-[10px] drop-shadow-md h-[85vh] overflow-y-auto`}>
-                <h1 className="text-white font-semibold text-[25px] my-5">Notifications</h1>
-                <hr />
+            <div className={`${toggleNotifications} absolute right-[105px] w-[520px] z-30 px-[20px] bg-[#181818] border-[#808080] border-[1px] rounded-[10px] drop-shadow-2xl shadow-2xl h-[85vh] overflow-y-auto -mt-0.5`}>
+                <h1 className="text-white font-semibold text-[25px] mt-4 mb-3">Notifications</h1>
+                <hr/>
                 <NotificationBoxComponent message="Tyler sent a message" />
                 <NotificationBoxComponent message="Tyler sent a message" />
                 <NotificationBoxComponent message="Tyler sent a message" />
