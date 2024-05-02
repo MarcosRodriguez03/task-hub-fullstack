@@ -21,7 +21,7 @@ const ProfilePageComponent = (prop: {
   const [profileLastName, setProfileLastName] = useState<string>("user")
   const [profileContact, setProfileContact] = useState<string>("contact")
   const [profileBio, setProfileBio] = useState<string>("")
-  const [profileImage, setProfileImage] = useState<string>("user")
+  const [profileImage, setProfileImage] = useState<string>("");
 
 
   const { pageTwoName } = useAppContext();
@@ -39,6 +39,8 @@ const ProfilePageComponent = (prop: {
       setProfileContact(fullProfile[0].contact)
       setProfileBio(fullProfile[0].bio)
       setProfileImage(fullProfile[0].image)
+
+
 
 
     }
@@ -84,7 +86,15 @@ const ProfilePageComponent = (prop: {
 
         <div className=" w-full lg:w-[604px] absolute right-0 z-20 top-[80px] bottom-[80px] lg:bottom-0  lg:border-l lg:border-[#808080] bg-[#080808] lg:bg-[#181818] p-[20px] lg:p-[30px] overflow-y-auto">
           <div className="flex justify-center flex-col items-center mt-[25px]">
-            <Image className=" w-[150px] h-[150px]" alt="pfp" src={emptyPfp} />
+
+            <div className="w-[150px] h-[150px] relative">
+              <Image
+                fill
+                alt="pfp"
+                src={profileImage ? profileImage : ""}
+              />
+            </div>
+
             <p className=" mt-[25px] text-[28px] font-bold text-white">
               {profileFirstName && profileFirstName} {profileLastName && profileLastName}
             </p>

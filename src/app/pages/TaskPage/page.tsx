@@ -21,7 +21,8 @@ import CreateTaskComponent from '@/app/component/CreateTaskComponent';
 import newData from '@/app/TestTask.json'
 import { getLocalStorageProjectId } from '@/utils/localStorage';
 import { ITask } from '@/interface/interface';
-import { CreateTask, GetTasksByProjectID } from '@/utils/DataService';
+import { CreateTask, GetTasksByProjectID, GetUsersByProjectId, getEntireUserProfile, getEntireUserProfileById } from '@/utils/DataService';
+import { useAppContext } from '@/Context/Context';
 
 
 
@@ -40,7 +41,11 @@ const TaskPage = () => {
     const [createTask, setCreateTask] = useState<string>('hidden');
     const [dummyData, setDummyData] = useState<any>(newData)
     const [fullArr, setFullArr] = useState<any[]>([])
+    const [userArr, setUserArr] = useState<any[]>([])
+    const [statusSet, setStatusSet] = useState<string>("Ideas")
 
+
+    const data = useAppContext();
 
 
     const handleAddUser = () => {
@@ -50,6 +55,11 @@ const TaskPage = () => {
     const handleNothing = () => {
 
     }
+    // GetUsersByProjectId
+
+    const fetchProfileInfo = async (arr: any) => {
+
+    }
 
 
 
@@ -57,18 +67,12 @@ const TaskPage = () => {
         const fetchData = async () => {
             try {
                 let currentProjectId = getLocalStorageProjectId();
-                console.log(currentProjectId + " this is the task page");
 
-                // Fetch tasks data asynchronously
                 let taskObjArr = await GetTasksByProjectID(currentProjectId);
 
-                // Update the state with the fetched tasks data
                 setFullArr(taskObjArr);
 
-                // Now the state has been updated, you can use it
-                console.log("Full array:", taskObjArr);
             } catch (error) {
-                // Handle any errors that occur during the fetch operation
                 console.error("Error fetching tasks:", error);
             }
         };
@@ -79,8 +83,41 @@ const TaskPage = () => {
 
     }, []);
 
+    useEffect(() => {
+        const fetchUsers = async () => {
+
+            // let user: any = await getEntireUserProfile("tyler")
+            // console.log(user && user[0])
+            let currentProjectId = getLocalStorageProjectId();
+            let UsersByProjectId = await GetUsersByProjectId(currentProjectId);
+            setUserArr(UsersByProjectId);
+            // console.log(UsersByProjectId)
+            let person = await getEntireUserProfileById(UsersByProjectId[0].userID)
+            console.log(person)
+
+
+
+
+            // let users: any[] = [];
+            // for (let i = 0; i < UsersByProjectId.length; i++) {
+            //     let projectUsers = await getEntireUserProfile(UsersByProjectId[i]);
+            //     console.log(projectUsers);
+            //     users.push(projectUsers);
+            // }
+            // setUserArr(users);
+            // console.log(users);
+            // return userArr;
+
+        }
+        fetchUsers();
+
+    }, [data.pageTwoName3])
+
     return (
+
         <div>
+
+
             <div className={createTask}>
                 <CreateTaskComponent setCreateTask={setCreateTask} />
             </div>
@@ -90,10 +127,6 @@ const TaskPage = () => {
             <div className={profilePage}>
                 <ProfilePageComponent pageProfile={setProfilePage} />
             </div>
-            {/* <div className='w-full h-[80px] lg:h-[70px] bg-white'>header</div> */}
-            {/* <AddUserComponent /> */}
-            {/* <CreateTaskComponent /> */}
-            {/* <AddUserComponent /> */}
 
             <NavBarComponent title={mobileTitle}
                 closeTop={handleNothing}
@@ -112,7 +145,7 @@ const TaskPage = () => {
 
             <div className={`${toggleNotifications} absolute right-[105px] w-[520px] z-30 px-[20px] bg-[#181818] border-[#808080] border-[1px] rounded-[10px] drop-shadow-2xl shadow-2xl h-[85vh] overflow-y-auto -mt-0.5`}>
                 <h1 className="text-white font-semibold text-[25px] mt-4 mb-3">Notifications</h1>
-                <hr/>
+                <hr />
                 <NotificationBoxComponent message="Tyler sent a message" />
                 <NotificationBoxComponent message="Tyler sent a message" />
                 <NotificationBoxComponent message="Tyler sent a message" />
@@ -135,10 +168,31 @@ const TaskPage = () => {
                                 className='ml-[20px] lg:ml-0 lg:mt-[20px] w-[34px] h-[34px] cursor-pointer' alt='add' src={addPeople} />
                         </>
 
-                        <>
-                            <Image className='  ml-[20px] lg:ml-0  lg:mt-[25px] w-[34px] h-[34px]' alt='pfp' src={greenPlus} />
-                            <p className='text-[20px] text-center text-white hidden lg:block'>Tyler</p>
-                        </>
+
+
+                        {userArr && userArr.map(async (user) => {
+                            console.log(user);
+                            let person: any = await getEntireUserProfileById(user.userID);
+                            // return <>{console.log(person && person)}</>
+                            return (
+                                <>
+                                    <div onClick={handleNothing} className=' ' >
+                                        <div className=' mx-auto  relative h-[34px] w-[34px]'>
+                                            {
+                                                person.image && person.image != null ? <Image fill className='    w-[34px] h-[34px] rounded-[50px]' alt='pfp' src={person.image && person.image} /> : <Image src={emptyPfp} alt='default pfp' />
+                                            }
+                                        </div>
+
+                                        <p className='w-[100px] text-[20px] text-center text-white hidden lg:block'>{person && person.username}</p>
+                                    </div>
+
+                                </>
+                            );
+                        })}
+
+
+
+
 
 
 
@@ -223,13 +277,19 @@ const TaskPage = () => {
 
                         <div className='lg:hidden'>
                             <div className='grid grid-cols-3 gap-x-[20px] px-[20px] mt-[20px]'>
-                                <div className='cursor-pointer bg-[#CB76F2] h-[50px] flex items-center rounded-[10px] justify-center'>
+                                <div
+                                    onClick={() => setStatusSet("Ideas")}
+                                    className='cursor-pointer bg-[#CB76F2] h-[50px] flex items-center rounded-[10px] justify-center'>
                                     <p className='text-[16px] text-white font-semibold' >Ideas</p>
                                 </div>
-                                <div className='cursor-pointer bg-[#04BAAD] h-[50px] flex items-center rounded-[10px] justify-center'>
+                                <div
+                                    onClick={() => setStatusSet("In progress")}
+                                    className='cursor-pointer bg-[#04BAAD] h-[50px] flex items-center rounded-[10px] justify-center'>
                                     <p className='text-[16px] text-white font-semibold' >In Progress</p>
                                 </div>
-                                <div className='cursor-pointer bg-[#EC5A52] h-[50px] flex items-center rounded-[10px] justify-center'>
+                                <div
+                                    onClick={() => setStatusSet("Done")}
+                                    className='cursor-pointer bg-[#EC5A52] h-[50px] flex items-center rounded-[10px] justify-center'>
                                     <p className='text-[16px] text-white font-semibold' >Done</p>
                                 </div>
 
@@ -246,22 +306,13 @@ const TaskPage = () => {
 
 
                         <div className='lg:hidden  overflow-y-auto absolute top-[162px] left-0 right-0 bottom-0 px-[20px] lg:bottom-[80px]   '>
-                            {/* <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
-                            <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
-                            <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
-                            <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
-                            <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
-                            <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
-                            <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
-                            <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
-                            <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
-                            <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
-                            <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
-                            <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
-                            <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
-                            <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} />
-                            <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} /> */}
+
                             Content
+                            {fullArr && fullArr.map((task: ITask) => (
+                                task.status === statusSet && (
+                                    <TaskSqaureComponent key={task.id} taskName={task.taskName} priority={task.priority} ID={task.userID} />
+                                )
+                            ))}
                         </div>
 
 
@@ -280,10 +331,10 @@ const TaskPage = () => {
 
                     </div>
                 </div>
-            </div>
+            </div >
 
             {/* <div className='bg-white w-full h-[80px] absolute bottom-0'>footer</div> */}
-            <div className={notificationsPageClick}>
+            < div className={notificationsPageClick} >
                 <div className="mx-[20px] mb-[100px]">
                     <NotificationBoxComponent message="Tyler sent a message" />
                     <NotificationBoxComponent message="Tyler sent a message" />
@@ -301,9 +352,9 @@ const TaskPage = () => {
                     <NotificationBoxComponent message="Tyler sent a message" />
                     <NotificationBoxComponent message="Tyler sent a message" />
                 </div>
-            </div>
+            </div >
 
-        </div>
+        </div >
 
 
 

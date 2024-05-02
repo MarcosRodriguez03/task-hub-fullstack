@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { CreateTask } from '@/utils/DataService';
 import { ITask } from '@/interface/interface';
 import { getLocalStorage, getLocalStorageProjectId } from '@/utils/localStorage';
+import { useAppContext } from '@/Context/Context';
 
 
 const CreateTaskComponent = (prop: { setCreateTask: (input: string) => void; }) => {
@@ -20,14 +21,17 @@ const CreateTaskComponent = (prop: { setCreateTask: (input: string) => void; }) 
     const [usePriority, setUsePriority] = useState<string>("Low Urgency");
     const [useStatus, setUseStatus] = useState<string>("Ideas");
     const [useIsDeleted, setUseIsDeleted] = useState<boolean>(false)
+    const [isTrue, setIsTrue] = useState<boolean>(false);
 
 
-
+    const data = useAppContext()
 
     const [open, setOpen] = useState("hidden");
 
     const handleCreateTask = async () => {
         await CreateTask(dummy)
+        setIsTrue(!isTrue)
+        data.setPageTwoName3(`${isTrue}`)
     }
     const handleUserIDChange = (e: any) => {
         serUseUserID(e.target.value);

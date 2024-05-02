@@ -1,7 +1,7 @@
-import { IProject, ITask, IToken, IUserData, IUserInfo, } from "@/interface/interface";
+import { IProject, ITask, IToken, IUserData, IUserInfo, IUserProfile, } from "@/interface/interface";
 
 
-const url = "https://taskhubbackenddb.azurewebsites.net";
+const url = "https://taskhubbackendbackup.azurewebsites.net";
 let userData: IUserData
 
 export const createAccount = async (createdUser: IUserInfo) => {
@@ -51,12 +51,6 @@ export const getLoggedInUserData = async (username: string) => {
     return userData;
 }
 
-export const getEntireUserProfile = async (username: string) => {
-    const res = await fetch(url + "/User/GetProfileByUserId/" + username);
-    const data = await res.json();
-    userData = data;
-    return userData;
-}
 
 export const loggedInData = () => {
     return userData;
@@ -81,23 +75,65 @@ export const getBlogItemsByUserId = async (userId: number) => {
 }
 
 
-export const publishEditUserInfo = async (id: number, firstName: string, lastName: string, contact: string, bio: string, image: string) => {
+// export const publishEditUserInfo = async (id: number, firstName: string, lastName: string, contact: string, bio: string, image: string) => {
+//     const res = await fetch(url + `/User/UpdateUserInfo/${id}/${firstName}/${lastName}/${contact}/${bio}/${image}`, {
+//         method: "PUT",
+//         headers: {
+//             "Content-Type": 'application/json'
+//         }
 
-    const res = await fetch(url + `/User/UpdateUserInfo/${id}/${firstName}/${lastName}/${contact}/${bio}/${image}`, {
+//     });
+//     if (!res.ok) {
+//         const message = "An Error has occured" + res.status;
+//         throw new Error(message);
+//     }
+//     const data = await res.json();
+//     return data;
+
+// }
+
+
+
+
+
+
+export const publishEditUserInfo = async (profileData: IUserProfile) => {
+    const res = await fetch(url + "/User/UpdateUserInfo", {
         method: "PUT",
         headers: {
-            "Content-Type": 'application/json'
-        }
-
+            'Content-Type': "application/json"
+        },
+        body: JSON.stringify(profileData)
     });
+
     if (!res.ok) {
-        const message = "An Error has occured" + res.status;
+        const message = "An error has Occurred " + res.status;
         throw new Error(message);
     }
+
     const data = await res.json();
     return data;
 
 }
+
+// export const updateProfileItem = async (profileData: IUserData) => {
+//     const res = await fetch(url + "/MT_Profile/UpdateProfileItem", {
+//         method: "PUT",
+//         headers: {
+//             'Content-Type': "application/json"
+//         },
+//         body: JSON.stringify(profileData)
+//     });
+
+//     if (!res.ok) {
+//         const message = "An error has Occurred " + res.status;
+//         throw new Error(message);
+//     }
+
+//     const data = await res.json();
+//     return data;
+// }
+
 
 export const createProject = async (newProject: IProject) => {
     const res = await fetch(url + `/Project/CreateProject`, {
@@ -147,6 +183,7 @@ export const GetAllProjects = async () => {
     return data;
 }
 
+
 export const GetAllProjectsUserIsIn = async (userID: number) => {
     const res = await fetch(url + `/Project/GetAllProjectsUserIsIn/${userID}`)
     let data = await res.json();
@@ -177,4 +214,23 @@ export const CreateTask = async (TaskObj: ITask) => {
     const data = await res.json();
     console.log(data);
     return data
+}
+
+export const GetUsersByProjectId = async (projectID: number) => {
+    const res = await fetch(url + `/Project/GetAllUsersWithinProject/${projectID}`)
+    let data = await res.json();
+    return data;
+}
+
+export const getEntireUserProfile = async (username: string) => {
+    const res = await fetch(url + "/User/GetProfileByUsername/" + username);
+    const data = await res.json();
+    userData = data;
+    return userData;
+}
+export const getEntireUserProfileById = async (userId: number) => {
+    const res = await fetch(url + "/User/GetProfileByUserID/" + userId);
+    const data = await res.json();
+    userData = data;
+    return userData;
 }
