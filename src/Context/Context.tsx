@@ -7,6 +7,8 @@ interface IContextValue {
     setPageTwoName: (pageTwoName: string) => void
     pageTwoName2: string
     setPageTwoName2: (pageTwoName: string) => void
+    pageTwoName3: string
+    setPageTwoName3: (pageTwoName: string) => void
 
 }
 
@@ -16,9 +18,10 @@ export const AppWrapper = ({ children, }: Readonly<{ children: React.ReactNode; 
 
     const [pageTwoName, setPageTwoName] = useState<string>("");
     const [pageTwoName2, setPageTwoName2] = useState<string>("");
+    const [pageTwoName3, setPageTwoName3] = useState<string>("");
 
     return (
-        <Context.Provider value={{ pageTwoName, setPageTwoName, setPageTwoName2, pageTwoName2 }}>
+        <Context.Provider value={{ pageTwoName, setPageTwoName, setPageTwoName2, pageTwoName2, pageTwoName3, setPageTwoName3 }}>
             {children}
         </Context.Provider>
     )

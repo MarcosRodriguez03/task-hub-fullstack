@@ -8,6 +8,8 @@ import { getLoggedInUserData, publishEditUserInfo } from "@/utils/DataService";
 import { getLocalStorage } from "@/utils/localStorage";
 import ProfilePageComponent from "../components/ProfilePageComponent";
 import { useAppContext } from "@/Context/Context";
+import { IUserInfo, IUserProfile } from "@/interface/interface";
+import greenPlus from "@/assets/greenPlus.png"
 
 
 
@@ -20,7 +22,7 @@ const EditProfileComponent = (prop: {
   const [second, setSecond] = useState<string>("");
   const [contact, setContact] = useState<string>("");
   const [bio, setBio] = useState<string>("");
-  const [image, setImage] = useState<any>("");
+  const [image, setImage] = useState<any>(greenPlus);
   const [isTrue, setIsTrue] = useState<boolean>(true)
   const [profilePage, setProfilePage] = useState<string>('hidden');
 
@@ -55,11 +57,20 @@ const EditProfileComponent = (prop: {
     fileInputRef.current.click();
   }
   const handleEditProfile = async () => {
-    await publishEditUserInfo(inputID, first, second, contact, bio, "image");
+    await publishEditUserInfo(profileObject);
     setIsTrue(!isTrue)
     data.setPageTwoName(`${isTrue}`)
 
 
+  }
+  const profileObject: IUserProfile = {
+    id: inputID,
+    firstName: first,
+    lastName: second,
+    contact: contact,
+    bio: bio,
+    image: image,
+    username: data.pageTwoName
   }
 
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,10 +79,11 @@ const EditProfileComponent = (prop: {
     if (file) {
       let reader = new FileReader();
       reader.onload = () => {
-        console.log(reader.result);
         setImage(reader.result as string); // Set image state with selected file data (converted to Base64 string)
+
       }
       reader.readAsDataURL(file); // Read file as data URL
+
     } else {
       console.error("No file selected");
     }

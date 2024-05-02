@@ -1,3 +1,4 @@
+import { StaticImageData } from "next/image";
 
 //get our token 
 export interface IToken {
@@ -15,6 +16,26 @@ export interface IUserInfo {
 export interface IUserData {
     userId: number
     publisherName: string
+
+    id: number
+    firstName: string
+    lastName: string
+    contact: string
+    bio: string
+    image: string
+    username: string
+    salt: string
+    hash: string
+
+}
+export interface IUserProfile {
+    id: number
+    firstName: string
+    lastName: string
+    contact: string
+    bio: string
+    image: string
+    username: string
 }
 
 
