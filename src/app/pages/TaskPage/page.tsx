@@ -19,7 +19,7 @@ import ProfilePageComponent from '@/app/components/ProfilePageComponent';
 import AddUserComponent from '@/app/component/AddUserComponent';
 import CreateTaskComponent from '@/app/component/CreateTaskComponent';
 import newData from '@/app/TestTask.json'
-import { getLocalStorageProjectId } from '@/utils/localStorage';
+import { getLocalStorageProjectId, saveLocalStorage } from '@/utils/localStorage';
 import { ITask } from '@/interface/interface';
 import { CreateTask, GetTasksByProjectID, GetUsersByProjectId, getEntireUserProfile, getEntireUserProfileById } from '@/utils/DataService';
 import { useAppContext } from '@/Context/Context';
@@ -43,6 +43,8 @@ const TaskPage = () => {
     const [fullArr, setFullArr] = useState<any[]>([])
     const [userArr, setUserArr] = useState<any[]>([])
     const [statusSet, setStatusSet] = useState<string>("Ideas")
+    const [isTrue, setIsTrue] = useState<boolean>(true)
+    const [isCreate, setIsCreate] = useState<boolean>(true)
 
 
     const data = useAppContext();
@@ -55,11 +57,13 @@ const TaskPage = () => {
     const handleNothing = () => {
 
     }
+    const giveId = (num: string) => {
+        saveLocalStorage(num)
+    }
+
+
     // GetUsersByProjectId
 
-    const fetchProfileInfo = async (arr: any) => {
-
-    }
 
 
 
@@ -81,33 +85,19 @@ const TaskPage = () => {
         // This ensures it runs once when the component initially renders
         fetchData();
 
-    }, []);
+    }, [isTrue, data.pageTwoName3]);
 
     useEffect(() => {
         const fetchUsers = async () => {
 
-            // let user: any = await getEntireUserProfile("tyler")
-            // console.log(user && user[0])
+
+
             let currentProjectId = getLocalStorageProjectId();
             let UsersByProjectId = await GetUsersByProjectId(currentProjectId);
             setUserArr(UsersByProjectId);
             // console.log(UsersByProjectId)
             let person = await getEntireUserProfileById(UsersByProjectId[0].userID)
             console.log(person)
-
-
-
-
-            // let users: any[] = [];
-            // for (let i = 0; i < UsersByProjectId.length; i++) {
-            //     let projectUsers = await getEntireUserProfile(UsersByProjectId[i]);
-            //     console.log(projectUsers);
-            //     users.push(projectUsers);
-            // }
-            // setUserArr(users);
-            // console.log(users);
-            // return userArr;
-
         }
         fetchUsers();
 
@@ -119,8 +109,10 @@ const TaskPage = () => {
 
 
             <div className={createTask}>
-                <CreateTaskComponent setCreateTask={setCreateTask} />
+                <CreateTaskComponent taskId={0} boolDetermine={isCreate} setCreateTask={setCreateTask} />
             </div>
+
+
             <div className={addUser}>
                 <AddUserComponent setAddUser={setAddUser} />
             </div>
@@ -171,13 +163,13 @@ const TaskPage = () => {
 
 
                         {userArr && userArr.map(async (user) => {
-                            console.log(user);
+
                             let person: any = await getEntireUserProfileById(user.userID);
                             // return <>{console.log(person && person)}</>
                             return (
                                 <>
                                     <div onClick={handleNothing} className=' ' >
-                                        <div className=' mx-auto  relative h-[34px] w-[34px]'>
+                                        <div className=' mt-3 mx-auto  relative h-[34px] w-[34px]'>
                                             {
                                                 person.image && person.image != null ? <Image fill className='    w-[34px] h-[34px] rounded-[50px]' alt='pfp' src={person.image && person.image} /> : <Image src={emptyPfp} alt='default pfp' />
                                             }
@@ -207,6 +199,7 @@ const TaskPage = () => {
                                     <Image
                                         onClick={() => {
                                             setCreateTask('block')
+                                            setIsCreate(true)
                                         }}
                                         alt="add" className='w-[30px] h-[30px] cursor-pointer' src={purplePlus} />
                                 </div>
@@ -216,6 +209,7 @@ const TaskPage = () => {
                                     <Image
                                         onClick={() => {
                                             setCreateTask('block')
+                                            setIsCreate(true)
                                         }}
                                         alt="add" className='w-[30px] h-[30px] cursor-pointer' src={greenPlus} />
                                 </div>
@@ -225,6 +219,7 @@ const TaskPage = () => {
                                     <Image
                                         onClick={() => {
                                             setCreateTask('block')
+                                            setIsCreate(true)
                                         }}
                                         alt="add" className='w-[30px] h-[30px] cursor-pointer' src={redPlus} />
                                 </div>
@@ -235,15 +230,12 @@ const TaskPage = () => {
                         {/* desktop task */}
                         <div className='hidden lg:block'>
                             <div className='  grid grid-cols-3 px-[30px] gap-[30px] absolute top-[109px]  bottom-[80px] w-full'>
-
                                 <div className=' w-full overflow-auto '>
-                                    {/* <TaskSqaureComponent pfp={greenPlus} taskName='name' priority={highWarning} /> */}
-
-
-                                    <p className='text-white'>left input</p>
                                     {fullArr && fullArr.map((task: ITask) => (
                                         task.status === "Ideas" && (
-                                            <TaskSqaureComponent key={task.id} taskName={task.taskName} priority={task.priority} ID={task.userID} />
+                                            <div key={task.id} >
+                                                <TaskSqaureComponent taskId={task.id} taskName={task.taskName} priority={task.priority} ID={task.userID} />
+                                            </div>
                                         )
                                     ))}
 
@@ -252,11 +244,13 @@ const TaskPage = () => {
 
                                 <div className=' w-full  overflow-auto'>
 
-                                    <p className='text-white'> middle input</p>
+                                    {/* <p className='text-white'> middle input</p> */}
 
                                     {fullArr && fullArr.map((task: ITask) => (
                                         task.status === "In progress" && (
-                                            <TaskSqaureComponent key={task.id} taskName={task.taskName} priority={task.priority} ID={task.userID} />
+                                            <div key={task.id} >
+                                                <TaskSqaureComponent taskId={task.id} taskName={task.taskName} priority={task.priority} ID={task.userID} />
+                                            </div>
                                         )
                                     ))}
 
@@ -264,11 +258,14 @@ const TaskPage = () => {
 
                                 <div className=' w-full overflow-auto '>
 
-                                    <p className='text-white'>  right input</p>
+                                    {/* <p className='text-white'>  right input</p> */}
 
                                     {fullArr && fullArr.map((task: ITask) => (
                                         task.status === "Done" && (
-                                            <TaskSqaureComponent key={task.id} taskName={task.taskName} priority={task.priority} ID={task.userID} />
+                                            <div key={task.id} >
+                                                <TaskSqaureComponent taskId={task.id} taskName={task.taskName} priority={task.priority} ID={task.userID} />
+                                            </div>
+
                                         )
                                     ))}
                                 </div>
@@ -296,6 +293,7 @@ const TaskPage = () => {
                                 <div
                                     onClick={() => {
                                         setCreateTask('block')
+                                        setIsCreate(true)
                                     }}
                                     className='cursor-pointer mt-[20px] col-span-3 h-[50px] bg-[#181818] border border-[#525252] rounded-[10px] flex items-center justify-between'>
                                     <p className='ml-[25px] text-[20px] text-white'>Create Task</p>
@@ -310,7 +308,7 @@ const TaskPage = () => {
                             Content
                             {fullArr && fullArr.map((task: ITask) => (
                                 task.status === statusSet && (
-                                    <TaskSqaureComponent key={task.id} taskName={task.taskName} priority={task.priority} ID={task.userID} />
+                                    <TaskSqaureComponent taskId={task.id} key={task.id} taskName={task.taskName} priority={task.priority} ID={task.userID} />
                                 )
                             ))}
                         </div>

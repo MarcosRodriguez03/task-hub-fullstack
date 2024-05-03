@@ -91,7 +91,7 @@ const ProfilePageComponent = (prop: {
               <Image
                 fill
                 alt="pfp"
-                src={profileImage ? profileImage : ""}
+                src={profileImage ? profileImage : emptyPfp}
               />
             </div>
 
