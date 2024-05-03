@@ -168,8 +168,8 @@ const TaskPage = () => {
                             // return <>{console.log(person && person)}</>
                             return (
                                 <>
-                                    <div onClick={handleNothing} className=' ' >
-                                        <div className=' mt-3 mx-auto  relative h-[34px] w-[34px]'>
+                                    <div onClick={handleNothing} className=' lg:mt-3' >
+                                        <div className='  mx-auto  relative h-[34px] w-[34px]'>
                                             {
                                                 person.image && person.image != null ? <Image fill className='    w-[34px] h-[34px] rounded-[50px]' alt='pfp' src={person.image && person.image} /> : <Image src={emptyPfp} alt='default pfp' />
                                             }
