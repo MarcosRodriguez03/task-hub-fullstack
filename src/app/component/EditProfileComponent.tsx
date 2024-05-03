@@ -44,11 +44,6 @@ const EditProfileComponent = (prop: {
 
     }
     startEditProfile();
-    console.log(first)
-    console.log(second)
-    console.log(contact)
-    console.log(bio)
-    console.log(image)
   }, [first])
 
   const fileInputRef: any = React.createRef();
@@ -75,6 +70,15 @@ const EditProfileComponent = (prop: {
 
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+
+    const maxSizeInBytes = .5 * 1024 * 1024; // 5MB
+    if (file && file.size > maxSizeInBytes) {
+      alert('File size exceeds the limit (5MB). Please choose a smaller file.');
+      // Reset the input to clear the selected file
+      return e.target.value = '';
+    }
+
+
     console.log(file);
     if (file) {
       let reader = new FileReader();
@@ -90,8 +94,14 @@ const EditProfileComponent = (prop: {
   }
 
   return (
-    <div>
-      <div className="fixed inset-0 bg-black bg-opacity-80 z-50"></div>
+
+
+
+    <div className="min-h-screen min-w-screen">
+
+
+
+      <div className="fixed  inset-0 bg-black bg-opacity-80 z-50"></div>
       <div className="fixed inset-0 flex items-center justify-center z-50">
         <div className=" bg-[#181818] border-[#808080] border-[1px] mx-[10px] w-full lg:w-[941px] p-[30px] h-[80vh] lg:h-[650px] rounded-[10px] shadow-md overflow-auto">
           <p className="hidden lg:block font-semibold text-[30px] text-white leading-[48px] mb-[20px]">
@@ -124,7 +134,7 @@ const EditProfileComponent = (prop: {
               <div>
 
 
-                <FileInput ref={fileInputRef} onChange={handleImage} accept='image/png, image/jpg,' id="Pictures" required placeholder='Choose img' style={{ display: 'none' }} />
+                <FileInput ref={fileInputRef} onChange={handleImage} accept='image/png, image/jpg,' id="Pictures" placeholder='Choose img' style={{ display: 'none' }} />
 
                 <div className="grid justify-center">
 

@@ -5,6 +5,7 @@ import Image from "next/image";
 import removeIcon from "@/assets/removeIcon.png";
 import { useRouter } from "next/navigation";
 import { saveLocalStorage, saveLocalStorageProjectId } from "@/utils/localStorage";
+import { useAppContext } from "@/Context/Context";
 
 
 const ProjectCardComponent = (prop: {
@@ -13,13 +14,14 @@ const ProjectCardComponent = (prop: {
   taskPage: (input: string) => void;
   projectId: number
 }) => {
-
+  const data = useAppContext()
   let currentProjectId = prop.projectId
 
 
   let router = useRouter();
 
   const GoToTask = () => {
+    data.setCurrentProjectId(currentProjectId)
     router.push("./TaskPage")
   }
 

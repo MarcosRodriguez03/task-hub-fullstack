@@ -4,15 +4,17 @@ import { Dropdown } from "flowbite-react";
 import greenPlus from '@/assets/greenPlus.png'
 import highWarning from '@/assets/highWarning.png'
 import Image from 'next/image';
-import { CreateTask } from '@/utils/DataService';
+import { CreateTask, EditTask, GetUsersByProjectId, getEntireUserProfileById } from '@/utils/DataService';
 import { ITask } from '@/interface/interface';
-import { getLocalStorage, getLocalStorageProjectId } from '@/utils/localStorage';
+import { getLocalStorage, getLocalStorageProjectId, getLocalStorageTaskId } from '@/utils/localStorage';
 import { useAppContext } from '@/Context/Context';
 
 
-const CreateTaskComponent = (prop: { setCreateTask: (input: string) => void; }) => {
+const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, setCreateTask: (input: string) => void; }) => {
 
     const [useProjectID, setUseProjectID] = useState<number>(0);
+    const [useTaskId, setTaskId] = useState<number>(0);
+
     const [useTaskName, setUseTaskName] = useState<string>("");
     const [useTaskDescription, setUseTaskDescription] = useState<string>("");
     const [useTaskDuration, setUseTaskDuration] = useState<string>("")
@@ -22,6 +24,8 @@ const CreateTaskComponent = (prop: { setCreateTask: (input: string) => void; }) 
     const [useStatus, setUseStatus] = useState<string>("Ideas");
     const [useIsDeleted, setUseIsDeleted] = useState<boolean>(false)
     const [isTrue, setIsTrue] = useState<boolean>(false);
+    const [relationTable, setRelationTable] = useState<any>();
+    const [userOptions, setUserOptions] = useState<any>([]);
 
 
     const data = useAppContext()
@@ -29,9 +33,16 @@ const CreateTaskComponent = (prop: { setCreateTask: (input: string) => void; }) 
     const [open, setOpen] = useState("hidden");
 
     const handleCreateTask = async () => {
-        await CreateTask(dummy)
-        setIsTrue(!isTrue)
-        data.setPageTwoName3(`${isTrue}`)
+
+        if (prop.boolDetermine == true) {
+            await CreateTask(dummy)
+            setIsTrue(!isTrue)
+        } else {
+            await EditTask(dummy)
+            setIsTrue(!isTrue)
+        }
+
+
     }
     const handleUserIDChange = (e: any) => {
         serUseUserID(e.target.value);
@@ -39,7 +50,7 @@ const CreateTaskComponent = (prop: { setCreateTask: (input: string) => void; }) 
 
 
     const dummy: ITask = {
-        id: 0,
+        id: prop.boolDetermine == true ? 0 : useTaskId,
         projectID: useProjectID,
         taskName: useTaskName,
         taskDescription: useTaskDescription,
@@ -61,18 +72,32 @@ const CreateTaskComponent = (prop: { setCreateTask: (input: string) => void; }) 
     }
 
     useEffect(() => {
-        let projectID = getLocalStorageProjectId();
-        setUseProjectID(projectID)
+        const loadAll = async () => {
+            data.setPageTwoName3(`${isTrue}`)
+            let num: string = getLocalStorageTaskId()
+            console.log(prop.taskId)
+            setTaskId(prop.taskId)
 
-        console.log(useProjectID)
-        console.log(useTaskName)
-        console.log(useTaskDescription)
-        console.log(useTaskDuration)
-        console.log(useUserID)
-        console.log(useDueDate)
-        console.log(usePriority)
-        console.log(useStatus)
-        console.log(useIsDeleted)
+
+            let projectID = getLocalStorageProjectId();
+            setUseProjectID(projectID)
+            let relations = await GetUsersByProjectId(projectID);
+
+            // Assuming relationTable and getEntireUserProfileById are defined elsewhere
+
+            const options = await Promise.all(relations.map(async (ele: any) => {
+                const user = await getEntireUserProfileById(ele.userID);
+                return <option key={ele.userID} value={1} className='text-center'>{user.username}</option>;
+            }));
+            setUserOptions(options);
+
+        }
+        loadAll()
+
+
+
+
+
     }, [useProjectID, useTaskName])
     return (
         <div className='absolute top-1/2 -translate-y-1/2 z-50 justify-center  flex w-full bg-black bg-opacity-80 h-screen  items-center'>
@@ -102,9 +127,12 @@ const CreateTaskComponent = (prop: { setCreateTask: (input: string) => void; }) 
                     onChange={handleUserIDChange}
                     className='bg-[#282828] text-[#808080] border-[#808080] lg:w-[180px] w-full h-[44px] rounded-[10px] mb-[25px]'
                 >
-                    <option value={1} className='text-center'>Person 1</option>
+
+                    {userOptions}
+
+                    {/* <option value={1} className='text-center'>Person 1</option>
                     <option value={2} className='text-center'>Person 2</option>
-                    <option value={3} className='text-center'>Person 3</option>
+                    <option value={3} className='text-center'>Person 3</option> */}
                 </select>
 
                 <div className='w-auto h-[44px] rounded-[10px] mb-[25px]'>
@@ -145,7 +173,7 @@ const CreateTaskComponent = (prop: { setCreateTask: (input: string) => void; }) 
                                 prop.setCreateTask('hidden')
                         }}
                         className='bg-[#CB76F2] rounded-[10px]'>
-                        <p className='text-white text-[20px] px-[20px] py-[10px]'>Create Task</p>
+                        <p className='text-white text-[20px] px-[20px] py-[10px]'>{prop.boolDetermine == true ? "Create Task" : "Save"}</p>
                     </button>
                 </div>
 

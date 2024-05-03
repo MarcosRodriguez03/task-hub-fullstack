@@ -115,6 +115,24 @@ export const publishEditUserInfo = async (profileData: IUserProfile) => {
     return data;
 
 }
+export const EditTask = async (profileData: ITask) => {
+    const res = await fetch(url + "/Task/EditTask", {
+        method: "PUT",
+        headers: {
+            'Content-Type': "application/json"
+        },
+        body: JSON.stringify(profileData)
+    });
+
+    if (!res.ok) {
+        const message = "An error has Occurred " + res.status;
+        throw new Error(message);
+    }
+
+    const data = await res.json();
+    return data;
+
+}
 
 // export const updateProfileItem = async (profileData: IUserData) => {
 //     const res = await fetch(url + "/MT_Profile/UpdateProfileItem", {

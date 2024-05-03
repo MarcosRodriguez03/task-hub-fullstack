@@ -68,7 +68,7 @@ export default function Home() {
       //login logic here
       let token: IToken = await login(userData);
       console.log(token)
-
+      alert("Please do not upload large size imgs")
       //checks to see if we succeed
       if (token.token != null) {
 
@@ -98,64 +98,64 @@ export default function Home() {
         <div className="flex justify-center px-[20px]  ">
           <div className="min-h-screen w-[600px] grid">
 
-          <div className="my-auto">
+            <div className="my-auto">
 
-          
-            <div className="flex items-center mb-[50px]">
-              <Image src={loginLogo} alt="Logo" className="mr-[25px]" />
-              <p className="text-[30px] text-[#CB76F2] ">TaskHub</p>
-            </div>
 
-            <div className="text-white mb-[50px]">
-              <p className="text-[34px] pb-[15px]">{switchBool ? "Create account" : "Login "}</p>
-              <p className="text-[20px] lg:text-[24px]">{switchBool ? "It all starts with an account" : "For all your managing needs"}.</p>
-            </div>
-
-            <div className="mb-[50px]">
-              <div className="bg-[#282828] rounded-[10px] border-b border-[#808080] mb-[25px]">
-                <input
-                  required onChange={(e) => {
-                    if(!/\s/.test(e.target.value)){
-                      setUserName(e.target.value)
-                    }
-                  }}
-                  value={username}
-                  placeholder="Username"
-                  className="px-[15px] lg:px-[20px]  rounded-[10px] w-full border border-transparent bg-transparent focus:outline-none focus:ring-0 text-[20px] lg:text-[24px]  text-[#808080] placeholder:text-[#808080]" type="text" />
+              <div className="flex items-center mb-[50px]">
+                <Image src={loginLogo} alt="Logo" className="mr-[25px]" />
+                <p className="text-[30px] text-[#CB76F2] ">TaskHub</p>
               </div>
 
-              <div className="bg-[#282828] rounded-[10px] border-b border-[#808080] ">
-                <input
-                  required onChange={(e) => {
-                    if(!/\s/.test(e.target.value)){
-                    setPassword(e.target.value)
-                    }
-                  }}
-                  value={password}
-                  placeholder="Password"
-                  type="password"
-                  className="px-[15px] lg:px-[20px] w-full rounded-[10px]  border border-transparent bg-transparent focus:outline-none focus:ring-0 text-[20px] lg:text-[24px]  text-[#808080] placeholder:text-[#808080]" />
+              <div className="text-white mb-[50px]">
+                <p className="text-[34px] pb-[15px]">{switchBool ? "Create account" : "Login "}</p>
+                <p className="text-[20px] lg:text-[24px]">{switchBool ? "It all starts with an account" : "For all your managing needs"}.</p>
+              </div>
+
+              <div className="mb-[50px]">
+                <div className="bg-[#282828] rounded-[10px] border-b border-[#808080] mb-[25px]">
+                  <input
+                    required onChange={(e) => {
+                      if (!/\s/.test(e.target.value)) {
+                        setUserName(e.target.value)
+                      }
+                    }}
+                    value={username}
+                    placeholder="Username"
+                    className="px-[15px] lg:px-[20px]  rounded-[10px] w-full border border-transparent bg-transparent focus:outline-none focus:ring-0 text-[20px] lg:text-[24px]  text-[#808080] placeholder:text-[#808080]" type="text" />
+                </div>
+
+                <div className="bg-[#282828] rounded-[10px] border-b border-[#808080] ">
+                  <input
+                    required onChange={(e) => {
+                      if (!/\s/.test(e.target.value)) {
+                        setPassword(e.target.value)
+                      }
+                    }}
+                    value={password}
+                    placeholder="Password"
+                    type="password"
+                    className="px-[15px] lg:px-[20px] w-full rounded-[10px]  border border-transparent bg-transparent focus:outline-none focus:ring-0 text-[20px] lg:text-[24px]  text-[#808080] placeholder:text-[#808080]" />
+                </div>
+              </div>
+
+
+
+              <button
+                onClick={handleSubmit}
+
+                className="w-full bg-[#CB76F2] hover:bg-[#d186f3] cursor-pointer rounded-[10px] h-[70px] flex items-center justify-center mb-[50px]">
+                <p className="text-[24px] lg:text-[34px]  text-white">{switchBool ? "Create account" : "Login"}</p>
+              </button>
+
+              <div className="flex justify-center" >
+                <span className="lg:flex text-center text-white text-[20px] lg:text-[24px] ">
+                  <p className="me-2">{switchBool ? "Have an account?" : "Dont have an account?"} </p>
+                  <p onClick={handleSwitch} className="cursor-pointer font-bold"> {switchBool ? "Login here" : "Register now"}</p>
+                </span>
               </div>
             </div>
 
-            
-
-            <button
-              onClick={handleSubmit}
-              
-              className="w-full bg-[#CB76F2] hover:bg-[#d186f3] cursor-pointer rounded-[10px] h-[70px] flex items-center justify-center mb-[50px]">
-              <p className="text-[24px] lg:text-[34px]  text-white">{switchBool ? "Create account" : "Login"}</p>
-            </button>
-
-            <div className="flex justify-center" >
-              <span className="lg:flex text-center text-white text-[20px] lg:text-[24px] ">
-                <p className="me-2">{switchBool ? "Have an account?" : "Dont have an account?"} </p>
-                <p onClick={handleSwitch} className="cursor-pointer font-bold"> {switchBool ? "Login here" : "Register now"}</p>
-              </span>
-            </div>
           </div>
-
-        </div>
         </div>
 
 
@@ -170,7 +170,7 @@ export default function Home() {
           <h1 className="text-lg lg:text-2xl font-bold text-center text-white"> {modelBool ? "Account Successfully Created" : "An Error has Occured when Creating Account. Please try again."}</h1>
           <button
             onClick={() => { setHideModel("hidden") }}
-            className={modelBool ? "mt-[20px] bg-[#04BAAD] hover:bg-[#86f3ec]  text-white font-bold py-2 px-10 rounded" : "mt-[20px] bg-[#EC5A52] hover:bg-[#ff6961]  text-white font-bold py-2 px-10 rounded" }>
+            className={modelBool ? "mt-[20px] bg-[#04BAAD] hover:bg-[#86f3ec]  text-white font-bold py-2 px-10 rounded" : "mt-[20px] bg-[#EC5A52] hover:bg-[#ff6961]  text-white font-bold py-2 px-10 rounded"}>
             Ok
           </button>
         </div>

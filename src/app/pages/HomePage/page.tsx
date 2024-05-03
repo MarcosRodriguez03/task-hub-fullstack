@@ -37,6 +37,7 @@ const HomePage = () => {
         let profile = getLocalStorage();
         const loadAll = async () => {
             let usersID = await getLoggedInUserData(profile)
+            data.setGlobalUserId(usersID.userId)
             let allProjects = await GetAllProjectsUserIsIn(usersID.userId)
             console.log(allProjects)
             setAllProjectsArr(allProjects)
@@ -93,7 +94,7 @@ const HomePage = () => {
 
             <div className={`${toggleNotifications} absolute right-[105px] w-[520px] z-30 px-[20px] bg-[#181818] border-[#808080] border-[1px] rounded-[10px] drop-shadow-2xl shadow-2xl h-[85vh] overflow-y-auto -mt-0.5`}>
                 <h1 className="text-white font-semibold text-[25px] mt-4 mb-3">Notifications</h1>
-                <hr/>
+                <hr />
                 <NotificationBoxComponent message="Tyler sent a message" />
                 <NotificationBoxComponent message="Tyler sent a message" />
                 <NotificationBoxComponent message="Tyler sent a message" />
