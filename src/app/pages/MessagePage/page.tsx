@@ -10,7 +10,7 @@ import ProfilePageComponent from "@/app/components/ProfilePageComponent";
 import leftArrow from '../../../assets/leftArrow.png'
 import sendIcon from '../../../assets/sendIcon.png'
 import { getLocalStorage } from "@/utils/localStorage";
-import { getLoggedInUserData } from "@/utils/DataService";
+import { getEntireUserProfile, getLoggedInUserData } from "@/utils/DataService";
 
 const MessagePage = () => {
 
@@ -57,6 +57,7 @@ const MessagePage = () => {
     const [profilePage, setProfilePage] = useState<string>("hidden lg:hidden");
     const [messagesPage, setMessagesPage] = useState<string>("block lg:block");
     const [taskPage, setTaskPage] = useState<string>("block lg:block");
+    const [userProfile, setUserProfile] = useState<string>("")
 
     useEffect(()=>{
         const populateData = async()=>{
@@ -72,6 +73,17 @@ const MessagePage = () => {
                 behavior: 'smooth'
             });
         }
+
+        const loadPicture = async () => {
+            let username = getLocalStorage();
+            let fullProfile: any = await getEntireUserProfile(username)
+            setUserProfile(fullProfile[0].image)
+      
+      
+      
+      
+          }
+          loadPicture()
 
         // const handleClickOutside = () => {
         //     if(toggleNotifications == "hidden lg:block"){
@@ -104,7 +116,7 @@ const MessagePage = () => {
                 taskPage={setTaskPage}
                 pageNotificationTwo={setNotificationsPageClick}
                 pageProfile={setProfilePage}
-                profilePicture={homeLogo}
+                profilePicture={userProfile}
             />
             <div className={`${toggleNotifications} absolute right-[105px] w-[520px] z-30 px-[20px] bg-[#181818] border-[#808080] border-[1px] rounded-[10px] drop-shadow-2xl shadow-2xl h-[85vh] overflow-y-auto -mt-0.5`}>
                 <h1 className="text-white font-semibold text-[25px] mt-4 mb-3">Notifications</h1>

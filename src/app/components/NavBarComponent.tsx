@@ -26,11 +26,9 @@ const NavBarComponent = (prop: {
   taskPage: (input: string) => void;
   pageNotificationTwo: (input: string) => void;
   pageProfile: (input: string) => void;
-  profilePicture: StaticImageData;
+  profilePicture: string;
   closeTop: () => void;
 }) => {
-
-  const [userProfile, setUserProfile] = useState<string>("")
 
 
 
@@ -44,18 +42,18 @@ const NavBarComponent = (prop: {
     router.push("./MessagePage")
   }
 
-  useEffect(() => {
-    const loadAll = async () => {
-      // let username = getLocalStorage();
-      // let fullProfile: any = await getEntireUserProfile(username)
-      // setUserProfile(fullProfile[0].image)
+  // useEffect(() => {
+  //   const loadAll = async () => {
+  //     // let username = getLocalStorage();
+  //     // let fullProfile: any = await getEntireUserProfile(username)
+  //     // setUserProfile(fullProfile[0].image)
 
 
 
 
-    }
-    loadAll()
-  })
+  //   }
+  //   loadAll()
+  // })
 
   return (
     <div>
@@ -115,7 +113,7 @@ const NavBarComponent = (prop: {
               prop.setTitle('Profile');
             }} className="my-auto rounded-[50px] bg-white h-[50px] w-[50px] cursor-pointer">
               <div className=" relative w-[50px] h-[50px] rounded-[50px]">
-                <Image fill className="h-[50px] w-[50px] rounded-[50px]" src={userProfile ? userProfile : emptyPfp} alt="profile picture" />
+                <Image fill className="h-[50px] w-[50px] rounded-[50px]" src={prop.profilePicture ? prop.profilePicture : emptyPfp} alt="profile picture" />
               </div>
             </div>
           </div>
@@ -179,7 +177,7 @@ const NavBarComponent = (prop: {
             prop.closeTop();
           }} className="my-auto rounded-[50px] bg-white h-[50px] w-[50px] cursor-pointer">
             <div className=" relative w-[50px] h-[50px] rounded-[50px]">
-              <Image fill className="h-[50px] w-[50px] rounded-[50px]" src={userProfile ? userProfile : emptyPfp} alt="profile picture" />
+              <Image fill className="h-[50px] w-[50px] rounded-[50px]" src={prop.profilePicture ? prop.profilePicture : emptyPfp} alt="profile picture" />
             </div>
           </div>
         </div>

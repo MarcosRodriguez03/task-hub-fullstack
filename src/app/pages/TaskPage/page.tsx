@@ -19,7 +19,7 @@ import ProfilePageComponent from '@/app/components/ProfilePageComponent';
 import AddUserComponent from '@/app/component/AddUserComponent';
 import CreateTaskComponent from '@/app/component/CreateTaskComponent';
 import newData from '@/app/TestTask.json'
-import { getLocalStorageProjectId, saveLocalStorage } from '@/utils/localStorage';
+import { getLocalStorage, getLocalStorageProjectId, saveLocalStorage } from '@/utils/localStorage';
 import { ITask } from '@/interface/interface';
 import { CreateTask, GetTasksByProjectID, GetTasksByStatus, GetUsersByProjectId, getEntireUserProfile, getEntireUserProfileById } from '@/utils/DataService';
 import { useAppContext } from '@/Context/Context';
@@ -46,6 +46,7 @@ const TaskPage = () => {
     const [isTrue, setIsTrue] = useState<boolean>(true)
     const [isCreate, setIsCreate] = useState<boolean>(true)
     const [barPercent, setBarPercent] = useState<string>("0%")
+    const [userProfile, setUserProfile] = useState<string>("")
 
 
     const data = useAppContext();
@@ -122,6 +123,19 @@ const TaskPage = () => {
 
     }, [data.pageTwoName3, data.boolUser])
 
+    useEffect(() => {
+        const loadPicture = async () => {
+            let username = getLocalStorage();
+            let fullProfile: any = await getEntireUserProfile(username)
+            setUserProfile(fullProfile[0].image)
+      
+      
+      
+      
+          }
+          loadPicture()
+    })
+
 
 
     return (
@@ -153,7 +167,7 @@ const TaskPage = () => {
                 taskPage={setTaskPage}
                 pageNotificationTwo={setNotificationsPageClick}
                 pageProfile={setProfilePage}
-                profilePicture={homelogo}
+                profilePicture={userProfile}
             />
 
             <div className={`${toggleNotifications} absolute right-[105px] w-[520px] z-30 px-[20px] bg-[#181818] border-[#808080] border-[1px] rounded-[10px] drop-shadow-2xl shadow-2xl h-[85vh] overflow-y-auto -mt-0.5`}>

@@ -12,7 +12,7 @@ import ProfilePageComponent from "@/app/components/ProfilePageComponent";
 import CreateProjectComponent from "@/app/component/CreateProjectComponent";
 import EditProfileComponent from "@/app/component/EditProfileComponent";
 import { getLocalStorage } from "@/utils/localStorage";
-import { GetAllProjects, GetAllProjectsUserIsIn, getLoggedInUserData } from "@/utils/DataService";
+import { GetAllProjects, GetAllProjectsUserIsIn, getEntireUserProfile, getLoggedInUserData } from "@/utils/DataService";
 import { IProject } from "@/interface/interface";
 import { useAppContext } from "@/Context/Context";
 import { url } from "inspector";
@@ -31,6 +31,7 @@ const HomePage = () => {
     const [editProfile, setEditProfile] = useState<string>('block');
     const [allProjectsArr, setAllProjectsArr] = useState<any>([])
     const [allProjectsArr2, setAllProjectsArr2] = useState<any>([])
+    const [userProfile, setUserProfile] = useState<string>("")
 
 
     const data = useAppContext()
@@ -55,6 +56,17 @@ const HomePage = () => {
 
         }
         loadAll()
+
+        const loadPicture = async () => {
+            let username = getLocalStorage();
+            let fullProfile: any = await getEntireUserProfile(username)
+            setUserProfile(fullProfile[0].image)
+      
+      
+      
+      
+          }
+          loadPicture()
 
 
 
@@ -93,7 +105,7 @@ const HomePage = () => {
                 taskPage={setTaskPage}
                 pageNotificationTwo={setNotificationsPageClick}
                 pageProfile={setProfilePage}
-                profilePicture={homelogo}
+                profilePicture={userProfile}
             />
 
 
