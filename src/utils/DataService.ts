@@ -252,3 +252,11 @@ export const getEntireUserProfileById = async (userId: number) => {
     userData = data;
     return userData;
 }
+
+export const GetTasksByStatus = async (status: string, userId: number) => {
+    const res = await fetch(url + "/Task/GetTasksByStatus/" + status + "/" + userId);
+    const data = await res.json();
+    userData = data;
+    return userData;
+}
+

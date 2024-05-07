@@ -23,7 +23,7 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
     const [usePriority, setUsePriority] = useState<string>("Low Urgency");
     const [useStatus, setUseStatus] = useState<string>("Ideas");
     const [useIsDeleted, setUseIsDeleted] = useState<boolean>(false)
-    const [isTrue, setIsTrue] = useState<boolean>(false);
+    const [isTrue, setIsTrue] = useState<boolean>(true);
     const [relationTable, setRelationTable] = useState<any>();
     const [userOptions, setUserOptions] = useState<any>([]);
 
@@ -32,18 +32,27 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
 
     const [open, setOpen] = useState("hidden");
 
+
+
     const handleCreateTask = async () => {
 
         if (prop.boolDetermine == true) {
             await CreateTask(dummy)
-            setIsTrue(!isTrue)
+
         } else {
             await EditTask(dummy)
-            setIsTrue(!isTrue)
+
+
+
         }
 
 
+
+
+
+
     }
+
     const handleUserIDChange = (e: any) => {
         serUseUserID(e.target.value);
     };
@@ -73,7 +82,8 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
 
     useEffect(() => {
         const loadAll = async () => {
-            data.setPageTwoName3(`${isTrue}`)
+
+
             let num: string = getLocalStorageTaskId()
             console.log(prop.taskId)
             setTaskId(prop.taskId)
@@ -169,8 +179,10 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
                     </button>
                     <button
                         onClick={() => {
-                            handleCreateTask(),
-                                prop.setCreateTask('hidden')
+                            handleCreateTask()
+                            prop.setCreateTask('hidden')
+                            // setIsTrue(!isTrue)
+                            data.setPageTwoName3(!data.pageTwoName3)
                         }}
                         className='bg-[#CB76F2] rounded-[10px]'>
                         <p className='text-white text-[20px] px-[20px] py-[10px]'>{prop.boolDetermine == true ? "Create Task" : "Save"}</p>

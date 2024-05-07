@@ -68,7 +68,7 @@ export default function Home() {
       //login logic here
       let token: IToken = await login(userData);
       console.log(token)
-      alert("Please do not upload large size imgs")
+
       //checks to see if we succeed
       if (token.token != null) {
 

@@ -21,7 +21,7 @@ import CreateTaskComponent from '@/app/component/CreateTaskComponent';
 import newData from '@/app/TestTask.json'
 import { getLocalStorageProjectId, saveLocalStorage } from '@/utils/localStorage';
 import { ITask } from '@/interface/interface';
-import { CreateTask, GetTasksByProjectID, GetUsersByProjectId, getEntireUserProfile, getEntireUserProfileById } from '@/utils/DataService';
+import { CreateTask, GetTasksByProjectID, GetTasksByStatus, GetUsersByProjectId, getEntireUserProfile, getEntireUserProfileById } from '@/utils/DataService';
 import { useAppContext } from '@/Context/Context';
 
 
@@ -45,6 +45,7 @@ const TaskPage = () => {
     const [statusSet, setStatusSet] = useState<string>("Ideas")
     const [isTrue, setIsTrue] = useState<boolean>(true)
     const [isCreate, setIsCreate] = useState<boolean>(true)
+    const [barPercent, setBarPercent] = useState<string>("0%")
 
 
     const data = useAppContext();
@@ -61,6 +62,17 @@ const TaskPage = () => {
         saveLocalStorage(num)
     }
 
+    const getPercent = (numOne: number, numTwo: number) => {
+
+
+        let percent = (numOne / numTwo) * 100;
+        let round = Math.round(percent).toString();
+        let finalPercent = round + "%"
+
+        setBarPercent(finalPercent)
+
+        return finalPercent;
+    }
 
     // GetUsersByProjectId
 
@@ -72,7 +84,14 @@ const TaskPage = () => {
             try {
                 let currentProjectId = getLocalStorageProjectId();
 
+                let currentDone: any = await GetTasksByStatus("Done", Number(currentProjectId))
+
                 let taskObjArr = await GetTasksByProjectID(currentProjectId);
+                console.log(barPercent)
+
+
+
+                getPercent(await currentDone.length, await taskObjArr.length)
 
                 setFullArr(taskObjArr);
 
@@ -101,7 +120,9 @@ const TaskPage = () => {
         }
         fetchUsers();
 
-    }, [data.pageTwoName3])
+    }, [data.pageTwoName3, data.boolUser])
+
+
 
     return (
 
@@ -322,7 +343,7 @@ const TaskPage = () => {
                         <div className='hidden lg:block '>
                             <div className='flex justify-center absolute bottom-0 w-full py-[30px] bg-[#080808] '>
                                 <div className="w-[95%]  h-6  bg-gray-200 rounded-full dark:bg-gray-700 ">
-                                    <div className="h-6 bg-[#CB76F2] rounded-full dark:bg-blue-500" style={{ width: "45%" }}></div>
+                                    <div className="h-6 bg-[#CB76F2] rounded-full dark:bg-blue-500" style={{ width: barPercent }}></div>
                                 </div>
                             </div>
                         </div>

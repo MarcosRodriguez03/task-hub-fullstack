@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import messageIcon from "@/assets/messagesIcon.png";
 import notifications from "@/assets/fullNotifsIcon.png";
@@ -8,6 +8,11 @@ import homelogo from "@/assets/homelogo.png";
 import mobilemessages from "@/assets/mobilemessagesicon.png";
 import fullnotif from "@/assets/mobilefullnotifs.png";
 import { useRouter } from "next/navigation";
+import { useAppContext } from "@/Context/Context";
+import { getLocalStorage } from "@/utils/localStorage";
+import { getEntireUserProfile, getEntireUserProfileById } from "@/utils/DataService";
+import { profile } from "console";
+import emptyPfp from '@/assets/emptyPfp.png'
 
 const NavBarComponent = (prop: {
   title: string;
@@ -22,8 +27,12 @@ const NavBarComponent = (prop: {
   pageNotificationTwo: (input: string) => void;
   pageProfile: (input: string) => void;
   profilePicture: StaticImageData;
-  closeTop : () => void;
+  closeTop: () => void;
 }) => {
+
+  const [userProfile, setUserProfile] = useState<string>("")
+
+
 
   let router = useRouter()
 
@@ -34,6 +43,20 @@ const NavBarComponent = (prop: {
   const GoToMessage = () => {
     router.push("./MessagePage")
   }
+
+  useEffect(() => {
+    const loadAll = async () => {
+      // let username = getLocalStorage();
+      // let fullProfile: any = await getEntireUserProfile(username)
+      // setUserProfile(fullProfile[0].image)
+
+
+
+
+    }
+    loadAll()
+  })
+
   return (
     <div>
       <div className={` ${prop.title == "Messages" ? "hidden" : "block lg:hidden"} `}>
@@ -91,7 +114,9 @@ const NavBarComponent = (prop: {
               prop.pageProfile('block lg:block');
               prop.setTitle('Profile');
             }} className="my-auto rounded-[50px] bg-white h-[50px] w-[50px] cursor-pointer">
-              <Image className="h-[50px] w-[50px] rounded-[50px]" src={prop.profilePicture} alt="profile picture" />
+              <div className=" relative w-[50px] h-[50px] rounded-[50px]">
+                <Image fill className="h-[50px] w-[50px] rounded-[50px]" src={userProfile ? userProfile : emptyPfp} alt="profile picture" />
+              </div>
             </div>
           </div>
         </div>
@@ -153,7 +178,9 @@ const NavBarComponent = (prop: {
             prop.setTitle('Profile');
             prop.closeTop();
           }} className="my-auto rounded-[50px] bg-white h-[50px] w-[50px] cursor-pointer">
-            <Image className="h-[50px] w-[50px] rounded-[50px]" src={prop.profilePicture} alt="profile picture" />
+            <div className=" relative w-[50px] h-[50px] rounded-[50px]">
+              <Image fill className="h-[50px] w-[50px] rounded-[50px]" src={userProfile ? userProfile : emptyPfp} alt="profile picture" />
+            </div>
           </div>
         </div>
       </div>

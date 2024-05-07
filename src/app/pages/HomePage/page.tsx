@@ -15,6 +15,8 @@ import { getLocalStorage } from "@/utils/localStorage";
 import { GetAllProjects, GetAllProjectsUserIsIn, getLoggedInUserData } from "@/utils/DataService";
 import { IProject } from "@/interface/interface";
 import { useAppContext } from "@/Context/Context";
+import { url } from "inspector";
+
 
 const HomePage = () => {
     const [mobileTitle, setMobileTitle] = useState<string>('Projects');
@@ -30,10 +32,14 @@ const HomePage = () => {
     const [allProjectsArr, setAllProjectsArr] = useState<any>([])
     const [allProjectsArr2, setAllProjectsArr2] = useState<any>([])
 
+
     const data = useAppContext()
 
     useEffect(() => {
         document.body.style.backgroundColor = "#080808";
+
+
+
         let profile = getLocalStorage();
         const loadAll = async () => {
             let usersID = await getLoggedInUserData(profile)
@@ -144,7 +150,7 @@ const HomePage = () => {
                                         key={project.projectID}
                                         projectId={project.projectID}
                                         taskPage={setTaskPage}
-                                        percent="10"
+                                        percent="0"
                                         projectName={project2.projectName}
                                     />
                                 );

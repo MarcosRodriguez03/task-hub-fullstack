@@ -9,6 +9,7 @@ const AddUserComponent = (prop: { setAddUser: (input: string) => void; }) => {
 
   const [enteredUser, setEnteredUser] = useState<string>("")
   const [projID, setProjID] = useState<number>(0)
+  const [isTrue, setIsTrue] = useState<Boolean>(true)
 
   const data = useAppContext()
 
@@ -21,6 +22,9 @@ const AddUserComponent = (prop: { setAddUser: (input: string) => void; }) => {
       console.log(user[0].id)
       console.log(projID)
       await addUserToProject(user[0].id, projID);
+      setIsTrue(!isTrue)
+      data.setBoolUser(`${isTrue}`)
+
     }
     setEnteredUser("");
 

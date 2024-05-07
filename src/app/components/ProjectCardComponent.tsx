@@ -1,11 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import removeIcon from "@/assets/removeIcon.png";
 import { useRouter } from "next/navigation";
 import { saveLocalStorage, saveLocalStorageProjectId } from "@/utils/localStorage";
 import { useAppContext } from "@/Context/Context";
+import { GetTasksByProjectID, GetTasksByStatus } from "@/utils/DataService";
 
 
 const ProjectCardComponent = (prop: {
@@ -14,6 +15,8 @@ const ProjectCardComponent = (prop: {
   taskPage: (input: string) => void;
   projectId: number
 }) => {
+  const [barPercent, setBarPercent] = useState<string>("0%")
+
   const data = useAppContext()
   let currentProjectId = prop.projectId
 
@@ -25,7 +28,41 @@ const ProjectCardComponent = (prop: {
     router.push("./TaskPage")
   }
 
+  const getPercent = (numOne: number, numTwo: number) => {
+    let percent = (numOne / numTwo) * 100;
+    let round = Math.round(percent).toString();
+    let finalPercent = round + "%"
+
+    setBarPercent(finalPercent)
+
+    return finalPercent;
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let currentProjectId = prop.projectId;
+        let currentDone: any = await GetTasksByStatus("Done", Number(currentProjectId))
+        let taskObjArr = await GetTasksByProjectID(currentProjectId);
+        console.log(barPercent)
+
+
+
+        getPercent(await currentDone.length, await taskObjArr.length)
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      }
+    };
+
+    // Call fetchData when the component mounts (empty dependency array)
+    // This ensures it runs once when the component initially renders
+    fetchData();
+
+  }, []);
+
   return (
+
+
     <div
       onClick={() => {
         prop.taskPage('block lg:block');
@@ -44,12 +81,12 @@ const ProjectCardComponent = (prop: {
           </div>
 
         </div>
-        <p className="hidden lg:block text-[64px] text-white">{`${prop.percent}%`}</p>
+        <p className="hidden lg:block text-[64px] text-white">{barPercent}</p>
         <div className="ms-[21px] me-[29px] lg:mx-[17px] mt-[17px] lg:mt-[20px] 2xl:mt-[35px] mb-[30px] 2xl:mb-[40px]">
           <div className="w-full bg-[#D9D9D9] rounded-full h-[15px] lg:h-5 dark:bg-gray-700">
             <div
               className="bg-[#CB76F2] h-[15px] lg:h-5 rounded-full"
-              style={{ width: `${prop.percent}%` }}
+              style={{ width: barPercent }}
             ></div>
           </div>
         </div>
