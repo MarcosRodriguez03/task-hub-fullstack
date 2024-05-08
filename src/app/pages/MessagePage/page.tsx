@@ -11,8 +11,11 @@ import leftArrow from '../../../assets/leftArrow.png'
 import sendIcon from '../../../assets/sendIcon.png'
 import { getLocalStorage } from "@/utils/localStorage";
 import { getEntireUserProfile, getLoggedInUserData } from "@/utils/DataService";
+import { useAppContext } from "@/Context/Context";
 
 const MessagePage = () => {
+
+    const data = useAppContext();
 
     const [removeCol, setRemoveCol] = useState(" ")
     const [addCol, setAddCol] = useState("hidden")
@@ -95,7 +98,7 @@ const MessagePage = () => {
         // return () => {
         //     document.removeEventListener('mousedown', handleClickOutside);
         // }
-    }, [userProfile])
+    }, [userProfile, data.pageTwoName])
 
 
     return (

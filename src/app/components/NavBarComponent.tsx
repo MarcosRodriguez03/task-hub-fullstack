@@ -42,19 +42,6 @@ const NavBarComponent = (prop: {
     router.push("./MessagePage")
   }
 
-  // useEffect(() => {
-  //   const loadAll = async () => {
-  //     // let username = getLocalStorage();
-  //     // let fullProfile: any = await getEntireUserProfile(username)
-  //     // setUserProfile(fullProfile[0].image)
-
-
-
-
-  //   }
-  //   loadAll()
-  // })
-
   return (
     <div>
       <div className={` ${prop.title == "Messages" ? "hidden" : "block lg:hidden"} `}>

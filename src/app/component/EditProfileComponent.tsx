@@ -4,12 +4,13 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import loginBg from "@/assets/loginBg.jpg";
 import { FileInput } from "flowbite-react";
-import { getLoggedInUserData, publishEditUserInfo } from "@/utils/DataService";
+import { getEntireUserProfile, getLoggedInUserData, publishEditUserInfo } from "@/utils/DataService";
 import { getLocalStorage } from "@/utils/localStorage";
 import ProfilePageComponent from "../components/ProfilePageComponent";
 import { useAppContext } from "@/Context/Context";
 import { IUserInfo, IUserProfile } from "@/interface/interface";
 import greenPlus from "@/assets/greenPlus.png"
+import emptyPfp from '@/assets/emptyPfp.png';
 
 
 
@@ -22,9 +23,10 @@ const EditProfileComponent = (prop: {
   const [second, setSecond] = useState<string>("");
   const [contact, setContact] = useState<string>("");
   const [bio, setBio] = useState<string>("");
-  const [image, setImage] = useState<any>(greenPlus);
+  const [image, setImage] = useState<any>(emptyPfp);
   const [isTrue, setIsTrue] = useState<boolean>(true)
   const [profilePage, setProfilePage] = useState<string>('hidden');
+  const [userProfile, setUserProfile] = useState<string>("")
 
   const handleFirst = (e: React.ChangeEvent<HTMLInputElement>) => setFirst(e.target.value);
   const handleSecond = (e: React.ChangeEvent<HTMLInputElement>) => setSecond(e.target.value);
@@ -45,6 +47,21 @@ const EditProfileComponent = (prop: {
     }
     startEditProfile();
   }, [first])
+
+  useEffect(() => {
+    const loadPicture = async () => {
+      let username = getLocalStorage();
+      let fullProfile: any = await getEntireUserProfile(username)
+      setImage(fullProfile[0].image)
+
+
+
+
+    }
+    loadPicture()
+  }, [userProfile])
+
+
 
   const fileInputRef: any = React.createRef();
 
@@ -137,12 +154,15 @@ const EditProfileComponent = (prop: {
                 <FileInput ref={fileInputRef} onChange={handleImage} accept='image/png, image/jpg,' id="Pictures" placeholder='Choose img' style={{ display: 'none' }} />
 
                 <div className="grid justify-center">
-
-                  <Image
-                    src={loginBg}
+                  <div className="relative h-[150px] w-[150px] lg:w-[250px] lg:h-[250px]">
+                    <Image
+                  fill
+                    src={image}
                     className="h-[150px] w-[150px] lg:h-[250px] lg:w-[250px]"
                     alt="profile picture"
                   />
+                  </div>
+                  
                 </div>
                 <button onClick={handleClickBtn} className="mt-[25px] lg:mt-[15px] bg-[#282828] border-[1px] border-[#808080] h-[50px] w-[250px] text-[24px] font-semibold text-white rounded-[10px]">
                   Upload Photo
@@ -167,7 +187,6 @@ const EditProfileComponent = (prop: {
               onClick={() => {
                 prop.setEditProfile("hidden")
                   , handleEditProfile()
-
               }}
               className="ms-[25px] h-[50px] w-[143px] bg-[#CB76F2] rounded-[10px] text-white text-[20px] font-semibold"
             >
