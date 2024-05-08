@@ -134,7 +134,7 @@ const TaskPage = () => {
       
           }
           loadPicture()
-    })
+    }, [userProfile])
 
 
 

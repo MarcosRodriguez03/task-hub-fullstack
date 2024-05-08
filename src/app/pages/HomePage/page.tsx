@@ -70,7 +70,7 @@ const HomePage = () => {
 
 
 
-    }, [data.pageTwoName2]);
+    }, [data.pageTwoName2, userProfile]);
 
     const handleCreateProject = () => {
         setCreateProject('block');

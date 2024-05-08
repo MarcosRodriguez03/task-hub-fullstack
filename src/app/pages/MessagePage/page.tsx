@@ -95,7 +95,7 @@ const MessagePage = () => {
         // return () => {
         //     document.removeEventListener('mousedown', handleClickOutside);
         // }
-    }, [])
+    }, [userProfile])
 
 
     return (
