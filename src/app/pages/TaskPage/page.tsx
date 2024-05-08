@@ -46,7 +46,7 @@ const TaskPage = () => {
     const [isTrue, setIsTrue] = useState<boolean>(true)
     const [isCreate, setIsCreate] = useState<boolean>(true)
     const [barPercent, setBarPercent] = useState<string>("0%")
-    const [userProfile, setUserProfile] = useState<string>("")
+    const [userProfile, setUserProfile] = useState<any>(emptyPfp)
 
 
     const data = useAppContext();
@@ -127,7 +127,7 @@ const TaskPage = () => {
         const loadPicture = async () => {
             let username = getLocalStorage();
             let fullProfile: any = await getEntireUserProfile(username)
-            setUserProfile(fullProfile[0].image)
+            setUserProfile(fullProfile[0].image ? fullProfile[0].image : emptyPfp)
       
       
       

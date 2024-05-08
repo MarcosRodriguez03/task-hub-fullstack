@@ -26,7 +26,7 @@ const NavBarComponent = (prop: {
   taskPage: (input: string) => void;
   pageNotificationTwo: (input: string) => void;
   pageProfile: (input: string) => void;
-  profilePicture: string;
+  profilePicture: any;
   closeTop: () => void;
 }) => {
 

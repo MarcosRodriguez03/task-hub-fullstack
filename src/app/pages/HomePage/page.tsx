@@ -16,6 +16,7 @@ import { GetAllProjects, GetAllProjectsUserIsIn, getEntireUserProfile, getLogged
 import { IProject } from "@/interface/interface";
 import { useAppContext } from "@/Context/Context";
 import { url } from "inspector";
+import emptyPfp from '@/assets/emptyPfp.png';
 
 
 const HomePage = () => {
@@ -31,7 +32,7 @@ const HomePage = () => {
     const [editProfile, setEditProfile] = useState<string>('block');
     const [allProjectsArr, setAllProjectsArr] = useState<any>([])
     const [allProjectsArr2, setAllProjectsArr2] = useState<any>([])
-    const [userProfile, setUserProfile] = useState<string>("")
+    const [userProfile, setUserProfile] = useState<any>()
 
 
     const data = useAppContext()
@@ -57,10 +58,18 @@ const HomePage = () => {
         }
         loadAll()
 
+
+
+
+    }, [data.pageTwoName2]);
+
+    useEffect(() => {
+
         const loadPicture = async () => {
             let username = getLocalStorage();
             let fullProfile: any = await getEntireUserProfile(username)
-            setUserProfile(fullProfile[0].image)
+            console.log(fullProfile[0].image ? fullProfile[0].image : emptyPfp);
+            setUserProfile(fullProfile[0].image);
       
       
       
@@ -68,9 +77,7 @@ const HomePage = () => {
           }
           loadPicture()
 
-
-
-    }, [data.pageTwoName2, userProfile, data.pageTwoName]);
+    }, [, userProfile, data.pageTwoName])
 
     const handleCreateProject = () => {
         setCreateProject('block');

@@ -157,7 +157,7 @@ const EditProfileComponent = (prop: {
                   <div className="relative h-[150px] w-[150px] lg:w-[250px] lg:h-[250px]">
                     <Image
                   fill
-                    src={image}
+                    src={image ? image : emptyPfp}
                     className="h-[150px] w-[150px] lg:h-[250px] lg:w-[250px]"
                     alt="profile picture"
                   />

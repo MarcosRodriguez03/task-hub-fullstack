@@ -12,6 +12,7 @@ import sendIcon from '../../../assets/sendIcon.png'
 import { getLocalStorage } from "@/utils/localStorage";
 import { getEntireUserProfile, getLoggedInUserData } from "@/utils/DataService";
 import { useAppContext } from "@/Context/Context";
+import emptyPfp from '@/assets/emptyPfp.png';
 
 const MessagePage = () => {
 
@@ -60,7 +61,7 @@ const MessagePage = () => {
     const [profilePage, setProfilePage] = useState<string>("hidden lg:hidden");
     const [messagesPage, setMessagesPage] = useState<string>("block lg:block");
     const [taskPage, setTaskPage] = useState<string>("block lg:block");
-    const [userProfile, setUserProfile] = useState<string>("")
+    const [userProfile, setUserProfile] = useState<any>(emptyPfp)
 
     useEffect(()=>{
         const populateData = async()=>{
@@ -80,7 +81,7 @@ const MessagePage = () => {
         const loadPicture = async () => {
             let username = getLocalStorage();
             let fullProfile: any = await getEntireUserProfile(username)
-            setUserProfile(fullProfile[0].image)
+            setUserProfile(fullProfile[0].image ? fullProfile[0].image : emptyPfp)
       
       
       
