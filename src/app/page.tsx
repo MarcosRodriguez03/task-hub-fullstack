@@ -38,8 +38,9 @@ export default function Home() {
       username: username,
       password: password
     }
+
     if (switchBool === true) {
-      if (username != "" || password != "") {
+      if (username != "" && password != "") {
         if (await createAccount(userData)) {
           setModelBool(true)
           setTextBox1("block")
