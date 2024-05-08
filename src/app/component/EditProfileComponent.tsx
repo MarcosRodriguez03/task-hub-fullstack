@@ -23,7 +23,7 @@ const EditProfileComponent = (prop: {
   const [second, setSecond] = useState<string>("");
   const [contact, setContact] = useState<string>("");
   const [bio, setBio] = useState<string>("");
-  const [image, setImage] = useState<any>(emptyPfp);
+  const [image, setImage] = useState<any>();
   const [isTrue, setIsTrue] = useState<boolean>(true)
   const [profilePage, setProfilePage] = useState<string>('hidden');
   const [userProfile, setUserProfile] = useState<string>("")
@@ -186,7 +186,8 @@ const EditProfileComponent = (prop: {
             <button
               onClick={() => {
                 prop.setEditProfile("hidden")
-                  , handleEditProfile()
+                  handleEditProfile();
+                  data.setPageTwoName4(!data.pageTwoName4)
               }}
               className="ms-[25px] h-[50px] w-[143px] bg-[#CB76F2] rounded-[10px] text-white text-[20px] font-semibold"
             >

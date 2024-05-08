@@ -68,7 +68,6 @@ const HomePage = () => {
         const loadPicture = async () => {
             let username = getLocalStorage();
             let fullProfile: any = await getEntireUserProfile(username)
-            console.log(fullProfile[0].image ? fullProfile[0].image : emptyPfp);
             setUserProfile(fullProfile[0].image);
       
       
@@ -77,7 +76,7 @@ const HomePage = () => {
           }
           loadPicture()
 
-    }, [, userProfile, data.pageTwoName])
+    }, [userProfile, data.pageTwoName4, data.pageTwoName])
 
     const handleCreateProject = () => {
         setCreateProject('block');

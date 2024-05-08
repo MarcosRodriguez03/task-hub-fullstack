@@ -61,7 +61,7 @@ const MessagePage = () => {
     const [profilePage, setProfilePage] = useState<string>("hidden lg:hidden");
     const [messagesPage, setMessagesPage] = useState<string>("block lg:block");
     const [taskPage, setTaskPage] = useState<string>("block lg:block");
-    const [userProfile, setUserProfile] = useState<any>(emptyPfp)
+    const [userProfile, setUserProfile] = useState<any>()
 
     useEffect(()=>{
         const populateData = async()=>{
@@ -78,16 +78,6 @@ const MessagePage = () => {
             });
         }
 
-        const loadPicture = async () => {
-            let username = getLocalStorage();
-            let fullProfile: any = await getEntireUserProfile(username)
-            setUserProfile(fullProfile[0].image ? fullProfile[0].image : emptyPfp)
-      
-      
-      
-      
-          }
-          loadPicture()
 
         // const handleClickOutside = () => {
         //     if(toggleNotifications == "hidden lg:block"){
@@ -99,7 +89,20 @@ const MessagePage = () => {
         // return () => {
         //     document.removeEventListener('mousedown', handleClickOutside);
         // }
-    }, [userProfile, data.pageTwoName])
+    }, [])
+
+    useEffect(() => {
+        const loadPicture = async () => {
+            let username = getLocalStorage();
+            let fullProfile: any = await getEntireUserProfile(username)
+            setUserProfile(fullProfile[0].image)
+      
+      
+      
+      
+          }
+          loadPicture()
+    }, [userProfile, data.pageTwoName4, data.pageTwoName])
 
 
     return (
