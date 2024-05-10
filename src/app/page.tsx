@@ -21,10 +21,19 @@ export default function Home() {
   const [modelBool, setModelBool] = useState(true);
   const [textBox1, setTextBox1] = useState("block");
   const [textBox2, setTextBox2] = useState("block");
+  const [btnDisable, setBtnDisable] = useState<boolean>(true);
 
   const data = useAppContext();
 
   let router = useRouter();
+
+  useEffect(() => {
+    if(username === '' || password === ''){
+      setBtnDisable(true);
+    }else{
+      setBtnDisable(false);
+    }
+  }, [username, password])
 
   const handleSwitch = () => {
     setSwitchBool(!switchBool)
@@ -142,10 +151,14 @@ export default function Home() {
 
 
               <button
-                onClick={handleSubmit}
+                onClick={() => {
+                  if(username != '' || password != ''){
+                    handleSubmit();
+                  }
+                }}
 
-                className="w-full bg-[#CB76F2] hover:bg-[#d186f3] cursor-pointer rounded-[10px] h-[70px] flex items-center justify-center mb-[50px]">
-                <p className="text-[24px] lg:text-[34px]  text-white">{switchBool ? "Create account" : "Login"}</p>
+                className={btnDisable ? "w-full bg-[#6a3e7e] text-[#838383] cursor-default rounded-[10px] h-[70px] flex items-center justify-center mb-[50px]" : "w-full bg-[#CB76F2] hover:bg-[#d186f3] text-white cursor-pointer rounded-[10px] h-[70px] flex items-center justify-center mb-[50px]"}>
+                <p className="text-[24px] lg:text-[34px] ">{switchBool ? "Create account" : "Login"}</p>
               </button>
 
               <div className="flex justify-center" >
