@@ -1,4 +1,4 @@
-"use client"
+
 export const saveLocalStorage = (user: string) => {
     localStorage.setItem("Favorites", JSON.stringify(user))
 }

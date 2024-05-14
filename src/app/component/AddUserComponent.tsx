@@ -1,4 +1,4 @@
-'use client'
+
 
 import { useAppContext } from "@/Context/Context";
 import { addUserToProject, getEntireUserProfile, } from "@/utils/DataService";
@@ -23,7 +23,7 @@ const AddUserComponent = (prop: { setAddUser: (input: string) => void; }) => {
       console.log(projID)
       await addUserToProject(user[0].id, projID);
       setIsTrue(!isTrue)
-      data.setBoolUser(`${isTrue}`)
+      data.setBoolUser(!data.boolUser)
 
     }
     setEnteredUser("");

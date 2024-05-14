@@ -1,4 +1,4 @@
-"use client";
+
 
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
@@ -156,13 +156,13 @@ const EditProfileComponent = (prop: {
                 <div className="grid justify-center">
                   <div className="relative h-[150px] w-[150px] lg:w-[250px] lg:h-[250px]">
                     <Image
-                  fill
-                    src={image ? image : emptyPfp}
-                    className="h-[150px] w-[150px] lg:h-[250px] lg:w-[250px]"
-                    alt="profile picture"
-                  />
+                      fill
+                      src={image ? image : emptyPfp}
+                      className="h-[150px] w-[150px] lg:h-[250px] lg:w-[250px]"
+                      alt="profile picture"
+                    />
                   </div>
-                  
+
                 </div>
                 <button onClick={handleClickBtn} className="mt-[25px] lg:mt-[15px] bg-[#282828] border-[1px] border-[#808080] h-[50px] w-[250px] text-[24px] font-semibold text-white rounded-[10px]">
                   Upload Photo
@@ -186,8 +186,8 @@ const EditProfileComponent = (prop: {
             <button
               onClick={() => {
                 prop.setEditProfile("hidden")
-                  handleEditProfile();
-                  data.setPageTwoName4(!data.pageTwoName4)
+                handleEditProfile();
+                data.setPageTwoName4(!data.pageTwoName4)
               }}
               className="ms-[25px] h-[50px] w-[143px] bg-[#CB76F2] rounded-[10px] text-white text-[20px] font-semibold"
             >

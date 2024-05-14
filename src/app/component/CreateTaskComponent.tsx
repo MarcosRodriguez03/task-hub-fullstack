@@ -1,4 +1,4 @@
-'use client'
+
 import React, { useEffect, useState } from 'react'
 import { Dropdown } from "flowbite-react";
 import greenPlus from '@/assets/greenPlus.png'

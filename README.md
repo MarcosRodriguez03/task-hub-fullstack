@@ -2,6 +2,16 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+
+export default function Loading() {
+    return (
+        <div className="h-[100vh] flex justify-center">
+            <div className="loader my-auto"></div>
+        </div>
+    )
+}
+
+
 First, run the development server:
 
 ```bash

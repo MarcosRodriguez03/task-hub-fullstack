@@ -1,4 +1,4 @@
-'use client'
+
 
 import { useAppContext } from '@/Context/Context'
 import { IProject } from '@/interface/interface'

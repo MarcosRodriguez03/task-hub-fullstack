@@ -23,6 +23,7 @@ import { getLocalStorage, getLocalStorageProjectId, saveLocalStorage } from '@/u
 import { ITask } from '@/interface/interface';
 import { CreateTask, GetTasksByProjectID, GetTasksByStatus, GetUsersByProjectId, getEntireUserProfile, getEntireUserProfileById } from '@/utils/DataService';
 import { useAppContext } from '@/Context/Context';
+import ViewTaskComponent from '@/app/component/ViewTaskComponent';
 
 
 
@@ -75,7 +76,7 @@ const TaskPage = () => {
         return finalPercent;
     }
 
-    // GetUsersByProjectId
+
 
 
 
@@ -89,8 +90,6 @@ const TaskPage = () => {
 
                 let taskObjArr = await GetTasksByProjectID(currentProjectId);
                 console.log(barPercent)
-
-
 
                 getPercent(await currentDone.length, await taskObjArr.length)
 
@@ -110,8 +109,6 @@ const TaskPage = () => {
     useEffect(() => {
         const fetchUsers = async () => {
 
-
-
             let currentProjectId = getLocalStorageProjectId();
             let UsersByProjectId = await GetUsersByProjectId(currentProjectId);
             setUserArr(UsersByProjectId);
@@ -128,13 +125,13 @@ const TaskPage = () => {
             let username = getLocalStorage();
             let fullProfile: any = await getEntireUserProfile(username)
             setUserProfile(fullProfile[0].image)
-      
-      
-      
-      
-          }
-          loadPicture()
-    }, [userProfile, data.pageTwoName4, data.pageTwoName])
+
+
+
+
+        }
+        loadPicture()
+    }, [data.pageTwoName4, data.pageTwoName])
 
 
 
@@ -142,7 +139,7 @@ const TaskPage = () => {
 
         <div>
 
-
+            <ViewTaskComponent />
             <div className={createTask}>
                 <CreateTaskComponent taskId={0} boolDetermine={isCreate} setCreateTask={setCreateTask} />
             </div>
@@ -173,14 +170,6 @@ const TaskPage = () => {
             <div className={`${toggleNotifications} absolute right-[105px] w-[520px] z-30 px-[20px] bg-[#181818] border-[#808080] border-[1px] rounded-[10px] drop-shadow-2xl shadow-2xl h-[85vh] overflow-y-auto -mt-0.5`}>
                 <h1 className="text-white font-semibold text-[25px] mt-4 mb-3">Notifications</h1>
                 <hr />
-                <NotificationBoxComponent message="Tyler sent a message" />
-                <NotificationBoxComponent message="Tyler sent a message" />
-                <NotificationBoxComponent message="Tyler sent a message" />
-                <NotificationBoxComponent message="Tyler sent a message" />
-                <NotificationBoxComponent message="Tyler sent a message" />
-                <NotificationBoxComponent message="Tyler sent a message" />
-                <NotificationBoxComponent message="Tyler sent a message" />
-                <NotificationBoxComponent message="Tyler sent a message" />
                 <NotificationBoxComponent message="Tyler sent a message" />
                 <NotificationBoxComponent message="Tyler sent a message" />
             </div>
@@ -266,6 +255,7 @@ const TaskPage = () => {
                         <div className='hidden lg:block'>
                             <div className='  grid grid-cols-3 px-[30px] gap-[30px] absolute top-[109px]  bottom-[80px] w-full'>
                                 <div className=' w-full overflow-auto '>
+                                    {/* leftInput */}
                                     {fullArr && fullArr.map((task: ITask) => (
                                         task.status === "Ideas" && (
                                             <div key={task.id} >
@@ -339,20 +329,13 @@ const TaskPage = () => {
 
 
                         <div className='lg:hidden  overflow-y-auto absolute top-[162px] left-0 right-0 bottom-0 px-[20px] lg:bottom-[80px]   '>
-
                             Content
-                            {fullArr && fullArr.map((task: ITask) => (
+                            {/* {fullArr && fullArr.map((task: ITask) => (
                                 task.status === statusSet && (
                                     <TaskSqaureComponent taskId={task.id} key={task.id} taskName={task.taskName} priority={task.priority} ID={task.userID} />
                                 )
-                            ))}
+                            ))} */}
                         </div>
-
-
-
-
-
-
 
                         <div className='hidden lg:block '>
                             <div className='flex justify-center absolute bottom-0 w-full py-[30px] bg-[#080808] '>
@@ -366,7 +349,6 @@ const TaskPage = () => {
                 </div>
             </div >
 
-            {/* <div className='bg-white w-full h-[80px] absolute bottom-0'>footer</div> */}
             < div className={notificationsPageClick} >
                 <div className="mx-[20px] mb-[100px]">
                     <NotificationBoxComponent message="Tyler sent a message" />

@@ -1,4 +1,4 @@
-"use client";
+
 import React, { useEffect, useState } from "react";
 import leftArrow from "@/assets/leftArrow.png";
 import Image from "next/image";

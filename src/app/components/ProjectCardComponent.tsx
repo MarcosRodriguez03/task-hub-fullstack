@@ -1,4 +1,4 @@
-"use client";
+
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
@@ -29,12 +29,20 @@ const ProjectCardComponent = (prop: {
   }
 
   const getPercent = (numOne: number, numTwo: number) => {
+
+    console.log(numTwo)
+
     let percent = (numOne / numTwo) * 100;
+
+    if (isNaN(percent)) {
+      percent = 0
+    }
+
     let round = Math.round(percent).toString();
     let finalPercent = round + "%"
 
-    setBarPercent(finalPercent)
 
+    setBarPercent(finalPercent)
     return finalPercent;
   }
 

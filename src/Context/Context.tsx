@@ -12,8 +12,8 @@ interface IContextValue {
     pageTwoName4: boolean
     setPageTwoName4: (pageTwoName: boolean) => void
 
-    boolUser: string
-    setBoolUser: (pageTwoName: string) => void
+    boolUser: boolean
+    setBoolUser: (pageTwoName: boolean) => void
 
 
     globalUserId: number
@@ -31,7 +31,7 @@ export const AppWrapper = ({ children, }: Readonly<{ children: React.ReactNode; 
     const [pageTwoName2, setPageTwoName2] = useState<string>("");
     const [pageTwoName3, setPageTwoName3] = useState<boolean>(true);
     const [pageTwoName4, setPageTwoName4] = useState<boolean>(true);
-    const [boolUser, setBoolUser] = useState<string>("");
+    const [boolUser, setBoolUser] = useState<boolean>(true);
     const [globalUserId, setGlobalUserId] = useState<number>(0);
     const [currentProjectId, setCurrentProjectId] = useState<number>(0);
 
