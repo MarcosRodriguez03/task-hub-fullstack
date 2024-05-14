@@ -44,7 +44,7 @@ const TaskPage = () => {
     const [fullArr, setFullArr] = useState<any[]>([])
     const [userArr, setUserArr] = useState<any[]>([])
     const [statusSet, setStatusSet] = useState<string>("Ideas")
-    const [isTrue, setIsTrue] = useState<boolean>(true)
+
     const [isCreate, setIsCreate] = useState<boolean>(true)
     const [barPercent, setBarPercent] = useState<string>("0%")
     const [userProfile, setUserProfile] = useState<any>()
@@ -66,14 +66,11 @@ const TaskPage = () => {
 
     const getPercent = (numOne: number, numTwo: number) => {
 
-
         let percent = (numOne / numTwo) * 100;
         let round = Math.round(percent).toString();
         let finalPercent = round + "%"
-
         setBarPercent(finalPercent)
 
-        return finalPercent;
     }
 
 
@@ -83,52 +80,51 @@ const TaskPage = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                let currentProjectId = getLocalStorageProjectId();
 
-                let currentDone: any = await GetTasksByStatus("Done", Number(currentProjectId))
+            let currentProjectId = getLocalStorageProjectId();
+            let currentDone: any = await GetTasksByStatus("Done", Number(currentProjectId))
+            let taskObjArr = await GetTasksByProjectID(currentProjectId);
+            console.log(barPercent)
+            setFullArr(taskObjArr);
+            getPercent(currentDone.length, taskObjArr.length)
 
-                let taskObjArr = await GetTasksByProjectID(currentProjectId);
-                console.log(barPercent)
 
-                getPercent(await currentDone.length, await taskObjArr.length)
-
-                setFullArr(taskObjArr);
-
-            } catch (error) {
-                console.error("Error fetching tasks:", error);
-            }
         };
 
         // Call fetchData when the component mounts (empty dependency array)
         // This ensures it runs once when the component initially renders
         fetchData();
 
-    }, [isTrue, data.pageTwoName3]);
+    }, [data.pageTwoName3]);
 
     useEffect(() => {
         const fetchUsers = async () => {
-
             let currentProjectId = getLocalStorageProjectId();
             let UsersByProjectId = await GetUsersByProjectId(currentProjectId);
-            setUserArr(UsersByProjectId);
-            // console.log(UsersByProjectId)
-            let person = await getEntireUserProfileById(UsersByProjectId[0].userID)
-            console.log(person)
+            // setUserArr(UsersByProjectId);
+            let TaskUsersArr = []
+            for (let i = 0; i < UsersByProjectId.length; i++) {
+                let person: any = await getEntireUserProfileById(UsersByProjectId[i].userID);
+                console.log(person)
+                TaskUsersArr.push(person)
+            }
+            setUserArr(TaskUsersArr)
+
+
+
+
+            // let person = await getEntireUserProfileById(UsersByProjectId[0].userID)
+            // console.log(person)
         }
         fetchUsers();
 
-    }, [data.pageTwoName3, data.boolUser])
+    }, [data.boolUser])
 
     useEffect(() => {
         const loadPicture = async () => {
             let username = getLocalStorage();
             let fullProfile: any = await getEntireUserProfile(username)
             setUserProfile(fullProfile[0].image)
-
-
-
-
         }
         loadPicture()
     }, [data.pageTwoName4, data.pageTwoName])
@@ -186,7 +182,7 @@ const TaskPage = () => {
 
 
 
-                        {userArr && userArr.map(async (user) => {
+                        {/* {userArr && userArr.map(async (user) => {
 
                             let person: any = await getEntireUserProfileById(user.userID);
                             // return <>{console.log(person && person)}</>
@@ -198,12 +194,24 @@ const TaskPage = () => {
                                                 person.image && person.image != null ? <Image fill className='    w-[34px] h-[34px] rounded-[50px]' alt='pfp' src={person.image && person.image} /> : <Image src={emptyPfp} alt='default pfp' />
                                             }
                                         </div>
-
                                         <p className='w-[100px] text-[20px] text-center text-white hidden lg:block'>{person && person.username}</p>
                                     </div>
 
                                 </>
                             );
+                        })} */}
+
+                        {userArr && userArr.map((person, idx) => {
+                            return <div key={idx} onClick={handleNothing} className=' lg:mt-3' >
+                                <div className='  mx-auto  relative h-[34px] w-[34px]'>
+                                    {
+                                        person.image && person.image != null ? <Image fill className='    w-[34px] h-[34px] rounded-[50px]' alt='pfp' src={person.image && person.image} /> : <Image src={emptyPfp} alt='default pfp' />
+                                    }
+                                </div>
+                                <p className='w-[100px] text-[20px] text-center text-white hidden lg:block'>{person && person.username}</p>
+                            </div>
+
+
                         })}
 
 
