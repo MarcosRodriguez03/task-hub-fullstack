@@ -87,6 +87,7 @@ const TaskPage = () => {
             console.log(barPercent)
             setFullArr(taskObjArr);
             getPercent(currentDone.length, taskObjArr.length)
+            console.log(taskObjArr)
 
 
         };
@@ -113,6 +114,7 @@ const TaskPage = () => {
 
 
 
+
             // let person = await getEntireUserProfileById(UsersByProjectId[0].userID)
             // console.log(person)
         }
@@ -135,8 +137,9 @@ const TaskPage = () => {
 
         <div>
 
-            <ViewTaskComponent />
-            <div className={createTask}>
+            {/* <ViewTaskComponent  /> */}
+
+            <div className={`${createTask} z-50`}>
                 <CreateTaskComponent taskId={0} boolDetermine={isCreate} setCreateTask={setCreateTask} />
             </div>
 
@@ -338,11 +341,11 @@ const TaskPage = () => {
 
                         <div className='lg:hidden  overflow-y-auto absolute top-[162px] left-0 right-0 bottom-0 px-[20px] lg:bottom-[80px]   '>
                             Content
-                            {/* {fullArr && fullArr.map((task: ITask) => (
+                            {fullArr && fullArr.map((task: ITask) => (
                                 task.status === statusSet && (
                                     <TaskSqaureComponent taskId={task.id} key={task.id} taskName={task.taskName} priority={task.priority} ID={task.userID} />
                                 )
-                            ))} */}
+                            ))}
                         </div>
 
                         <div className='hidden lg:block '>

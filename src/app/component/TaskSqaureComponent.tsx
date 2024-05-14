@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Image, { StaticImageData } from "next/image";
 import purplePlus from '@/assets/puplePlus.png'
 import greenPlus from '@/assets/greenPlus.png'
@@ -13,9 +13,11 @@ import mediumWarning from '@/assets/mediumWarning.png'
 import highWarning from '@/assets/highWarning.png'
 import CreateTaskComponent from './CreateTaskComponent';
 import { saveLocalStorageTaskId } from '@/utils/localStorage';
-import { getEntireUserProfile, getEntireUserProfileById } from '@/utils/DataService';
+import { DeleteTask, getEntireUserProfile, getEntireUserProfileById } from '@/utils/DataService';
+import { useAppContext } from '@/Context/Context';
 
 function checkPriority(input: string) {
+
 
 
     if (input == "Low Urgency") {
@@ -40,21 +42,30 @@ type iTaskSqaure = {
 }
 
 const TaskSqaureComponent = (props: iTaskSqaure) => {
+    const data = useAppContext()
+
     const [createTask, setCreateTask] = useState<string>('hidden');
 
-    const [userPfp, setUserPfp] = useState<any>("");
+    const [userPfp, setUserPfp] = useState<any>();
 
+    const handleDelete = async () => {
+        await DeleteTask(props.taskId)
+        data.setPageTwoName3(!data.pageTwoName3)
+
+    }
 
 
 
     useEffect(() => {
         const loadAll = async () => {
 
+            let arr = await getEntireUserProfileById(props.ID)
+            setUserPfp(arr)
+            console.log(props.ID)
 
-            // setUserPfp(await getEntireUserProfileById(props.ID))
         }
         loadAll()
-    })
+    }, [])
 
     return (
         <div onClick={() => {
@@ -72,15 +83,19 @@ const TaskSqaureComponent = (props: iTaskSqaure) => {
                         <Image alt="icon" src={checkPriority(props.priority)} className='h-[30px] w-[30px] me-[10px]' />
                         <p className='text-white text-[24px]'>{props.taskName}</p>
                     </div>
-                    <Image alt='close' src={taskExit} className='h-[30px] w-[30px]' />
+                    <Image
+                        onClick={handleDelete}
+                        alt='close' src={taskExit} className='h-[30px] w-[30px]' />
                 </div>
                 <hr className='bg-[#525252] h-[1px] border-0' />
-                <div className='flex items-center justify-between my-[7px]'>
-                    {
+                <div className='flex  items-center justify-between my-[7px]'>
+                    <div className=' w-[34px] h-[34px] '>
+                        {
+                            userPfp && userPfp.image != null ? <img className=' w-[34px] h-[34px]  rounded-[50px]' alt='pfp' src={userPfp.image && userPfp.image} /> : <Image src={emptyPfp} alt='default pfp' />
 
-                        // userPfp.image && userPfp.image != null ? <Image fill className=' w-[34px] h-[34px] rounded-[50px]' alt='pfp' src={userPfp.image && userPfp.image} /> : <Image src={emptyPfp} alt='default pfp' />
+                        }
+                    </div>
 
-                    }
 
                     <p
                         onClick={() => {

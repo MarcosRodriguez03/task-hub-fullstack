@@ -97,7 +97,7 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
 
             const options = await Promise.all(relations.map(async (ele: any) => {
                 const user = await getEntireUserProfileById(ele.userID);
-                return <option key={ele.userID} value={1} className='text-center'>{user.username}</option>;
+                return <option key={ele.userID} value={ele && ele.userID} className='text-center'>{user.username}</option>;
             }));
             setUserOptions(options);
 

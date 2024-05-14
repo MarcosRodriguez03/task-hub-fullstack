@@ -234,6 +234,25 @@ export const CreateTask = async (TaskObj: ITask) => {
     return data
 }
 
+export const DeleteTask = async (TaskId: number) => {
+    const res = await fetch(url + `/Task/DeleteTask/${TaskId}`, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': "application/json"
+        },
+        body: JSON.stringify({ TaskId })
+    });
+    if (!res.ok) {
+        const message = "An error has occurred: " + res.status;
+        throw new Error(message);
+    }
+
+    const data = await res.json();
+    console.log(data);
+    return data;
+};
+
+
 export const GetUsersByProjectId = async (projectID: number) => {
     const res = await fetch(url + `/Project/GetAllUsersWithinProject/${projectID}`)
     let data = await res.json();
