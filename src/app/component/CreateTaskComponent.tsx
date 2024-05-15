@@ -6,19 +6,19 @@ import highWarning from '@/assets/highWarning.png'
 import Image from 'next/image';
 import { CreateTask, EditTask, GetUsersByProjectId, getEntireUserProfileById } from '@/utils/DataService';
 import { ITask } from '@/interface/interface';
-import { getLocalStorage, getLocalStorageProjectId, getLocalStorageTaskId } from '@/utils/localStorage';
+import { getLocalStorage, getLocalStorageProjectId, getLocalStorageTaskId, getLocalStorageUserID } from '@/utils/localStorage';
 import { useAppContext } from '@/Context/Context';
 
 
 const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, setCreateTask: (input: string) => void; }) => {
-
+    const data = useAppContext()
     const [useProjectID, setUseProjectID] = useState<number>(0);
     const [useTaskId, setTaskId] = useState<number>(0);
 
     const [useTaskName, setUseTaskName] = useState<string>("");
     const [useTaskDescription, setUseTaskDescription] = useState<string>("");
     const [useTaskDuration, setUseTaskDuration] = useState<string>("")
-    const [useUserID, serUseUserID] = useState<number>(1)
+    const [useUserID, serUseUserID] = useState<number>(0)
     const [useDueDate, setUseDueDate] = useState<string>("")
     const [usePriority, setUsePriority] = useState<string>("Low Urgency");
     const [useStatus, setUseStatus] = useState<string>("Ideas");
@@ -26,9 +26,10 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
     const [isTrue, setIsTrue] = useState<boolean>(true);
     const [relationTable, setRelationTable] = useState<any>();
     const [userOptions, setUserOptions] = useState<any>([]);
+    const [userID, setUserID] = useState<number>(0);
 
 
-    const data = useAppContext()
+
 
     const [open, setOpen] = useState("hidden");
 
@@ -38,12 +39,8 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
 
         if (prop.boolDetermine == true) {
             await CreateTask(dummy)
-
         } else {
             await EditTask(dummy)
-
-
-
         }
 
 
@@ -54,7 +51,10 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
     }
 
     const handleUserIDChange = (e: any) => {
+
         serUseUserID(e.target.value);
+
+
     };
 
 
@@ -72,6 +72,8 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
     };
 
 
+
+
     const OpenDropDown = () => {
         if (open == "hidden") {
             setOpen("block")
@@ -83,14 +85,16 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
     useEffect(() => {
         const loadAll = async () => {
 
+            let numb: number = getLocalStorageUserID()
+            setUserID(numb)
 
             let num: string = getLocalStorageTaskId()
             console.log(prop.taskId)
             setTaskId(prop.taskId)
 
-
             let projectID = getLocalStorageProjectId();
             setUseProjectID(projectID)
+
             let relations = await GetUsersByProjectId(projectID);
 
             // Assuming relationTable and getEntireUserProfileById are defined elsewhere
@@ -137,12 +141,10 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
                     onChange={handleUserIDChange}
                     className='bg-[#282828] text-[#808080] border-[#808080] lg:w-[180px] w-full h-[44px] rounded-[10px] mb-[25px]'
                 >
-
+                    <option key="default" value={0} >Select an option</option>;
                     {userOptions}
 
-                    {/* <option value={1} className='text-center'>Person 1</option>
-                    <option value={2} className='text-center'>Person 2</option>
-                    <option value={3} className='text-center'>Person 3</option> */}
+
                 </select>
 
                 <div className='w-auto h-[44px] rounded-[10px] mb-[25px]'>

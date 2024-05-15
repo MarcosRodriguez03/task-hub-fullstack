@@ -35,3 +35,14 @@ export const getLocalStorageTaskId = () => {
     }
     return JSON.parse(localStorageData);
 }
+export const saveLocalStorageUserID = (user: number) => {
+    localStorage.setItem("ProjectId", JSON.stringify(user))
+}
+
+export const getLocalStorageUserID = () => {
+    let localStorageData = localStorage.getItem("TaskId");
+    if (localStorageData == null) {
+        return [];
+    }
+    return JSON.parse(localStorageData);
+}

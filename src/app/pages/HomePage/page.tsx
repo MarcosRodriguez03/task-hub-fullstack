@@ -11,7 +11,7 @@ import NotificationBoxComponent from "@/app/components/NotificationBoxComponent"
 import ProfilePageComponent from "@/app/components/ProfilePageComponent";
 import CreateProjectComponent from "@/app/component/CreateProjectComponent";
 import EditProfileComponent from "@/app/component/EditProfileComponent";
-import { getLocalStorage } from "@/utils/localStorage";
+import { getLocalStorage, saveLocalStorageUserID } from "@/utils/localStorage";
 import { GetAllProjects, GetAllProjectsUserIsIn, GetTaskByID, getEntireUserProfile, getLoggedInUserData } from "@/utils/DataService";
 import { IProject } from "@/interface/interface";
 import { useAppContext } from "@/Context/Context";
@@ -46,6 +46,7 @@ const HomePage = () => {
         const loadAll = async () => {
             let usersID = await getLoggedInUserData(profile)
             data.setGlobalUserId(usersID.userId)
+            saveLocalStorageUserID(usersID.userId)
             let allProjects = await GetAllProjectsUserIsIn(usersID.userId)
             console.log(allProjects)
             setAllProjectsArr(allProjects)
@@ -54,8 +55,7 @@ const HomePage = () => {
             setAllProjectsArr2(allProjects2)
 
 
-            let ob = await GetTaskByID(1)
-            console.log(ob)
+
         }
         loadAll()
 

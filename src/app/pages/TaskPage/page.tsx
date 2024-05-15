@@ -49,6 +49,9 @@ const TaskPage = () => {
     const [barPercent, setBarPercent] = useState<string>("0%")
     const [userProfile, setUserProfile] = useState<any>()
 
+    const [viewTask, setViewTask] = useState<string>("hidden")
+    const [updateTaskId, setUpdateTaskId] = useState<number>(1)
+
 
     const data = useAppContext();
 
@@ -137,7 +140,6 @@ const TaskPage = () => {
 
         <div>
 
-            {/* <ViewTaskComponent  /> */}
 
             <div className={`${createTask} z-50`}>
                 <CreateTaskComponent taskId={0} boolDetermine={isCreate} setCreateTask={setCreateTask} />
@@ -211,7 +213,7 @@ const TaskPage = () => {
                                         person.image && person.image != null ? <Image fill className='    w-[34px] h-[34px] rounded-[50px]' alt='pfp' src={person.image && person.image} /> : <Image src={emptyPfp} alt='default pfp' />
                                     }
                                 </div>
-                                <p className='w-[100px] text-[20px] text-center text-white hidden lg:block'>{person && person.username}</p>
+                                <p className='w-[90px] text-[20px] text-center text-white hidden lg:block'>{person && person.username}</p>
                             </div>
 
 

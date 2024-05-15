@@ -15,6 +15,7 @@ import CreateTaskComponent from './CreateTaskComponent';
 import { saveLocalStorageTaskId } from '@/utils/localStorage';
 import { DeleteTask, getEntireUserProfile, getEntireUserProfileById } from '@/utils/DataService';
 import { useAppContext } from '@/Context/Context';
+import ViewTaskComponent from './ViewTaskComponent';
 
 function checkPriority(input: string) {
 
@@ -48,7 +49,11 @@ const TaskSqaureComponent = (props: iTaskSqaure) => {
 
     const [userPfp, setUserPfp] = useState<any>();
 
-    const handleDelete = async () => {
+    const [viewTask, setViewTask] = useState<string>("hidden")
+    const [updateTaskId, setUpdateTaskId] = useState<number>(1)
+
+    const handleDelete = async (event: any) => {
+        event.stopPropagation();
         await DeleteTask(props.taskId)
         data.setPageTwoName3(!data.pageTwoName3)
 
@@ -56,28 +61,49 @@ const TaskSqaureComponent = (props: iTaskSqaure) => {
 
 
 
+
     useEffect(() => {
         const loadAll = async () => {
+            if (props.ID == 0) {
 
-            let arr = await getEntireUserProfileById(props.ID)
-            setUserPfp(arr)
-            console.log(props.ID)
+            } else {
+                let arr = await getEntireUserProfileById(props.ID)
+                setUserPfp(arr)
+                console.log(props.ID)
+            }
+
+
 
         }
         loadAll()
     }, [])
 
     return (
-        <div onClick={() => {
+        <div
 
-        }}
+
+
             className=' inset-0'>
+
+
+
+            <div className={`${viewTask}`}>
+                <ViewTaskComponent taskID={props.taskId && props.taskId} ID={props.ID && props.ID} viewFunction={setViewTask} />
+            </div>
+
+
             <div className={`${createTask} fixed inset-0`}>
                 <CreateTaskComponent taskId={props.taskId} boolDetermine={false} setCreateTask={setCreateTask} />
             </div>
 
 
-            <div className='h-[127px] w-full bg-[#181818] border border-solid border-[#525252] rounded-[10px] px-[25px] mb-[20px]'>
+            <div
+                onClick={() => {
+                    setViewTask("block")
+                    setUpdateTaskId(props && props.taskId)
+                }}
+
+                className='h-[127px] w-full bg-[#181818] border border-solid border-[#525252] rounded-[10px] px-[25px] mb-[20px]'>
                 <div className='flex justify-between py-[21px]'>
                     <div className='flex items-center '>
                         <Image alt="icon" src={checkPriority(props.priority)} className='h-[30px] w-[30px] me-[10px]' />
@@ -97,11 +123,12 @@ const TaskSqaureComponent = (props: iTaskSqaure) => {
                     </div>
 
 
-                    <p
-                        onClick={() => {
+                    <button
+                        onClick={(event) => {
+                            event.stopPropagation();
                             setCreateTask('block')
                         }}
-                        className='font-bold text-[20px] rounded-[5px] py-[2px] px-[10px] text-[#7A7A7A] bg-[#353535]'>Edit</p>
+                        className='font-bold text-[20px] z rounded-[5px] py-[2px] px-[10px] text-[#7A7A7A] bg-[#353535]'>Edit</button>
                 </div>
             </div>
         </div >
