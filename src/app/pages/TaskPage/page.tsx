@@ -351,9 +351,9 @@ const TaskPage = () => {
                         </div>
 
                         <div className='hidden lg:block '>
-                            <div className='flex justify-center absolute bottom-0 w-full py-[30px] bg-[#080808] '>
-                                <div className="w-[95%]  h-6  bg-gray-200 rounded-full dark:bg-gray-700 ">
-                                    <div className="h-6 bg-[#CB76F2] rounded-full dark:bg-blue-500" style={{ width: barPercent }}></div>
+                            <div className='flex justify-center absolute bottom-0 w-full py-[30px] bg-[#080808]  '>
+                                <div className="w-[95%]  h-4  bg-gray-200 rounded-full dark:bg-gray-700 ">
+                                    <div className="h-4 bg-[#CB76F2] rounded-full dark:bg-blue-500" style={{ width: barPercent }}></div>
                                 </div>
                             </div>
                         </div>

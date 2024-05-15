@@ -114,7 +114,7 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
 
     }, [useProjectID, useTaskName])
     return (
-        <div className='absolute top-1/2 -translate-y-1/2 z-50 justify-center  flex w-full bg-black bg-opacity-80 h-screen  items-center'>
+        <div className='  absolute top-1/2 -translate-y-1/2 z-[100] justify-center  flex w-full bg-black bg-opacity-80 h-screen  items-center'>
             <div className='flex flex-col w-full md:w-[604px] bg-[#181818]  mx-[10px] border-[#808080] border  rounded-[10px] p-[20px] lg:p-[30px]  h-fit  relative overflow-auto'>
 
                 <div className='w-auto h-[44px] rounded-[10px] mb-[25px] bg-[#282828] border-b border-[#808080]'>

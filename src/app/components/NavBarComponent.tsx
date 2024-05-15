@@ -98,7 +98,7 @@ const NavBarComponent = (prop: {
             <div onClick={() => {
               prop.pageProfile('block lg:block');
               prop.setTitle('Profile');
-            }} className="my-auto rounded-[50px] bg-white h-[50px] w-[50px] cursor-pointer">
+            }} className="my-auto rounded-[50px]  h-[50px] w-[50px] cursor-pointer">
               <div className=" relative w-[50px] h-[50px] rounded-[50px]">
                 <Image fill className="h-[50px] w-[50px] rounded-[50px]" src={prop.profilePicture ? prop.profilePicture : emptyPfp} alt="profile picture" />
               </div>
@@ -162,7 +162,7 @@ const NavBarComponent = (prop: {
             prop.pageProfile('block lg:block');
             prop.setTitle('Profile');
             prop.closeTop();
-          }} className="my-auto rounded-[50px] bg-white h-[50px] w-[50px] cursor-pointer">
+          }} className="my-auto rounded-[50px]  h-[50px] w-[50px] cursor-pointer">
             <div className=" relative w-[50px] h-[50px] rounded-[50px]">
               <Image fill className="h-[50px] w-[50px] rounded-[50px]" src={prop.profilePicture ? prop.profilePicture : emptyPfp} alt="profile picture" />
             </div>
