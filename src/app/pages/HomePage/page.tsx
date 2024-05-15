@@ -12,7 +12,7 @@ import ProfilePageComponent from "@/app/components/ProfilePageComponent";
 import CreateProjectComponent from "@/app/component/CreateProjectComponent";
 import EditProfileComponent from "@/app/component/EditProfileComponent";
 import { getLocalStorage } from "@/utils/localStorage";
-import { GetAllProjects, GetAllProjectsUserIsIn, getEntireUserProfile, getLoggedInUserData } from "@/utils/DataService";
+import { GetAllProjects, GetAllProjectsUserIsIn, GetTaskByID, getEntireUserProfile, getLoggedInUserData } from "@/utils/DataService";
 import { IProject } from "@/interface/interface";
 import { useAppContext } from "@/Context/Context";
 import { url } from "inspector";
@@ -54,7 +54,8 @@ const HomePage = () => {
             setAllProjectsArr2(allProjects2)
 
 
-
+            let ob = await GetTaskByID(1)
+            console.log(ob)
         }
         loadAll()
 
@@ -69,12 +70,12 @@ const HomePage = () => {
             let username = getLocalStorage();
             let fullProfile: any = await getEntireUserProfile(username)
             setUserProfile(fullProfile[0].image);
-      
-      
-      
-      
-          }
-          loadPicture()
+
+
+
+
+        }
+        loadPicture()
 
     }, [userProfile, data.pageTwoName4, data.pageTwoName])
 

@@ -278,4 +278,12 @@ export const GetTasksByStatus = async (status: string, userId: number) => {
     userData = data;
     return userData;
 }
+export const GetTaskByID = async (taskID: number) => {
+    const res = await fetch(url + "/Task/GetTaskByID/" + taskID);
+    const data = await res.json();
+    userData = data;
+    return userData;
+}
+
+
 
