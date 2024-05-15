@@ -40,7 +40,7 @@ const MessagePage = () => {
   const joinRoom = async (username: string, room: string) => {
     try {
       const conn = new HubConnectionBuilder()
-        .withUrl("http://localhost:5044/chat")
+        .withUrl("https://newtaskhubbackenddb.azurewebsites.net/chat")
         .configureLogging(LogLevel.Information)
         .build();
       conn.on("JoinSpecificChatRoom", (username, msg) => {
