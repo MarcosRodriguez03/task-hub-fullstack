@@ -1,7 +1,7 @@
 import { IProject, ITask, IToken, IUserData, IUserInfo, IUserProfile, } from "@/interface/interface";
 
 
-const url = "https://taskhubbackendbackup.azurewebsites.net";
+const url = "https://newtaskhubbackenddb.azurewebsites.net";
 let userData: IUserData
 
 export const createAccount = async (createdUser: IUserInfo) => {
