@@ -34,6 +34,7 @@ const MessagePage = () => {
   const [messages, setMessages] = useState<IMessages[]>([]);
   const [message, setMessage] = useState<string>("");
   const [chatRoom, setChatRoom] = useState<string>("");
+  const [usersId, setusersId] = useState<string>("");
 
   const messageRef = useRef<HTMLDivElement>(null);
 
@@ -45,10 +46,12 @@ const MessagePage = () => {
         .build();
       conn.on("JoinSpecificChatRoom", (username, msg) => {
         console.log("hi");
+        console.log(username);
       });
 
       conn.on("ReceiveMessage", (username, msg) => {
         setMessages((messages) => [...messages, { username, msg }]);
+        console.log(username);
       });
 
       await conn.start();
@@ -67,9 +70,30 @@ const MessagePage = () => {
       console.log("hi");
     }
   };
+  useEffect(() => {
+    const populateData = async () => {
+      let input = getLocalStorage();
+      let info = await getLoggedInUserData(input);
+      setusersId(`${info.userId}`);
+      console.log(info);
+    };
+    populateData();
 
+    // const handleClickOutside = () => {
+    //     if(toggleNotifications == "hidden lg:block"){
+    //         setToggleNotifications("hidden lg:hidden");
+    //     }
+    // }
+    // document.addEventListener('mousedown', handleClickOutside);
+
+    // return () => {
+    //     document.removeEventListener('mousedown', handleClickOutside);
+    // }
+    
+  }, []);
   const submitFunction = () => {
-    joinRoom("hello", chatRoom);
+    console.log(usersId);
+    joinRoom(usersId, chatRoom);
   };
 
   const handleOpen = () => {
@@ -104,32 +128,14 @@ const MessagePage = () => {
   const [taskPage, setTaskPage] = useState<string>("block lg:block");
   const [userProfile, setUserProfile] = useState<any>();
 
+
+
   useEffect(() => {
-    const populateData = async () => {
-      let input = getLocalStorage();
-      let info = await getLoggedInUserData(input);
-      console.log(info);
-    };
-    populateData();
-
-    if (messageRef.current) {
-      messageRef.current.scrollIntoView({
-        block: "end",
-        behavior: "smooth",
-      });
+    if(messageRef && messageRef.current){
+        const {scrollHeight, clientHeight} = messageRef.current;
+        messageRef.current.scrollTo({left:0, top:scrollHeight-clientHeight, behavior: 'smooth'})
     }
-
-    // const handleClickOutside = () => {
-    //     if(toggleNotifications == "hidden lg:block"){
-    //         setToggleNotifications("hidden lg:hidden");
-    //     }
-    // }
-    // document.addEventListener('mousedown', handleClickOutside);
-
-    // return () => {
-    //     document.removeEventListener('mousedown', handleClickOutside);
-    // }
-  }, []);
+  }, [messages])
 
   useEffect(() => {
     const loadPicture = async () => {
@@ -226,6 +232,7 @@ const MessagePage = () => {
               <Image
                 onClick={() => {
                   submitFunction();
+                  setChatRoom('');
                 }}
                 className="cursor-pointer h-[40px] w-[40px]"
                 alt="src"
@@ -258,18 +265,22 @@ const MessagePage = () => {
             ) : (
               // <ChatRoomComponent message={messages} sendMessage={sendMessage}/>
               <div className="h-full flex  flex-col">
-                <div className="bg-black overflow-auto flex-1">
+                <div ref={messageRef} className="bg-black overflow-auto flex-1">
                   <div className="flex flex-col p-[15px] lg:p-[30px]">
                     {messages &&
                       messages.map((msg: any, idx: number) => (
-                        <div key={idx} className="flex items-end mt-[30px]">
-                          <Image
+                        <div key={idx} className={msg.username == usersId ? "flex justify-end items-end mt-[30px]" : "flex items-end mt-[30px]"}>
+                          {
+                            msg.username != usersId ?
+                            <img
                             alt="pfp"
-                            src={homeLogo}
+                            src={userProfile ? userProfile : emptyPfp}
                             className="rounded-[50px] w-[40px] h-[40px] lg:w-[75px] lg:h-[75px]"
-                          />
-                          <div className="bg-[#CB76F2] text-white p-2 rounded-lg w-full">
-                            {msg.msg}
+                          /> : ''}
+                          <div className={msg.username == usersId ? 'bg-[#CB76F2] text-white p-2 rounded-t-xl rounded-l-xl w-auto break-all' : 'bg-[#181818] rounded-t-xl rounded-r-xl text-white p-2 w-auto break-all'}>
+                            <p className="break-all">
+                                {msg.msg}
+                            </p>
                           </div>
                         </div>
                       ))}
@@ -279,8 +290,12 @@ const MessagePage = () => {
                   <div className="w-full h-full relative">
                     <Image
                       onClick={() => {
-                        sendMessage(message);
-                        setMessage("");
+                        if(message != ""){
+
+                            sendMessage(message);
+                            setMessage("");
+                        }
+                        
                       }}
                       alt="send"
                       src={sendIcon}
@@ -290,7 +305,26 @@ const MessagePage = () => {
                       onChange={(e) => {
                         setMessage(e.target.value);
                       }}
+                      onKeyDown={(
+                        e:any
+                      ) => {
+                        if (
+                          (e as React.KeyboardEvent<HTMLInputElement>).key === "Enter"
+                        ) {
+                        e.preventDefault();
+                          setMessage(
+                            (e as React.ChangeEvent<HTMLInputElement>).target.value
+                          );
+                          if (message !== "") {
+                            e.preventDefault();
+                            sendMessage(message);
+                            setMessage("");
+                          }
+                        }
+                      }}
                       value={message}
+                      minLength={3}
+                      maxLength={280}
                       placeholder="Type your message..."
                       className="text-[#808080] placeholder:text-[#808080] w-full pr-[50px] px-4 py-2 rounded-lg bg-[#282828] border border-[#707070] focus:outline-none focus:border-blue-500 resize-y h-full"
                     ></textarea>
