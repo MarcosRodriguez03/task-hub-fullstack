@@ -86,17 +86,23 @@ const MessagePage = () => {
   };
 
   const createNewDM = async () => {
-    if(username != ""){
-      let userID = await getLoggedInUserData(username);
-      console.log(userID);
-      let dm = await addDM(Number(usersId), userID.userId);
-      setIsReal(!isReal);
+    try{
+      if(username != ""){
+        let userID = await getLoggedInUserData(username);
+        console.log(userID);
+        await addDM(Number(usersId), userID.userId);
     }
-    setIsReal(!isReal);
+    } catch(e) {
+        console.log('hi');
+    }
+    
+  }
+
+  const render = async () => {
+    await setIsReal(!isReal);
   }
 
   useEffect(() => {
-    console.log(isReal);
     const populateData = async () => {
       let input = getLocalStorage();
       let info = await getLoggedInUserData(input);
@@ -104,18 +110,19 @@ const MessagePage = () => {
       let display = await GetDMS(Number(info.userId));
       setDirectMessage(display);
     };
-    populateData();
 
     const userUsername = async () => {
       if(otherUserID != ""){
         console.log(otherUserID);
         let user = await getEntireUserProfileById(Number(otherUserID));
-        console.log(user);
         setUserPfp(user.username);
       }
       
     }
     userUsername();
+    populateData();
+
+
 
     // const handleClickOutside = () => {
     //     if(toggleNotifications == "hidden lg:block"){
@@ -144,10 +151,6 @@ const MessagePage = () => {
       setTopHeight("hidden");
     }
   };
-
-  const render = () => {
-    setIsReal(!isReal);
-  }
 
   const closeTop = () => {
     setRemoveCol(" ");
@@ -266,7 +269,6 @@ const MessagePage = () => {
               <input
                 onChange={(e) => {
                   setUsername(e.target.value);
-                  console.log(e.target.value);
                 }}
                 value={username}
                 maxLength={25}
@@ -276,9 +278,9 @@ const MessagePage = () => {
               />
               <Image
                 onClick={() => {
-                  closeConnection();
                   createNewDM();
-                  render();
+                  closeConnection();
+                  setIsReal(!isReal);
                   setUsername('');
                 }}
                 className="cursor-pointer h-[40px] w-[40px]"
@@ -297,7 +299,7 @@ const MessagePage = () => {
                             joinRoom(usersId, `${dm.room}`);
                             handleOpen();
                         }}>
-                        <DirectMessagesComponent chatid={dm.id} id={usersId == dm.userID1 ? dm.userID2 : dm.userID1} focus={chatRoom == dm.room ?  'bg-[#252525]': 'bg-[#181818]' }/>
+                        <DirectMessagesComponent chatid={dm.id} id={usersId == dm.userID1 ? dm.userID2 : dm.userID1} focus={chatRoom == dm.room ?  'lg:bg-[#252525]': 'bg-[#181818]' }/>
                     </div>
                     )})
                 }
