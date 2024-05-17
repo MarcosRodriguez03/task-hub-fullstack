@@ -181,7 +181,11 @@ const EditProfileComponent = (prop: {
                 <button onClick={handleClickBtn} className="mt-[25px] lg:mt-[15px] bg-[#282828] border-[1px] border-[#808080] h-[50px] w-[250px] text-[24px] font-semibold text-white rounded-[10px]">
                   Upload Photo
                 </button>
-                <div className="my-[15px] leading-[29px] cursor-pointer text-[#CB76F2] text-[24px] text-center">
+                <div 
+                onClick={() => {
+                  setImage(null);
+                }}
+                className="my-[15px] leading-[29px] cursor-pointer text-[#CB76F2] text-[24px] text-center">
                   Remove Photo
                 </div>
               </div>

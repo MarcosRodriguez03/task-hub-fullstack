@@ -142,6 +142,7 @@ export default function Home() {
                         setPassword(e.target.value)
                       }
                     }}
+                    maxLength={25}
                     value={password}
                     placeholder="Password"
                     type="password"

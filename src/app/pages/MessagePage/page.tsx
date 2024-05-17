@@ -10,12 +10,11 @@ import ProfilePageComponent from "@/app/components/ProfilePageComponent";
 import leftArrow from "../../../assets/leftArrow.png";
 import sendIcon from "../../../assets/sendIcon.png";
 import { getLocalStorage } from "@/utils/localStorage";
-import { addDM, getEntireUserProfile, getLoggedInUserData } from "@/utils/DataService";
+import { GetDMS, addDM, getEntireUserProfile, getLoggedInUserData } from "@/utils/DataService";
 import { useAppContext } from "@/Context/Context";
 import emptyPfp from "@/assets/emptyPfp.png";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
-import MessageContainerComponent from "@/app/component/MessageContainerComponent";
-import ChatRoomComponent from "@/app/component/ChatRoomComponent";
+import DirectMessagesComponent from "@/app/component/DirectMessagesComponent";
 
 export interface IMessages {
   username: string;
@@ -38,6 +37,7 @@ const MessagePage = () => {
   const [otherUserID, setOtherUserID] = useState<string>("");
   const [userPfp, setUserPfp] = useState<any>();
   const [username, setUsername] = useState<string>("");
+  const [directMessage, setDirectMessage] = useState<any>([]);
 
   const messageRef = useRef<HTMLDivElement>(null);
 
@@ -92,7 +92,10 @@ const MessagePage = () => {
         let userID = await getLoggedInUserData(username);
         console.log(userID);
         let dm = await addDM(Number(usersId), userID.userId);
-        console.log(dm);
+        // if(dm){
+        //     let displaydm = await GetDMS(Number(usersId));
+        //     console.log(displaydm);
+        // }
     }
   }
 
@@ -116,6 +119,9 @@ const MessagePage = () => {
       let info = await getLoggedInUserData(input);
       setusersId(`${info.userId}`);
       console.log(info);
+      let display = await GetDMS(Number(info.userId));
+      console.log(display);
+      setDirectMessage(display);
     };
     populateData();
 
@@ -130,7 +136,8 @@ const MessagePage = () => {
     //     document.removeEventListener('mousedown', handleClickOutside);
     // }
     
-  }, []);
+  }, [directMessage]);
+
   const submitFunction = () => {
     console.log(usersId);
     joinRoom(usersId, chatRoom);
@@ -167,6 +174,7 @@ const MessagePage = () => {
   const [messagesPage, setMessagesPage] = useState<string>("block lg:block");
   const [taskPage, setTaskPage] = useState<string>("block lg:block");
   const [userProfile, setUserProfile] = useState<any>();
+  
 
 
 
@@ -284,25 +292,19 @@ const MessagePage = () => {
               />
             </div>
             <div className=" absolute  top-[93px] w-full lg:w-1/4 bottom-0 overflow-auto">
-              <div 
-              onClick={() => {
-                closeConnection();
-                handleOpen();
-              }}
-              className="cursor-pointer flex items-center px-[25px] py-[10px] border-b border-[#525252] justify-between ">
-                <div
-                  
-                  className="flex items-center gap-[20px]"
-                >
-                  <Image
-                    alt="pfp"
-                    src={homeLogo}
-                    className="h-[50px] w-[50px] rounded-[50px]"
-                  />
-                  <p className="text-white">Tyler Nguyen</p>
-                </div>
-                <Image alt="x" src={exit} className="hidden  h-[40px] w-[40px]" />
-              </div>
+                {
+                    directMessage && directMessage.map((dm:any) => {
+                        return(
+                        <div key={dm.id} onClick={() => {
+                            closeConnection();
+                            joinRoom(usersId, dm.Room);
+                            handleOpen();
+                        }}>
+                        <DirectMessagesComponent id={usersId == dm.userID1 ? dm.userID2 : dm.userID1}/>
+                    </div>
+                    )})
+                }
+              
             </div>
           </div>
 
@@ -314,7 +316,7 @@ const MessagePage = () => {
                     Currently connected with no one
                 </p>
             ) : (
-              // <ChatRoomComponent message={messages} sendMessage={sendMessage}/>
+              
               <div className="h-full flex  flex-col">
                 <div ref={messageRef} className="bg-black overflow-auto flex-1">
                   <div className="flex flex-col p-[15px] lg:p-[30px]">
