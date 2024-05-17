@@ -286,4 +286,32 @@ export const GetTaskByID = async (taskID: number) => {
 }
 
 
+// messaging functions
+export const GetDMS = async (userId: number) => {
+    const res = await fetch(url + '/Message/GetAllDMS/' + userId)
+    let data = await res.json();
+    return data;
+}
+
+export const addDM = async (userID1: number, userID2: number) => {
+    const res = await fetch(url + `/Message/DirectMessage/${userID1}/${userID2}`, {
+        method: "POST",
+        headers: {
+            'Content-Type': "application/json"
+        },
+        body: JSON.stringify({
+            userID1,
+            userID2
+        })
+    })
+    //we need to check if post was succeesful
+    if (!res.ok) {
+        const message = "an error has occured " + res.status;
+        throw new Error(message);
+    }
+
+    const data = await res.json();
+    console.log(data);
+    return data
+}
 

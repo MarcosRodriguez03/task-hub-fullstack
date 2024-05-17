@@ -1,7 +1,7 @@
 
 
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import loginBg from "@/assets/loginBg.jpg";
 import { FileInput } from "flowbite-react";
 import { getEntireUserProfile, getLoggedInUserData, publishEditUserInfo } from "@/utils/DataService";
@@ -28,8 +28,8 @@ const EditProfileComponent = (prop: {
   const [profilePage, setProfilePage] = useState<string>('hidden');
   const [userProfile, setUserProfile] = useState<string>("")
 
-  const handleFirst = (e: React.ChangeEvent<HTMLInputElement>) => setFirst(e.target.value);
-  const handleSecond = (e: React.ChangeEvent<HTMLInputElement>) => setSecond(e.target.value);
+  const handleFirst = (e: any) => setFirst(e);
+  const handleSecond = (e: any) => setSecond(e);
   const handleContact = (e: React.ChangeEvent<HTMLInputElement>) => setContact(e.target.value);
   const handleBio = (e: any) => setBio(e.target.value);
 
@@ -127,22 +127,36 @@ const EditProfileComponent = (prop: {
           <div className="grid lg:grid-cols-12">
             <div className="order-2 lg:order-1 lg:col-span-8">
               <input
-                onChange={handleFirst}
+                onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                  if (!/\s/.test(e.target.value)) {
+                    handleFirst(e.target.value);
+                  }
+                }}
+                value={first}
+                maxLength={40}
                 className="mb-[20px] rounded-[10px] bg-[#282828] border-[#808080] border-b-[1px] focus:outline-none px-[20px] w-full lg:w-[561px] h-[44px] text-[20px] text-[#808080] placeholder:text-[#808080]"
                 placeholder="First name"
               />
               <input
-                onChange={handleSecond}
+                onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                  if (!/\s/.test(e.target.value)) {
+                    handleSecond(e.target.value);
+                  }
+                }}
+                value={second}
+                maxLength={40}
                 className="mb-[20px] rounded-[10px] bg-[#282828] border-[#808080] border-b-[1px] focus:outline-none px-[20px] w-full lg:w-[561px] h-[44px] text-[20px] text-[#808080] placeholder:text-[#808080]"
                 placeholder="Last name"
               />
               <input
                 onChange={handleContact}
+                maxLength={100}
                 className="mb-[20px] rounded-[10px] bg-[#282828] border-[#808080] border-b-[1px] focus:outline-none px-[20px] w-full lg:w-[561px] h-[44px] text-[20px] text-[#808080] placeholder:text-[#808080]"
                 placeholder="Contact"
               />
               <textarea
                 onChange={handleBio}
+                maxLength={400}
                 className="mb-[20px] rounded-[10px] bg-[#282828] border-0 border-b-[1px] border-[#808080] outline-none py-[10px] px-[20px] w-full lg:w-[561px] h-[150px] lg:h-[250px] text-[20px] text-[#808080] placeholder:text-[#808080]"
                 placeholder="Bio"
               ></textarea>

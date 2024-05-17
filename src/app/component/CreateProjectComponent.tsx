@@ -68,6 +68,7 @@ const CreateProjectComponent = (prop: { setCreateProject: (input: string) => voi
                 setProjectName(e.target.value)
               }
             }}
+            maxLength={40}
             className="mb-[25px] rounded-[10px] bg-[#282828] border-[#808080] border-b-[1px] focus:outline-none px-[20px] w-full md:w-[364px] h-[44px] text-[20px] text-[#808080] placeholder:text-[#808080]" placeholder="Project name" />
           <input
             onChange={(e) => setAddedUser(e.target.value)}

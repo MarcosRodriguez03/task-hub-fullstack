@@ -95,17 +95,17 @@ const ProfilePageComponent = (prop: {
               />
             </div>
 
-            <p className=" mt-[25px] text-[28px] font-bold text-white">
+            <p className=" mt-[25px] text-[28px] font-bold text-white break-words text-center w-full">
               {profileFirstName && profileFirstName} {profileLastName && profileLastName}
             </p>
-            <p className="text-[24px] font-bold text-[#B8B8B8] mt-1">
+            <p className="text-[24px] font-bold text-[#B8B8B8] mt-1 break-words">
               {username && username}
             </p>
             <div className="bg-[#282828] w-full mx-[20px] lg:mx-[30px] min-h-[300px] lg:h-[283px] rounded-[10px] my-6 p-[20px] lg:overflow-y-auto">
               <p className="text-[#B8B8B8] text-[24px] font-semibold">
                 Contact
               </p>
-              <p className="text-white text-[20px] font-medium">
+              <p className="text-white text-[20px] font-medium break-words">
                 {profileContact && profileContact}
               </p>
               <p className="text-[#B8B8B8] text-[24px] font-semibold mt-6">

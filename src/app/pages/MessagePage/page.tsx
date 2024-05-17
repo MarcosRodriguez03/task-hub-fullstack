@@ -10,7 +10,7 @@ import ProfilePageComponent from "@/app/components/ProfilePageComponent";
 import leftArrow from "../../../assets/leftArrow.png";
 import sendIcon from "../../../assets/sendIcon.png";
 import { getLocalStorage } from "@/utils/localStorage";
-import { getEntireUserProfile, getLoggedInUserData } from "@/utils/DataService";
+import { addDM, getEntireUserProfile, getLoggedInUserData } from "@/utils/DataService";
 import { useAppContext } from "@/Context/Context";
 import emptyPfp from "@/assets/emptyPfp.png";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
@@ -37,6 +37,7 @@ const MessagePage = () => {
   const [usersId, setusersId] = useState<string>("");
   const [otherUserID, setOtherUserID] = useState<string>("");
   const [userPfp, setUserPfp] = useState<any>();
+  const [username, setUsername] = useState<string>("");
 
   const messageRef = useRef<HTMLDivElement>(null);
 
@@ -53,10 +54,14 @@ const MessagePage = () => {
 
       conn.on("ReceiveMessage", (username, msg) => {
         setMessages((messages) => [...messages, { username, msg }]);
-        console.log(typeof username);
-        setOtherUserID(username);
+        console.log(username);
+        // setOtherUserID(username);
       });
 
+      conn.onclose(e => {
+        setConnection(null);
+        setMessages([]);
+      })
       await conn.start();
       await conn.invoke("JoinSpecificChatRoom", { username, room });
 
@@ -66,6 +71,14 @@ const MessagePage = () => {
     }
   };
 
+  const closeConnection = async () => {
+    try {
+        await conn.stop();
+    } catch(e) {
+        console.log('closed');
+    }
+  }
+
   const sendMessage = async (message: any) => {
     try {
       conn && (await conn.invoke("SendMessage", message));
@@ -74,19 +87,28 @@ const MessagePage = () => {
     }
   };
 
-  useEffect(() => {
-    const profileUser = async () => {
-        console.log(otherUserID);
-        if(otherUserID){
-            let arr = await getEntireUserProfile(otherUserID)
-                setUserPfp(arr.image)
-                console.log(arr.image);
-
-        }
+  const createNewDM = async () => {
+    if(username != ""){
+        let userID = await getLoggedInUserData(username);
+        console.log(userID);
+        let dm = await addDM(Number(usersId), userID.userId);
+        console.log(dm);
     }
-    profileUser();
+  }
 
-  }, [otherUserID])
+//   useEffect(() => {
+//     const profileUser = async () => {
+//         console.log(otherUserID);
+//         if(otherUserID){
+//             let arr = await getEntireUserProfile(otherUserID)
+//                 setUserPfp(arr.image)
+//                 console.log(arr.image);
+
+//         }
+//     }
+//     profileUser();
+
+//   }, [otherUserID])
 
   useEffect(() => {
     const populateData = async () => {
@@ -206,7 +228,10 @@ const MessagePage = () => {
         className={` ${topHeight} h-[80px] top-0 absolute w-full bg-[#181818] flex justify-between items-center px-[15px]`}
       >
         <button
-          onClick={handleOpen}
+          onClick={() => {
+            closeConnection();
+            handleOpen();
+        }}
           className="me-[15px] w-[50px] h-[50px] bg-[#212020] hover:bg-[#3a3838] active:bg-[#4a4848] rounded-[10px] flex items-center justify-center"
         >
           <Image
@@ -240,18 +265,18 @@ const MessagePage = () => {
             <div className="flex items-center  py-[25px] border-b px-[25px]  border-[#525252] ">
               <input
                 onChange={(e) => {
-                  setChatRoom(e.target.value);
-                  console.log(chatRoom);
+                  setUsername(e.target.value);
                 }}
-                value={chatRoom}
+                value={username}
                 placeholder="Search username"
                 className="w-full bg-[#282828] border h-[31px] rounded-[10px] border-[#707070] text-[#808080]"
                 type="text"
               />
               <Image
                 onClick={() => {
-                  submitFunction();
-                  setChatRoom('');
+                  closeConnection();
+                  createNewDM();
+                  setUsername('');
                 }}
                 className="cursor-pointer h-[40px] w-[40px]"
                 alt="src"
@@ -259,9 +284,14 @@ const MessagePage = () => {
               />
             </div>
             <div className=" absolute  top-[93px] w-full lg:w-1/4 bottom-0 overflow-auto">
-              <div className="cursor-pointer flex items-center  px-[25px] py-[10px] border-b border-[#525252] justify-between ">
+              <div 
+              onClick={() => {
+                closeConnection();
+                handleOpen();
+              }}
+              className="cursor-pointer flex items-center px-[25px] py-[10px] border-b border-[#525252] justify-between ">
                 <div
-                  onClick={handleOpen}
+                  
                   className="flex items-center gap-[20px]"
                 >
                   <Image
@@ -271,7 +301,7 @@ const MessagePage = () => {
                   />
                   <p className="text-white">Tyler Nguyen</p>
                 </div>
-                <Image alt="x" src={exit} className="  h-[40px] w-[40px]" />
+                <Image alt="x" src={exit} className="hidden  h-[40px] w-[40px]" />
               </div>
             </div>
           </div>
@@ -291,13 +321,13 @@ const MessagePage = () => {
                     {messages &&
                       messages.map((msg: any, idx: number) => (
                         <div key={idx} className={msg.username == usersId ? "flex justify-end items-end mt-[30px]" : "flex items-end mt-[30px]"}>
-                          {
+                          {/* {
                             msg.username != usersId ?
                             <img
                             alt="pfp"
                             src={userPfp && userPfp ? userPfp : emptyPfp}
                             className="rounded-[50px] w-[40px] h-[40px] lg:w-[50px] lg:h-[50px]"
-                          /> : ''}
+                          /> : ''} */}
                           <div className={msg.username == usersId ? 'bg-[#CB76F2] text-white p-2 rounded-t-xl rounded-l-xl w-auto break-all' : 'bg-[#181818] rounded-t-xl rounded-r-xl text-white p-2 w-auto break-all'}>
                             <p className="break-all">
                                 {msg.msg}

@@ -129,6 +129,7 @@ export default function Home() {
                         setUserName(e.target.value)
                       }
                     }}
+                    maxLength={25}
                     value={username}
                     placeholder="Username"
                     className="px-[15px] lg:px-[20px]  rounded-[10px] w-full border border-transparent bg-transparent focus:outline-none focus:ring-0 text-[20px] lg:text-[24px]  text-[#808080] placeholder:text-[#808080]" type="text" />
