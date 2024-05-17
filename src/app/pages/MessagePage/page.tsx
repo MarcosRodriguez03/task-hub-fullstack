@@ -10,7 +10,7 @@ import ProfilePageComponent from "@/app/components/ProfilePageComponent";
 import leftArrow from "../../../assets/leftArrow.png";
 import sendIcon from "../../../assets/sendIcon.png";
 import { getLocalStorage } from "@/utils/localStorage";
-import { GetDMS, addDM, getEntireUserProfile, getLoggedInUserData } from "@/utils/DataService";
+import { GetDMS, addDM, getEntireUserProfile, getEntireUserProfileById, getLoggedInUserData } from "@/utils/DataService";
 import { useAppContext } from "@/Context/Context";
 import emptyPfp from "@/assets/emptyPfp.png";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
@@ -35,7 +35,7 @@ const MessagePage = () => {
   const [chatRoom, setChatRoom] = useState<string>("");
   const [usersId, setusersId] = useState<string>("");
   const [otherUserID, setOtherUserID] = useState<string>("");
-  const [userPfp, setUserPfp] = useState<any>();
+  const [userPfp, setUserPfp] = useState<string>('');
   const [username, setUsername] = useState<string>("");
   const [directMessage, setDirectMessage] = useState<any>([]);
   const [isReal, setIsReal] = useState<boolean>(true);
@@ -53,8 +53,6 @@ const MessagePage = () => {
 
       conn.on("ReceiveMessage", (username, msg) => {
         setMessages((messages) => [...messages, { username, msg }]);
-        console.log(username);
-        // setOtherUserID(username);
       });
 
       conn.onclose(e => {
@@ -71,6 +69,7 @@ const MessagePage = () => {
   };
 
   const closeConnection = async () => {
+    setIsReal(!isReal);
     try {
         await conn.stop();
     } catch(e) {
@@ -88,41 +87,35 @@ const MessagePage = () => {
 
   const createNewDM = async () => {
     if(username != ""){
-        let userID = await getLoggedInUserData(username);
-        console.log(userID);
-        let dm = await addDM(Number(usersId), userID.userId);
-        // if(dm){
-        //     let displaydm = await GetDMS(Number(usersId));
-        //     console.log(displaydm);
-        // }
+      let userID = await getLoggedInUserData(username);
+      console.log(userID);
+      let dm = await addDM(Number(usersId), userID.userId);
+      setIsReal(!isReal);
     }
+    setIsReal(!isReal);
   }
 
-//   useEffect(() => {
-//     const profileUser = async () => {
-//         console.log(otherUserID);
-//         if(otherUserID){
-//             let arr = await getEntireUserProfile(otherUserID)
-//                 setUserPfp(arr.image)
-//                 console.log(arr.image);
-
-//         }
-//     }
-//     profileUser();
-
-//   }, [otherUserID])
-
   useEffect(() => {
+    console.log(isReal);
     const populateData = async () => {
       let input = getLocalStorage();
       let info = await getLoggedInUserData(input);
       setusersId(`${info.userId}`);
-      console.log(info);
       let display = await GetDMS(Number(info.userId));
-      console.log(display);
       setDirectMessage(display);
     };
     populateData();
+
+    const userUsername = async () => {
+      if(otherUserID != ""){
+        console.log(otherUserID);
+        let user = await getEntireUserProfileById(Number(otherUserID));
+        console.log(user);
+        setUserPfp(user.username);
+      }
+      
+    }
+    userUsername();
 
     // const handleClickOutside = () => {
     //     if(toggleNotifications == "hidden lg:block"){
@@ -138,6 +131,7 @@ const MessagePage = () => {
   }, [isReal]);
 
   const handleOpen = () => {
+    setIsReal(!isReal);
     if (addCol == "hidden") {
       setAddCol("block");
       setRemoveCol("hidden ");
@@ -150,6 +144,10 @@ const MessagePage = () => {
       setTopHeight("hidden");
     }
   };
+
+  const render = () => {
+    setIsReal(!isReal);
+  }
 
   const closeTop = () => {
     setRemoveCol(" ");
@@ -243,7 +241,7 @@ const MessagePage = () => {
           />
         </button>
         <div className="absolute left-1/2 transform -translate-x-1/2">
-          <p className="text-white text-[24px]">Tyler</p>
+          <p className="text-white text-[24px]">{!conn ? '' : `${userPfp && userPfp}`}</p>
         </div>
       </div>
 
@@ -268,8 +266,10 @@ const MessagePage = () => {
               <input
                 onChange={(e) => {
                   setUsername(e.target.value);
+                  console.log(e.target.value);
                 }}
                 value={username}
+                maxLength={25}
                 placeholder="Search username"
                 className="w-full bg-[#282828] border h-[31px] rounded-[10px] border-[#707070] text-[#808080]"
                 type="text"
@@ -278,7 +278,7 @@ const MessagePage = () => {
                 onClick={() => {
                   closeConnection();
                   createNewDM();
-                  setIsReal(!isReal);
+                  render();
                   setUsername('');
                 }}
                 className="cursor-pointer h-[40px] w-[40px]"
@@ -291,13 +291,13 @@ const MessagePage = () => {
                     directMessage && directMessage.map((dm:any) => {
                         return(
                         <div key={dm.id} onClick={() => {
+                            setOtherUserID(usersId == dm.userID1 ? dm.userID2 : dm.userID1);
                             closeConnection();
-                            
-                            setChatRoom(dm.Room);
-                            joinRoom(usersId, dm.Room);
+                            setChatRoom(dm.room);
+                            joinRoom(usersId, `${dm.room}`);
                             handleOpen();
                         }}>
-                        <DirectMessagesComponent id={usersId == dm.userID1 ? dm.userID2 : dm.userID1} focus={chatRoom == dm.Room ? true : false}/>
+                        <DirectMessagesComponent chatid={dm.id} id={usersId == dm.userID1 ? dm.userID2 : dm.userID1} focus={chatRoom == dm.room ?  'bg-[#252525]': 'bg-[#181818]' }/>
                     </div>
                     )})
                 }

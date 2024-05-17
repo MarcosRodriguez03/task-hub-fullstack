@@ -46,6 +46,7 @@ const AddUserComponent = (prop: { setAddUser: (input: string) => void; }) => {
           <input
             onChange={(e) => { setEnteredUser(e.target.value) }}
             value={enteredUser}
+            maxLength={25}
             className="rounded-[10px] bg-[#282828] border-[#808080] border-b-[1px] focus:outline-none px-[20px] w-full md:w-[364px] h-[44px] text-[20px] text-[#808080] placeholder:text-[#808080]" placeholder="Add username" />
           <div className="mt-[25px] flex justify-end">
             <button

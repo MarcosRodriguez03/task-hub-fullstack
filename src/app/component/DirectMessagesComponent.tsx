@@ -6,7 +6,7 @@ import homeLogo from "@/assets/homelogo.png";
 import emptyPfp from "@/assets/emptyPfp.png";
 import { getEntireUserProfileById, getLoggedInUserData } from '@/utils/DataService';
 
-const DirectMessagesComponent = (prop: {id:number, focus:boolean}) => {
+const DirectMessagesComponent = (prop: {id:number, focus:string, chatid:number}) => {
 
     const [name, setName] = useState<string>();
     const [image, setImage] = useState<any>();
@@ -24,8 +24,7 @@ const DirectMessagesComponent = (prop: {id:number, focus:boolean}) => {
 
   return (
     <div 
-
-              className={"cursor-pointer flex items-center px-[25px] py-[10px] border-b bg-[#181818] border-[#525252] justify-between "}>
+              className={`cursor-pointer flex items-center px-[25px] py-[10px] border-b border-r ${prop.focus} border-[#525252] justify-between`}>
                 <div
                   
                   className="flex items-center gap-[20px]"
