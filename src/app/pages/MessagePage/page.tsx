@@ -38,6 +38,7 @@ const MessagePage = () => {
   const [userPfp, setUserPfp] = useState<any>();
   const [username, setUsername] = useState<string>("");
   const [directMessage, setDirectMessage] = useState<any>([]);
+  const [isReal, setIsReal] = useState<boolean>(true);
 
   const messageRef = useRef<HTMLDivElement>(null);
 
@@ -48,8 +49,6 @@ const MessagePage = () => {
         .configureLogging(LogLevel.Information)
         .build();
       conn.on("JoinSpecificChatRoom", (username, msg) => {
-        console.log("hi");
-        console.log(username);
       });
 
       conn.on("ReceiveMessage", (username, msg) => {
@@ -136,12 +135,7 @@ const MessagePage = () => {
     //     document.removeEventListener('mousedown', handleClickOutside);
     // }
     
-  }, [directMessage]);
-
-  const submitFunction = () => {
-    console.log(usersId);
-    joinRoom(usersId, chatRoom);
-  };
+  }, [isReal]);
 
   const handleOpen = () => {
     if (addCol == "hidden") {
@@ -284,6 +278,7 @@ const MessagePage = () => {
                 onClick={() => {
                   closeConnection();
                   createNewDM();
+                  setIsReal(!isReal);
                   setUsername('');
                 }}
                 className="cursor-pointer h-[40px] w-[40px]"
@@ -297,10 +292,12 @@ const MessagePage = () => {
                         return(
                         <div key={dm.id} onClick={() => {
                             closeConnection();
+                            
+                            setChatRoom(dm.Room);
                             joinRoom(usersId, dm.Room);
                             handleOpen();
                         }}>
-                        <DirectMessagesComponent id={usersId == dm.userID1 ? dm.userID2 : dm.userID1}/>
+                        <DirectMessagesComponent id={usersId == dm.userID1 ? dm.userID2 : dm.userID1} focus={chatRoom == dm.Room ? true : false}/>
                     </div>
                     )})
                 }
