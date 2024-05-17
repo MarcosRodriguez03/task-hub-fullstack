@@ -35,6 +35,8 @@ const MessagePage = () => {
   const [message, setMessage] = useState<string>("");
   const [chatRoom, setChatRoom] = useState<string>("");
   const [usersId, setusersId] = useState<string>("");
+  const [otherUserID, setOtherUserID] = useState<string>("");
+  const [userPfp, setUserPfp] = useState<any>();
 
   const messageRef = useRef<HTMLDivElement>(null);
 
@@ -51,7 +53,8 @@ const MessagePage = () => {
 
       conn.on("ReceiveMessage", (username, msg) => {
         setMessages((messages) => [...messages, { username, msg }]);
-        console.log(username);
+        console.log(typeof username);
+        setOtherUserID(username);
       });
 
       await conn.start();
@@ -70,6 +73,21 @@ const MessagePage = () => {
       console.log("hi");
     }
   };
+
+  useEffect(() => {
+    const profileUser = async () => {
+        console.log(otherUserID);
+        if(otherUserID){
+            let arr = await getEntireUserProfile(otherUserID)
+                setUserPfp(arr.image)
+                console.log(arr.image);
+
+        }
+    }
+    profileUser();
+
+  }, [otherUserID])
+
   useEffect(() => {
     const populateData = async () => {
       let input = getLocalStorage();
@@ -226,6 +244,7 @@ const MessagePage = () => {
                   console.log(chatRoom);
                 }}
                 value={chatRoom}
+                placeholder="Search username"
                 className="w-full bg-[#282828] border h-[31px] rounded-[10px] border-[#707070] text-[#808080]"
                 type="text"
               />
@@ -261,7 +280,9 @@ const MessagePage = () => {
             className={`${addCol} col-span-12 lg:col-span-9 overflow-hidden  lg:block`}
           >
             {!conn ? (
-              "Talking to no one"
+                <p className="text-white text-center mt-2">
+                    Currently connected with no one
+                </p>
             ) : (
               // <ChatRoomComponent message={messages} sendMessage={sendMessage}/>
               <div className="h-full flex  flex-col">
@@ -274,8 +295,8 @@ const MessagePage = () => {
                             msg.username != usersId ?
                             <img
                             alt="pfp"
-                            src={userProfile ? userProfile : emptyPfp}
-                            className="rounded-[50px] w-[40px] h-[40px] lg:w-[75px] lg:h-[75px]"
+                            src={userPfp && userPfp ? userPfp : emptyPfp}
+                            className="rounded-[50px] w-[40px] h-[40px] lg:w-[50px] lg:h-[50px]"
                           /> : ''}
                           <div className={msg.username == usersId ? 'bg-[#CB76F2] text-white p-2 rounded-t-xl rounded-l-xl w-auto break-all' : 'bg-[#181818] rounded-t-xl rounded-r-xl text-white p-2 w-auto break-all'}>
                             <p className="break-all">
