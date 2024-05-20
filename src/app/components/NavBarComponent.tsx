@@ -28,10 +28,11 @@ const NavBarComponent = (prop: {
   pageProfile: (input: string) => void;
   profilePicture: any;
   closeTop: () => void;
+  pageBool: (input: boolean) => void
 }) => {
 
 
-
+  const data = useAppContext()
   let router = useRouter()
 
   const GoToHome = () => {
@@ -97,7 +98,9 @@ const NavBarComponent = (prop: {
             </div>
             <div onClick={() => {
               prop.pageProfile('block lg:block');
+              prop.pageBool(true)
               prop.setTitle('Profile');
+              data.setIsProfileOpen(!data.isProfileOpen)
             }} className="my-auto rounded-[50px]  h-[50px] w-[50px] cursor-pointer">
               <div className=" relative w-[50px] h-[50px] rounded-[50px]">
                 <Image fill className="h-[50px] w-[50px] rounded-[50px]" src={prop.profilePicture ? prop.profilePicture : emptyPfp} alt="profile picture" />

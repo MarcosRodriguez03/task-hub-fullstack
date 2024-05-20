@@ -9,7 +9,7 @@ import Image from "next/image";
 import loginLogo from '@/assets/loginLogo.png'
 import TaskPage from "./pages/TaskPage/page";
 import { useAppContext } from "@/Context/Context";
-import { saveLocalStorage } from "@/utils/localStorage";
+import { saveLocalStorage, saveLocalStorageUserID } from "@/utils/localStorage";
 
 
 
@@ -28,9 +28,9 @@ export default function Home() {
   let router = useRouter();
 
   useEffect(() => {
-    if(username === '' || password === ''){
+    if (username === '' || password === '') {
       setBtnDisable(true);
-    }else{
+    } else {
       setBtnDisable(false);
     }
   }, [username, password])
@@ -87,6 +87,8 @@ export default function Home() {
         data.setPageTwoName(username);
         localStorage.setItem("Token", token.token)
         getLoggedInUserData(username);
+        let userId = await getLoggedInUserData(username)
+        saveLocalStorageUserID(userId.id)
         router.push('/pages/HomePage');
 
       } else {
@@ -154,7 +156,7 @@ export default function Home() {
 
               <button
                 onClick={() => {
-                  if(username != '' || password != ''){
+                  if (username != '' || password != '') {
                     handleSubmit();
                   }
                 }}

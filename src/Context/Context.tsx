@@ -21,6 +21,9 @@ interface IContextValue {
     currentProjectId: number
     setCurrentProjectId: (pageTwoName: number) => void
 
+    isProfileOpen: boolean
+    setIsProfileOpen: (input: boolean) => void
+
 }
 
 export const Context = createContext<IContextValue>({} as IContextValue);
@@ -34,11 +37,12 @@ export const AppWrapper = ({ children, }: Readonly<{ children: React.ReactNode; 
     const [boolUser, setBoolUser] = useState<boolean>(true);
     const [globalUserId, setGlobalUserId] = useState<number>(0);
     const [currentProjectId, setCurrentProjectId] = useState<number>(0);
+    const [isProfileOpen, setIsProfileOpen] = useState<boolean>(true);
 
     return (
         <Context.Provider value={{
             pageTwoName, setPageTwoName, setPageTwoName2, pageTwoName2, pageTwoName3, setPageTwoName3, pageTwoName4, setPageTwoName4, globalUserId,
-            setGlobalUserId, currentProjectId, setCurrentProjectId, boolUser, setBoolUser
+            setGlobalUserId, currentProjectId, setCurrentProjectId, boolUser, setBoolUser, isProfileOpen, setIsProfileOpen
         }}>
             {children}
         </Context.Provider>

@@ -51,6 +51,9 @@ const TaskPage = () => {
 
     const [viewTask, setViewTask] = useState<string>("hidden")
     const [updateTaskId, setUpdateTaskId] = useState<number>(1)
+    const [doNothing, setDoNothing] = useState<string>("hidden lg:hidden")
+    const [profileId, setProfileId] = useState<number>(4)
+    const [pageBool, setPageBool] = useState<boolean>(true)
 
 
     const data = useAppContext();
@@ -106,6 +109,7 @@ const TaskPage = () => {
             let currentProjectId = getLocalStorageProjectId();
             let UsersByProjectId = await GetUsersByProjectId(currentProjectId);
             // setUserArr(UsersByProjectId);
+
             let TaskUsersArr = []
             for (let i = 0; i < UsersByProjectId.length; i++) {
                 let person: any = await getEntireUserProfileById(UsersByProjectId[i].userID);
@@ -113,13 +117,6 @@ const TaskPage = () => {
                 TaskUsersArr.push(person)
             }
             setUserArr(TaskUsersArr)
-
-
-
-
-
-            // let person = await getEntireUserProfileById(UsersByProjectId[0].userID)
-            // console.log(person)
         }
         fetchUsers();
 
@@ -150,7 +147,7 @@ const TaskPage = () => {
                 <AddUserComponent setAddUser={setAddUser} />
             </div>
             <div className={profilePage}>
-                <ProfilePageComponent pageProfile={setProfilePage} />
+                <ProfilePageComponent pageProfile={setProfilePage} pageBool={pageBool} pageProfileId={profileId} />
             </div>
 
             <NavBarComponent title={mobileTitle}
@@ -166,6 +163,7 @@ const TaskPage = () => {
                 pageNotificationTwo={setNotificationsPageClick}
                 pageProfile={setProfilePage}
                 profilePicture={userProfile}
+                pageBool={setPageBool}
             />
 
             <div className={`${toggleNotifications} absolute right-[105px] w-[520px] z-30 px-[20px] bg-[#181818] border-[#808080] border-[1px] rounded-[10px] drop-shadow-2xl shadow-2xl h-[85vh] overflow-y-auto -mt-0.5`}>
@@ -185,29 +183,8 @@ const TaskPage = () => {
                                 className='ml-[20px] lg:ml-0 lg:mt-[20px] w-[34px] h-[34px] cursor-pointer' alt='add' src={addPeople} />
                         </>
 
-
-
-                        {/* {userArr && userArr.map(async (user) => {
-
-                            let person: any = await getEntireUserProfileById(user.userID);
-                            // return <>{console.log(person && person)}</>
-                            return (
-                                <>
-                                    <div onClick={handleNothing} className=' lg:mt-3' >
-                                        <div className='  mx-auto  relative h-[34px] w-[34px]'>
-                                            {
-                                                person.image && person.image != null ? <Image fill className='    w-[34px] h-[34px] rounded-[50px]' alt='pfp' src={person.image && person.image} /> : <Image src={emptyPfp} alt='default pfp' />
-                                            }
-                                        </div>
-                                        <p className='w-[100px] text-[20px] text-center text-white hidden lg:block'>{person && person.username}</p>
-                                    </div>
-
-                                </>
-                            );
-                        })} */}
-
                         {userArr && userArr.map((person, idx) => {
-                            return <div key={idx} onClick={handleNothing} className=' lg:mt-3' >
+                            return <div key={idx} onClick={() => { setPageBool(false); setProfileId(person.id); setProfilePage(" block"); data.setIsProfileOpen(!data.isProfileOpen) }} className='cursor-pointer lg:mt-3' >
                                 <div className='  mx-auto  relative h-[34px] w-[34px]'>
                                     {
                                         person.image && person.image != null ? <Image fill className='    w-[34px] h-[34px] rounded-[50px]' alt='pfp' src={person.image && person.image} /> : <Image src={emptyPfp} alt='default pfp' />
@@ -215,8 +192,6 @@ const TaskPage = () => {
                                 </div>
                                 <p className='w-[90px] text-[20px] text-center text-white hidden lg:block'>{person && person.username}</p>
                             </div>
-
-
                         })}
 
 

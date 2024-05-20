@@ -5,14 +5,18 @@ import Image from "next/image";
 import emptyPfp from "@/assets/emptyPfp.png";
 import EditProfileComponent from "../component/EditProfileComponent";
 import { useRouter } from "next/navigation";
-import { getLocalStorage } from "@/utils/localStorage";
-import { getEntireUserProfile } from "@/utils/DataService";
+import { getLocalStorage, getLocalStorageProjectId, getLocalStorageUserID } from "@/utils/localStorage";
+import { RemoveUserFromProjectByID, getEntireUserProfile, getEntireUserProfileById } from "@/utils/DataService";
 import { useAppContext } from "@/Context/Context";
 
 const ProfilePageComponent = (prop: {
   pageProfile: (input: string) => void;
+  pageProfileId: number;
+  pageBool: boolean;
 
 }) => {
+
+  const data = useAppContext();
 
   const [editProfile, setEditProfile] = useState<string>('hidden');
 
@@ -22,6 +26,7 @@ const ProfilePageComponent = (prop: {
   const [profileContact, setProfileContact] = useState<string>("contact")
   const [profileBio, setProfileBio] = useState<string>("")
   const [profileImage, setProfileImage] = useState<string>("");
+  const [currentUser, setCurrentUser] = useState<number>(0);
 
 
   const { pageTwoName } = useAppContext();
@@ -29,29 +34,46 @@ const ProfilePageComponent = (prop: {
 
   useEffect(() => {
     let user = getLocalStorage();
+    let userId = getLocalStorageUserID();
+    console.log(userId)
+    setCurrentUser(userId)
     const loadProfile = async () => {
+      if (prop.pageBool == true) {
+        let fullProfile: any = await getEntireUserProfile(user)
+        console.log(fullProfile)
+        setUsername(fullProfile[0].username);
+        setProfileFirstName(fullProfile[0].firstName)
+        setProfileLastName(fullProfile[0].lastName)
+        setProfileContact(fullProfile[0].contact)
+        setProfileBio(fullProfile[0].bio)
+        setProfileImage(fullProfile[0].image)
+      } else {
+        let fullProfile: any = await getEntireUserProfileById(prop.pageProfileId)
+        console.log(fullProfile)
+        setUsername(fullProfile && fullProfile.username);
+        setProfileFirstName(fullProfile && fullProfile.firstName)
+        setProfileLastName(fullProfile && fullProfile.lastName)
+        setProfileContact(fullProfile && fullProfile.contact)
+        setProfileBio(fullProfile && fullProfile.bio)
+        setProfileImage(fullProfile && fullProfile.image)
 
-      let fullProfile: any = await getEntireUserProfile(user)
-      console.log(fullProfile)
-      setUsername(fullProfile[0].username);
-      setProfileFirstName(fullProfile[0].firstName)
-      setProfileLastName(fullProfile[0].lastName)
-      setProfileContact(fullProfile[0].contact)
-      setProfileBio(fullProfile[0].bio)
-      setProfileImage(fullProfile[0].image)
-
-
-
+      }
 
     }
     loadProfile()
-  }, [pageTwoName])
+  }, [pageTwoName, data.isProfileOpen])
 
 
   let router = useRouter();
 
   const LogOut = () => {
     router.push('/');
+  }
+
+  const handleKickUser = async () => {
+    let projId = getLocalStorageProjectId();
+    await RemoveUserFromProjectByID(prop.pageProfileId, projId)
+    data.setBoolUser(!data.boolUser);
   }
 
   const handleEditProfile = () => {
@@ -113,7 +135,9 @@ const ProfilePageComponent = (prop: {
               </p>
               <p className="text-white text-[20px] font-medium break-words">{profileBio && profileBio}</p>
             </div>
-            <div className="flex justify-center mb-6 w-full">
+
+
+            {prop.pageBool == true || prop.pageProfileId == currentUser ? <div className="flex justify-center mb-6 w-full">
               <button
                 onClick={handleEditProfile}
                 className="bg-[#5C5C5C] text-[24px] text-white font-semibold h-[49px] w-full max-w-[174px] rounded-[10px]">
@@ -124,7 +148,20 @@ const ProfilePageComponent = (prop: {
                 className="ms-[25px] bg-[#ED473D] text-[24px] text-white font-semibold h-[49px] w-full max-w-[174px] rounded-[10px]">
                 Sign Out
               </button>
-            </div>
+            </div> :
+              <div className="flex justify-center mb-6 w-full">
+                <button
+                  onClick={() => { handleKickUser(); data.setPageTwoName4(!data.pageTwoName4); prop.pageProfile("hidden") }}
+                  className="bg-[#ED473D] text-[24px] text-white font-semibold h-[49px] w-full max-w-[174px] rounded-[10px]">
+                  Remove
+                </button>
+              </div>
+
+            }
+
+
+
+
           </div>
         </div>
       </div>

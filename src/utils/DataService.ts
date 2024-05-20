@@ -74,29 +74,6 @@ export const getBlogItemsByUserId = async (userId: number) => {
     return data;
 }
 
-
-// export const publishEditUserInfo = async (id: number, firstName: string, lastName: string, contact: string, bio: string, image: string) => {
-//     const res = await fetch(url + `/User/UpdateUserInfo/${id}/${firstName}/${lastName}/${contact}/${bio}/${image}`, {
-//         method: "PUT",
-//         headers: {
-//             "Content-Type": 'application/json'
-//         }
-
-//     });
-//     if (!res.ok) {
-//         const message = "An Error has occured" + res.status;
-//         throw new Error(message);
-//     }
-//     const data = await res.json();
-//     return data;
-
-// }
-
-
-
-
-
-
 export const publishEditUserInfo = async (profileData: IUserProfile) => {
     const res = await fetch(url + "/User/UpdateUserInfo", {
         method: "PUT",
@@ -133,26 +110,6 @@ export const EditTask = async (profileData: ITask) => {
     return data;
 
 }
-
-// export const updateProfileItem = async (profileData: IUserData) => {
-//     const res = await fetch(url + "/MT_Profile/UpdateProfileItem", {
-//         method: "PUT",
-//         headers: {
-//             'Content-Type': "application/json"
-//         },
-//         body: JSON.stringify(profileData)
-//     });
-
-//     if (!res.ok) {
-//         const message = "An error has Occurred " + res.status;
-//         throw new Error(message);
-//     }
-
-//     const data = await res.json();
-//     return data;
-// }
-
-
 export const createProject = async (newProject: IProject) => {
     const res = await fetch(url + `/Project/CreateProject`, {
         method: "POST",
@@ -241,6 +198,24 @@ export const DeleteTask = async (TaskId: number) => {
             'Content-Type': "application/json"
         },
         body: JSON.stringify({ TaskId })
+    });
+    if (!res.ok) {
+        const message = "An error has occurred: " + res.status;
+        throw new Error(message);
+    }
+
+    const data = await res.json();
+    console.log(data);
+    return data;
+};
+
+export const RemoveUserFromProjectByID = async (userID: number, projectID: number) => {
+    const res = await fetch(url + `/Project/RemoveUserFromProjectByID/${userID}/${projectID} `, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': "application/json"
+        },
+        body: JSON.stringify({ userID, projectID })
     });
     if (!res.ok) {
         const message = "An error has occurred: " + res.status;

@@ -33,6 +33,7 @@ const HomePage = () => {
     const [allProjectsArr, setAllProjectsArr] = useState<any>([])
     const [allProjectsArr2, setAllProjectsArr2] = useState<any>([])
     const [userProfile, setUserProfile] = useState<any>()
+    const [nothing, setNothing] = useState<number>(0);
 
 
     const data = useAppContext()
@@ -96,7 +97,7 @@ const HomePage = () => {
                 <CreateProjectComponent setCreateProject={setCreateProject} />
             </div>
             <div className={profilePage}>
-                <ProfilePageComponent pageProfile={setProfilePage} />
+                <ProfilePageComponent pageBool={true} pageProfileId={0} pageProfile={setProfilePage} />
             </div>
 
             <NavBarComponent
@@ -113,6 +114,7 @@ const HomePage = () => {
                 pageNotificationTwo={setNotificationsPageClick}
                 pageProfile={setProfilePage}
                 profilePicture={userProfile}
+                pageBool={handleNothing}
             />
 
 
