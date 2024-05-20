@@ -1,10 +1,10 @@
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useId, useState } from 'react'
 import { Dropdown } from "flowbite-react";
 import greenPlus from '@/assets/greenPlus.png'
 import highWarning from '@/assets/highWarning.png'
 import Image from 'next/image';
-import { CreateTask, EditTask, GetUsersByProjectId, getEntireUserProfileById } from '@/utils/DataService';
+import { CreateTask, EditTask, GetTaskByID, GetUsersByProjectId, getEntireUserProfileById } from '@/utils/DataService';
 import { ITask } from '@/interface/interface';
 import { getLocalStorage, getLocalStorageProjectId, getLocalStorageTaskId, getLocalStorageUserID } from '@/utils/localStorage';
 import { useAppContext } from '@/Context/Context';
@@ -27,27 +27,24 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
     const [relationTable, setRelationTable] = useState<any>();
     const [userOptions, setUserOptions] = useState<any>([]);
     const [userID, setUserID] = useState<number>(0);
+    const [taskObj, setTaskObj] = useState<any>()
 
 
 
 
     const [open, setOpen] = useState("hidden");
-
+    const id = useId()
 
 
     const handleCreateTask = async () => {
 
         if (prop.boolDetermine == true) {
             await CreateTask(dummy)
+            data.setPageTwoName3(!data.pageTwoName3)
         } else {
             await EditTask(dummy)
+            data.setPageTwoName3(!data.pageTwoName3)
         }
-
-
-
-
-
-
     }
 
     const handleUserIDChange = (e: any) => {
@@ -61,13 +58,13 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
     const dummy: ITask = {
         id: prop.boolDetermine == true ? 0 : useTaskId,
         projectID: useProjectID,
-        taskName: useTaskName,
-        taskDescription: useTaskDescription,
-        taskDuration: useTaskDuration,
-        userID: useUserID,
-        dueDate: useDueDate,
-        priority: usePriority,
-        status: useStatus,
+        taskName: useTaskName == "" ? taskObj && taskObj.taskName : useTaskName,
+        taskDescription: useTaskDescription == "" ? taskObj && taskObj.taskDescription : useTaskDescription,
+        taskDuration: useTaskDuration == "" ? taskObj && taskObj.taskDuration : useTaskDuration,
+        userID: useUserID == 0 ? taskObj && taskObj.userID : useUserID,
+        dueDate: useDueDate == "" ? taskObj && taskObj.dueDate : useDueDate,
+        priority: usePriority == "" ? taskObj && taskObj.priority : usePriority,
+        status: useStatus == "" ? taskObj && taskObj.status : useStatus,
         isDeleted: false
     };
 
@@ -87,6 +84,7 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
 
             let numb: number = getLocalStorageUserID()
             setUserID(numb)
+            console.log(useTaskName)
 
             let num: string = getLocalStorageTaskId()
             console.log(prop.taskId)
@@ -94,10 +92,16 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
 
             let projectID = getLocalStorageProjectId();
             setUseProjectID(projectID)
+            try {
+                const taskInfo: any = await GetTaskByID(prop.taskId && prop.taskId);
+                setTaskObj(taskInfo)
+            } catch (error) {
+
+            }
+
+
 
             let relations = await GetUsersByProjectId(projectID);
-
-            // Assuming relationTable and getEntireUserProfileById are defined elsewhere
 
             const options = await Promise.all(relations.map(async (ele: any) => {
                 const user = await getEntireUserProfileById(ele.userID);
@@ -112,25 +116,32 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
 
 
 
-    }, [useProjectID, useTaskName])
+    }, [useProjectID, useTaskName, data.boolUser])
     return (
         <div className='  absolute top-1/2 -translate-y-1/2 z-[100] justify-center  flex w-full bg-black bg-opacity-80 h-screen  items-center'>
             <div className='flex flex-col w-full md:w-[604px] bg-[#181818]  mx-[10px] border-[#808080] border  rounded-[10px] p-[20px] lg:p-[30px]  h-fit  relative overflow-auto'>
 
                 <div className='w-auto h-[44px] rounded-[10px] mb-[25px] bg-[#282828] border-b border-[#808080]'>
                     <input
-                        onChange={(e) => setUseTaskName(e.target.value)}
+                        maxLength={20}
+                        defaultValue={taskObj && taskObj.taskName}
+                        id={id}
+                        onChange={(e) => { setUseTaskName(e.target.value); }}
                         type="text" placeholder='Task name' className='placeholder:text-[#808080] text-[#808080] w-full rounded-[10px] border border-transparent bg-transparent' />
                 </div>
 
                 <div className='w-auto h-[44px] rounded-[10px] mb-[25px] bg-[#282828] border-b border-[#808080]'>
                     <input
+                        maxLength={200}
+                        defaultValue={taskObj && taskObj.taskDescription}
                         onChange={(e) => setUseTaskDescription(e.target.value)}
                         type="text" placeholder='Description' className='placeholder:text-[#808080] text-[#808080] w-full rounded-[10px] border border-transparent bg-transparent' />
                 </div>
 
                 <div className='w-auto h-[44px] rounded-[10px] mb-[25px] bg-[#282828] border-b border-[#808080]'>
                     <input
+                        maxLength={20}
+                        defaultValue={taskObj && taskObj.taskDuration}
                         onChange={(e) => setUseTaskDuration(e.target.value)}
                         type="text" placeholder='Est. task duration' className='placeholder:text-[#808080] text-[#808080] w-full rounded-[10px] border border-transparent bg-transparent' />
                 </div>
@@ -150,10 +161,12 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
                 <div className='w-auto h-[44px] rounded-[10px] mb-[25px]'>
                     <input
                         onChange={(e) => setUseDueDate(e.target.value)}
+                        defaultValue={taskObj && taskObj.dueDate}
                         type="date" className='text-center placeholder:text-[#808080] text-[#808080] lg:w-[180px]  w-full rounded-[10px] bg-[#282828] border-[#808080]' />
                 </div>
 
                 <select
+                    defaultValue={taskObj && taskObj.priority}
                     onChange={(e) => setUsePriority(e.target.value)}
                     className='bg-[#282828] text-[#808080] border-[#808080] lg:w-[180px]  w-full  h-[44px] rounded-[10px] mb-[25px]'>
                     <option value="Low Urgency" className='text-center'>Low Urgency</option>
@@ -184,7 +197,7 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
                             handleCreateTask()
                             prop.setCreateTask('hidden')
                             // setIsTrue(!isTrue)
-                            data.setPageTwoName3(!data.pageTwoName3)
+
                         }}
                         className='bg-[#CB76F2] rounded-[10px]'>
                         <p className='text-white text-[20px] px-[20px] py-[10px]'>{prop.boolDetermine == true ? "Create Task" : "Save"}</p>

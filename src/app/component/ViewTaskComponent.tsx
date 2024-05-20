@@ -23,8 +23,6 @@ const ViewTaskComponent = (props: IViewTask) => {
                     SetUsername(username)
                 }
 
-
-
                 setTaskObject(taskInfo);
             } catch (error) {
             }
