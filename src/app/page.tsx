@@ -130,7 +130,8 @@ export default function Home() {
                 <div className="bg-[#282828] rounded-[10px] border-b border-[#808080] mb-[25px]">
                   <input
                     required onChange={(e) => {
-                      if (!/\s/.test(e.target.value)) {
+                      if (!/[^a-zA-Z0-9\s]/.test(e.target.value) && !/\s/.test(e.target.value)) {
+                        e.preventDefault();
                         setUserName(e.target.value)
                       }
                     }}
@@ -143,7 +144,8 @@ export default function Home() {
                 <div className="bg-[#282828] rounded-[10px] border-b border-[#808080] ">
                   <input
                     required onChange={(e) => {
-                      if (!/\s/.test(e.target.value)) {
+                      if (!/[^a-zA-Z0-9\s]/.test(e.target.value) && !/\s/.test(e.target.value)) {
+                        e.preventDefault();
                         setPassword(e.target.value)
                       }
                     }}

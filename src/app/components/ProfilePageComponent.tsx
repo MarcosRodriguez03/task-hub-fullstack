@@ -109,10 +109,11 @@ const ProfilePageComponent = (prop: {
         <div className=" w-full lg:w-[604px] absolute right-0 z-20 top-[80px] bottom-[80px] lg:bottom-0  lg:border-l lg:border-[#808080] bg-[#080808] lg:bg-[#181818] p-[20px] lg:p-[30px] overflow-y-auto">
           <div className="flex justify-center flex-col items-center mt-[25px]">
 
-            <div className="w-[150px] h-[150px] relative">
+            <div className="w-[150px] h-[150px] relative rounded-full">
               <Image
                 fill
                 alt="pfp"
+                className="rounded-full"
                 src={profileImage ? profileImage : emptyPfp}
               />
             </div>

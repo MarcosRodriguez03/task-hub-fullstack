@@ -14,10 +14,17 @@ const CreateProjectComponent = (prop: { setCreateProject: (input: string) => voi
   const [userID, setUserID] = useState<number>(0)
   const [addedUser, setAddedUser] = useState<string>("")
   const [isTrue, setIsTrue] = useState<boolean>(true)
+  const [btnDisable, setBtnDisable] = useState<boolean>(true);
 
   const data = useAppContext()
 
-
+  useEffect(() => {
+    if (projectName === '') {
+      setBtnDisable(true);
+    } else {
+      setBtnDisable(false);
+    }
+  }, [projectName])
 
   const handleOnClick = async () => {
     let projID = await createProject(projectObject)
@@ -63,29 +70,42 @@ const CreateProjectComponent = (prop: { setCreateProject: (input: string) => voi
       <div className="fixed inset-0 flex items-center justify-center z-50">
         <div className=" bg-[#181818] border-[#808080] border-[1px] mx-[10px] w-full md:w-[424px] h-[242px] p-[30px] rounded-[10px] shadow-md">
           <input
+            required
             onChange={(e) => {
-              if (e.target.value != "") {
+              if (!/[^a-zA-Z0-9\s]/.test(e.target.value)) {
+                e.preventDefault();
                 setProjectName(e.target.value)
               }
             }}
             maxLength={40}
+            value={projectName}
             className="mb-[25px] rounded-[10px] bg-[#282828] border-[#808080] border-b-[1px] focus:outline-none px-[20px] w-full md:w-[364px] h-[44px] text-[20px] text-[#808080] placeholder:text-[#808080]" placeholder="Project name" />
           <input
-            onChange={(e) => setAddedUser(e.target.value)}
+            onChange={(e) => {
+              if(!/[^a-zA-Z0-9\s]/.test(e.target.value)){
+                e.preventDefault();
+                setAddedUser(e.target.value)
+              }
+            }}
             maxLength={25}
+            value={addedUser}
             className="rounded-[10px] bg-[#282828] border-[#808080] border-b-[1px] focus:outline-none px-[20px] w-full md:w-[364px] h-[44px] text-[20px] text-[#808080] placeholder:text-[#808080]" placeholder="Add username" />
           <div className="mt-[25px] flex justify-end">
             <button
               onClick={() => {
                 prop.setCreateProject('hidden')
+                setProjectName('');
+                setAddedUser('');
               }}
               className="h-[44px] w-[106px] bg-[#282828] rounded-[10px] text-white text-[20px] font-semibold">Cancel</button>
             <button
               onClick={() => {
-                prop.setCreateProject('hidden');
-                handleOnClick();
+                if(projectName != ""){
+                  prop.setCreateProject('hidden');
+                  handleOnClick();
+                }
               }}
-              className="ms-[25px] h-[44px] w-[106px] bg-[#CB76F2] rounded-[10px] text-white text-[20px] font-semibold" >Create</button>
+              className={btnDisable ? "bg-[#6a3e7e] text-[#838383] cursor-default ms-[25px] h-[44px] w-[106px] rounded-[10px] text-[20px] font-semibold" : "hover:bg-[#d186f3] ms-[25px] h-[44px] w-[106px] bg-[#CB76F2] rounded-[10px] text-white text-[20px] font-semibold"} >Create</button>
           </div>
 
         </div>

@@ -111,7 +111,7 @@ const TaskSqaureComponent = (props: iTaskSqaure) => {
                     </div>
                     <Image
                         onClick={handleDelete}
-                        alt='close' src={taskExit} className='h-[30px] w-[30px]' />
+                        alt='close' src={taskExit} className='h-[30px] w-[30px] cursor-pointer' />
                 </div>
                 <hr className='bg-[#525252] h-[1px] border-0' />
                 <div className='flex  items-center justify-between my-[7px]'>

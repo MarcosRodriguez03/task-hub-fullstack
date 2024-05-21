@@ -1,5 +1,5 @@
 
-import React, { useEffect, useId, useState } from 'react'
+import React, { useEffect, useId, useRef, useState } from 'react'
 import { Dropdown } from "flowbite-react";
 import greenPlus from '@/assets/greenPlus.png'
 import highWarning from '@/assets/highWarning.png'
@@ -28,6 +28,7 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
     const [userOptions, setUserOptions] = useState<any>([]);
     const [userID, setUserID] = useState<number>(0);
     const [taskObj, setTaskObj] = useState<any>()
+    const [btnDisable, setBtnDisable] = useState<boolean>(true);
 
 
 
@@ -35,12 +36,24 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
     const [open, setOpen] = useState("hidden");
     const id = useId()
 
+    useEffect(() => {
+        if (useTaskName === '') {
+          setBtnDisable(true);
+        } else {
+          setBtnDisable(false);
+        }
+      }, [useTaskName])
+
 
     const handleCreateTask = async () => {
 
         if (prop.boolDetermine == true) {
             await CreateTask(dummy)
             data.setPageTwoName3(!data.pageTwoName3)
+            setUseTaskName("");
+            setUseTaskDescription("");
+            setUseDueDate("");
+            setUseTaskDuration("");
         } else {
             await EditTask(dummy)
             data.setPageTwoName3(!data.pageTwoName3)
@@ -158,7 +171,7 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
 
                 </select>
 
-                <div className='w-auto h-[44px] rounded-[10px] mb-[25px]'>
+                <div className='w-auto h-[44px] rounded-[10px] mb-[25px] relative z-[1]'>
                     <input
                         onChange={(e) => setUseDueDate(e.target.value)}
                         defaultValue={taskObj && taskObj.dueDate}
@@ -189,18 +202,21 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
                         onClick={() => {
                             prop.setCreateTask('hidden')
                         }}
-                        className='bg-[#282828] rounded-[10px] me-[25px]'>
+                        className='bg-[#282828] rounded-[10px] me-[25px] font-semibold'>
                         <p className='text-white text-[20px] px-[20px] py-[10px]'>Cancel</p>
                     </button>
                     <button
                         onClick={() => {
-                            handleCreateTask()
+                            if(taskObj && taskObj.taskName != "" || useTaskName != ""){
+                              handleCreateTask()
                             prop.setCreateTask('hidden')
-                            // setIsTrue(!isTrue)
+                            // setIsTrue(!isTrue)  
+                            }
+                            
 
                         }}
-                        className='bg-[#CB76F2] rounded-[10px]'>
-                        <p className='text-white text-[20px] px-[20px] py-[10px]'>{prop.boolDetermine == true ? "Create Task" : "Save"}</p>
+                        className={btnDisable ? 'bg-[#6a3e7e] text-[#838383] cursor-default rounded-[10px] font-semibold' : 'bg-[#CB76F2] text-white hover:bg-[#d186f3] rounded-[10px] font-semibold'}>
+                        <p className=' text-[20px] px-[18px] py-[10px]'>{prop.boolDetermine == true ? "Create Task" : "Save"}</p>
                     </button>
                 </div>
 
