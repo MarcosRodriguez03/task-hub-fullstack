@@ -71,9 +71,9 @@ const MessagePage = () => {
   const closeConnection = async () => {
     setIsReal(!isReal);
     try {
-        await conn.stop();
-    } catch(e) {
-        console.log('closed');
+      await conn.stop();
+    } catch (e) {
+      console.log('closed');
     }
   }
 
@@ -86,16 +86,16 @@ const MessagePage = () => {
   };
 
   const createNewDM = async () => {
-    try{
-      if(username != ""){
+    try {
+      if (username != "") {
         let userID = await getLoggedInUserData(username);
         console.log(userID);
         await addDM(Number(usersId), userID.userId);
+      }
+    } catch (e) {
+      console.log('hi');
     }
-    } catch(e) {
-        console.log('hi');
-    }
-    
+
   }
 
   const render = async () => {
@@ -112,12 +112,12 @@ const MessagePage = () => {
     };
 
     const userUsername = async () => {
-      if(otherUserID != ""){
+      if (otherUserID != "") {
         console.log(otherUserID);
         let user = await getEntireUserProfileById(Number(otherUserID));
         setUserPfp(user.username);
       }
-      
+
     }
     userUsername();
     populateData();
@@ -134,7 +134,7 @@ const MessagePage = () => {
     // return () => {
     //     document.removeEventListener('mousedown', handleClickOutside);
     // }
-    
+
   }, [isReal]);
 
   const handleOpen = () => {
@@ -169,14 +169,16 @@ const MessagePage = () => {
   const [messagesPage, setMessagesPage] = useState<string>("block lg:block");
   const [taskPage, setTaskPage] = useState<string>("block lg:block");
   const [userProfile, setUserProfile] = useState<any>();
-  
 
+  const handleDoNothing = () => {
+
+  }
 
 
   useEffect(() => {
-    if(messageRef && messageRef.current){
-        const {scrollHeight, clientHeight} = messageRef.current;
-        messageRef.current.scrollTo({left:0, top:scrollHeight-clientHeight, behavior: 'smooth'})
+    if (messageRef && messageRef.current) {
+      const { scrollHeight, clientHeight } = messageRef.current;
+      messageRef.current.scrollTo({ left: 0, top: scrollHeight - clientHeight, behavior: 'smooth' })
     }
   }, [messages])
 
@@ -192,7 +194,7 @@ const MessagePage = () => {
   return (
     <div>
       <div className={profilePage}>
-        <ProfilePageComponent pageProfile={setProfilePage} />
+        <ProfilePageComponent pageBool={true} pageProfileId={data.globalUserId} pageProfile={setProfilePage} />
       </div>
       <NavBarComponent
         closeTop={closeTop}
@@ -208,6 +210,7 @@ const MessagePage = () => {
         pageNotificationTwo={setNotificationsPageClick}
         pageProfile={setProfilePage}
         profilePicture={userProfile}
+        pageBool={handleDoNothing}
       />
       <div
         className={`${toggleNotifications} absolute right-[105px] w-[520px] z-30 px-[20px] bg-[#181818] border-[#808080] border-[1px] rounded-[10px] drop-shadow-2xl shadow-2xl h-[85vh] overflow-y-auto -mt-0.5`}
@@ -234,7 +237,7 @@ const MessagePage = () => {
           onClick={() => {
             closeConnection();
             handleOpen();
-        }}
+          }}
           className="me-[15px] w-[50px] h-[50px] bg-[#212020] hover:bg-[#3a3838] active:bg-[#4a4848] rounded-[10px] flex items-center justify-center"
         >
           <Image
@@ -289,21 +292,22 @@ const MessagePage = () => {
               />
             </div>
             <div className=" absolute  top-[93px] w-full lg:w-1/4 bottom-0 overflow-auto">
-                {
-                    directMessage && directMessage.map((dm:any) => {
-                        return(
-                        <div key={dm.id} onClick={() => {
-                            setOtherUserID(usersId == dm.userID1 ? dm.userID2 : dm.userID1);
-                            closeConnection();
-                            setChatRoom(dm.room);
-                            joinRoom(usersId, `${dm.room}`);
-                            handleOpen();
-                        }}>
-                        <DirectMessagesComponent chatid={dm.id} id={usersId == dm.userID1 ? dm.userID2 : dm.userID1} focus={chatRoom == dm.room ?  'lg:bg-[#252525]': 'bg-[#181818]' }/>
+              {
+                directMessage && directMessage.map((dm: any) => {
+                  return (
+                    <div key={dm.id} onClick={() => {
+                      setOtherUserID(usersId == dm.userID1 ? dm.userID2 : dm.userID1);
+                      closeConnection();
+                      setChatRoom(dm.room);
+                      joinRoom(usersId, `${dm.room}`);
+                      handleOpen();
+                    }}>
+                      <DirectMessagesComponent chatid={dm.id} id={usersId == dm.userID1 ? dm.userID2 : dm.userID1} focus={chatRoom == dm.room ? 'lg:bg-[#252525]' : 'bg-[#181818]'} />
                     </div>
-                    )})
-                }
-              
+                  )
+                })
+              }
+
             </div>
           </div>
 
@@ -311,11 +315,11 @@ const MessagePage = () => {
             className={`${addCol} col-span-12 lg:col-span-9 overflow-hidden  lg:block`}
           >
             {!conn ? (
-                <p className="text-white text-center mt-2">
-                    Currently connected with no one
-                </p>
+              <p className="text-white text-center mt-2">
+                Currently connected with no one
+              </p>
             ) : (
-              
+
               <div className="h-full flex  flex-col">
                 <div ref={messageRef} className="bg-black overflow-auto flex-1">
                   <div className="flex flex-col p-[15px] lg:p-[30px]">
@@ -331,7 +335,7 @@ const MessagePage = () => {
                           /> : ''} */}
                           <div className={msg.username == usersId ? 'bg-[#CB76F2] text-white p-2 rounded-t-xl rounded-l-xl w-auto break-all' : 'bg-[#181818] rounded-t-xl rounded-r-xl text-white p-2 w-auto break-all'}>
                             <p className="break-all">
-                                {msg.msg}
+                              {msg.msg}
                             </p>
                           </div>
                         </div>
@@ -342,12 +346,12 @@ const MessagePage = () => {
                   <div className="w-full h-full relative">
                     <Image
                       onClick={() => {
-                        if(message != ""){
+                        if (message != "") {
 
-                            sendMessage(message);
-                            setMessage("");
+                          sendMessage(message);
+                          setMessage("");
                         }
-                        
+
                       }}
                       alt="send"
                       src={sendIcon}
@@ -358,12 +362,12 @@ const MessagePage = () => {
                         setMessage(e.target.value);
                       }}
                       onKeyDown={(
-                        e:any
+                        e: any
                       ) => {
                         if (
                           (e as React.KeyboardEvent<HTMLInputElement>).key === "Enter"
                         ) {
-                        e.preventDefault();
+                          e.preventDefault();
                           setMessage(
                             (e as React.ChangeEvent<HTMLInputElement>).target.value
                           );
