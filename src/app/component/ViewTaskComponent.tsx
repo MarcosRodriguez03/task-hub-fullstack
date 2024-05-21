@@ -56,7 +56,7 @@ const ViewTaskComponent = (props: IViewTask) => {
                             onClick={() => {
                                 props.viewFunction("hidden")
                             }}
-                            className="h-[44px] w-[106px] bg-[#282828] rounded-[10px] text-white text-[20px] font-semibold">Close</button>
+                            className="h-[44px] w-[106px] bg-[#5C5C5C] hover:bg-[#7b7b7b] rounded-[10px] text-white text-[20px] font-semibold">Close</button>
                     </div>
 
                 </div>

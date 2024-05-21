@@ -38,11 +38,11 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
 
     useEffect(() => {
         if (useTaskName === '') {
-          setBtnDisable(true);
+            setBtnDisable(true);
         } else {
-          setBtnDisable(false);
+            setBtnDisable(false);
         }
-      }, [useTaskName])
+    }, [useTaskName])
 
 
     const handleCreateTask = async () => {
@@ -202,17 +202,17 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
                         onClick={() => {
                             prop.setCreateTask('hidden')
                         }}
-                        className='bg-[#282828] rounded-[10px] me-[25px] font-semibold'>
+                        className='bg-[#5C5C5C] hover:bg-[#7b7b7b] rounded-[10px] me-[25px] font-semibold'>
                         <p className='text-white text-[20px] px-[20px] py-[10px]'>Cancel</p>
                     </button>
                     <button
                         onClick={() => {
-                            if(taskObj && taskObj.taskName != "" || useTaskName != ""){
-                              handleCreateTask()
-                            prop.setCreateTask('hidden')
-                            // setIsTrue(!isTrue)  
+                            if (taskObj && taskObj.taskName != "" || useTaskName != "") {
+                                handleCreateTask()
+                                prop.setCreateTask('hidden')
+                                // setIsTrue(!isTrue)  
                             }
-                            
+
 
                         }}
                         className={btnDisable ? 'bg-[#6a3e7e] text-[#838383] cursor-default rounded-[10px] font-semibold' : 'bg-[#CB76F2] text-white hover:bg-[#d186f3] rounded-[10px] font-semibold'}>

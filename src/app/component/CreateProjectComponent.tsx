@@ -82,7 +82,7 @@ const CreateProjectComponent = (prop: { setCreateProject: (input: string) => voi
             className="mb-[25px] rounded-[10px] bg-[#282828] border-[#808080] border-b-[1px] focus:outline-none px-[20px] w-full md:w-[364px] h-[44px] text-[20px] text-[#808080] placeholder:text-[#808080]" placeholder="Project name" />
           <input
             onChange={(e) => {
-              if(!/[^a-zA-Z0-9\s]/.test(e.target.value)){
+              if (!/[^a-zA-Z0-9\s]/.test(e.target.value)) {
                 e.preventDefault();
                 setAddedUser(e.target.value)
               }
@@ -97,10 +97,10 @@ const CreateProjectComponent = (prop: { setCreateProject: (input: string) => voi
                 setProjectName('');
                 setAddedUser('');
               }}
-              className="h-[44px] w-[106px] bg-[#282828] rounded-[10px] text-white text-[20px] font-semibold">Cancel</button>
+              className="h-[44px] w-[106px] bg-[#5C5C5C] hover:bg-[#7b7b7b] rounded-[10px] text-white text-[20px] font-semibold">Cancel</button>
             <button
               onClick={() => {
-                if(projectName != ""){
+                if (projectName != "") {
                   prop.setCreateProject('hidden');
                   handleOnClick();
                 }

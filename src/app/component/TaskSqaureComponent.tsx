@@ -38,6 +38,7 @@ type iTaskSqaure = {
     priority: string
     ID: number
     taskId: number
+    setIsDeleteTask: (input: boolean) => void
 
 
 }
@@ -52,12 +53,14 @@ const TaskSqaureComponent = (props: iTaskSqaure) => {
     const [viewTask, setViewTask] = useState<string>("hidden")
     const [updateTaskId, setUpdateTaskId] = useState<number>(1)
 
-    const handleDelete = async (event: any) => {
-        event.stopPropagation();
-        await DeleteTask(props.taskId)
-        data.setPageTwoName3(!data.pageTwoName3)
+    // const handleDelete = async (event: any) => {
+    //     event.stopPropagation();
+    //     await DeleteTask(props.taskId)
+    //     data.setPageTwoName3(!data.pageTwoName3)
 
-    }
+    // }
+
+
 
 
 
@@ -71,9 +74,6 @@ const TaskSqaureComponent = (props: iTaskSqaure) => {
                 setUserPfp(arr)
                 console.log(props.ID)
             }
-
-
-
         }
         loadAll()
     }, [])
@@ -110,7 +110,12 @@ const TaskSqaureComponent = (props: iTaskSqaure) => {
                         <p className='text-white text-[24px]'>{props.taskName}</p>
                     </div>
                     <Image
-                        onClick={handleDelete}
+                        onClick={(event) => {
+                            event.stopPropagation();
+                            data.setGlobalTaskId(props.taskId)
+                            data.setGlobalTaskName(props.taskName)
+                            props.setIsDeleteTask(true)
+                        }}
                         alt='close' src={taskExit} className='h-[30px] w-[30px] cursor-pointer' />
                 </div>
                 <hr className='bg-[#525252] h-[1px] border-0' />

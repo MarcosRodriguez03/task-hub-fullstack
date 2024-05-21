@@ -54,28 +54,28 @@ const AddUserComponent = (prop: { setAddUser: (input: string) => void; }) => {
         <div className=" bg-[#181818] border-[#808080] border-[1px] mx-[10px] w-full md:w-[424px] h-[173px] p-[30px] rounded-[10px] shadow-md">
           <input
             onChange={(e) => {
-              if(!/[^a-zA-Z0-9\s]/.test(e.target.value)){
+              if (!/[^a-zA-Z0-9\s]/.test(e.target.value)) {
                 e.preventDefault();
-                setEnteredUser(e.target.value) 
+                setEnteredUser(e.target.value)
               }
-              }}
+            }}
             value={enteredUser}
             maxLength={25}
             className="rounded-[10px] bg-[#282828] border-[#808080] border-b-[1px] focus:outline-none px-[20px] w-full md:w-[364px] h-[44px] text-[20px] text-[#808080] placeholder:text-[#808080]" placeholder="Add username" />
           <div className="mt-[25px] flex justify-end">
             <button
-              onClick={() => { 
+              onClick={() => {
                 prop.setAddUser('hidden')
                 setEnteredUser('');
               }}
-              className="h-[44px] w-[106px] bg-[#282828] rounded-[10px] text-white text-[20px] font-semibold">Cancel</button>
+              className="h-[44px] w-[106px] bg-[#5C5C5C] hover:bg-[#7b7b7b] rounded-[10px] text-white text-[20px] font-semibold">Cancel</button>
             <button
               onClick={() => {
-                if(enteredUser != ""){
+                if (enteredUser != "") {
                   prop.setAddUser('hidden')
-                  , addUserToProjectFunction()
+                    , addUserToProjectFunction()
                 }
-                
+
               }}
               className={btnDisable ? "ms-[25px] h-[44px] w-[80px] bg-[#6a3e7e] text-[#838383] cursor-default rounded-[10px] text-[20px] font-semibold" : "hover:bg-[#d186f3] ms-[25px] h-[44px] w-[80px] bg-[#CB76F2] rounded-[10px] text-white text-[20px] font-semibold"}>Add</button>
           </div>

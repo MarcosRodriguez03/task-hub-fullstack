@@ -141,7 +141,7 @@ const ProfilePageComponent = (prop: {
             {prop.pageBool == true || prop.pageProfileId == currentUser ? <div className="flex justify-center mb-6 w-full">
               <button
                 onClick={handleEditProfile}
-                className="bg-[#5C5C5C] text-[24px] text-white font-semibold h-[49px] w-full max-w-[174px] rounded-[10px]">
+                className="bg-[#5C5C5C] hover:bg-[#7b7b7b] text-[24px] text-white font-semibold h-[49px] w-full max-w-[174px] rounded-[10px]">
                 Edit
               </button>
               <button

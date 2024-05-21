@@ -24,6 +24,7 @@ import { ITask } from '@/interface/interface';
 import { CreateTask, GetTasksByProjectID, GetTasksByStatus, GetUsersByProjectId, getEntireUserProfile, getEntireUserProfileById } from '@/utils/DataService';
 import { useAppContext } from '@/Context/Context';
 import ViewTaskComponent from '@/app/component/ViewTaskComponent';
+import ConfirmDeleteComponent from '@/app/component/ConfirmDeleteComponent';
 
 
 
@@ -54,6 +55,7 @@ const TaskPage = () => {
     const [doNothing, setDoNothing] = useState<string>("hidden lg:hidden")
     const [profileId, setProfileId] = useState<number>(4)
     const [pageBool, setPageBool] = useState<boolean>(true)
+    const [isDeleteTask, setIsDeleteTask] = useState<boolean>(false)
 
 
     const data = useAppContext();
@@ -136,6 +138,10 @@ const TaskPage = () => {
     return (
 
         <div>
+
+            <div className={isDeleteTask ? "block" : "hidden"}>
+                <ConfirmDeleteComponent isDeleteTask={isDeleteTask} setIsDeleteTask={setIsDeleteTask} />
+            </div>
 
 
             <div className={`${createTask} z-50`}>
@@ -247,7 +253,7 @@ const TaskPage = () => {
                                     {fullArr && fullArr.map((task: ITask) => (
                                         task.status === "Ideas" && (
                                             <div key={task.id} >
-                                                <TaskSqaureComponent taskId={task.id} taskName={task.taskName} priority={task.priority} ID={task.userID} />
+                                                <TaskSqaureComponent setIsDeleteTask={setIsDeleteTask} taskId={task.id} taskName={task.taskName} priority={task.priority} ID={task.userID} />
                                             </div>
                                         )
                                     ))}
@@ -262,7 +268,7 @@ const TaskPage = () => {
                                     {fullArr && fullArr.map((task: ITask) => (
                                         task.status === "In progress" && (
                                             <div key={task.id} >
-                                                <TaskSqaureComponent taskId={task.id} taskName={task.taskName} priority={task.priority} ID={task.userID} />
+                                                <TaskSqaureComponent setIsDeleteTask={setIsDeleteTask} taskId={task.id} taskName={task.taskName} priority={task.priority} ID={task.userID} />
                                             </div>
                                         )
                                     ))}
@@ -276,7 +282,7 @@ const TaskPage = () => {
                                     {fullArr && fullArr.map((task: ITask) => (
                                         task.status === "Done" && (
                                             <div key={task.id} >
-                                                <TaskSqaureComponent taskId={task.id} taskName={task.taskName} priority={task.priority} ID={task.userID} />
+                                                <TaskSqaureComponent setIsDeleteTask={setIsDeleteTask} taskId={task.id} taskName={task.taskName} priority={task.priority} ID={task.userID} />
                                             </div>
 
                                         )
@@ -320,7 +326,7 @@ const TaskPage = () => {
                             Content
                             {fullArr && fullArr.map((task: ITask) => (
                                 task.status === statusSet && (
-                                    <TaskSqaureComponent taskId={task.id} key={task.id} taskName={task.taskName} priority={task.priority} ID={task.userID} />
+                                    <TaskSqaureComponent setIsDeleteTask={setIsDeleteTask} taskId={task.id} key={task.id} taskName={task.taskName} priority={task.priority} ID={task.userID} />
                                 )
                             ))}
                         </div>
