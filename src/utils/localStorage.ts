@@ -25,7 +25,7 @@ export const getLocalStorageProjectId = () => {
 }
 
 export const saveLocalStorageTaskId = (user: number) => {
-    localStorage.setItem("ProjectId", JSON.stringify(user))
+    localStorage.setItem("TaskId", JSON.stringify(user))
 }
 
 export const getLocalStorageTaskId = () => {
@@ -41,7 +41,7 @@ export const saveLocalStorageUserID = (user: number) => {
 
 export const getLocalStorageUserID = () => {
     let localStorageData = localStorage.getItem("UserId");
-    if (localStorageData == null) {
+    if (localStorageData == undefined || localStorageData == null) {
         return [];
     }
     return JSON.parse(localStorageData);

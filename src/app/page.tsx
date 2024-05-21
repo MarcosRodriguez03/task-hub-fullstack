@@ -88,7 +88,10 @@ export default function Home() {
         localStorage.setItem("Token", token.token)
         getLoggedInUserData(username);
         let userId = await getLoggedInUserData(username)
-        saveLocalStorageUserID(userId.id)
+
+
+        saveLocalStorageUserID(userId.id || 1)
+
         router.push('/pages/HomePage');
 
       } else {
