@@ -1,4 +1,4 @@
-import { IProject, ITask, IToken, IUserData, IUserInfo, IUserProfile, } from "@/interface/interface";
+import { IProject, ITask, ITaskArr, IToken, IUserData, IUserInfo, IUserProfile, } from "@/interface/interface";
 
 
 const url = "https://newtaskhubbackenddb.azurewebsites.net";
@@ -237,8 +237,7 @@ export const GetUsersByProjectId = async (projectID: number) => {
 export const getEntireUserProfile = async (username: string) => {
     const res = await fetch(url + "/User/GetProfileByUsername/" + username);
     const data = await res.json();
-    userData = data;
-    return userData;
+    return data;
 }
 export const getEntireUserProfileById = async (userId: number) => {
     const res = await fetch(url + "/User/GetProfileByUserID/" + userId);
@@ -249,9 +248,8 @@ export const getEntireUserProfileById = async (userId: number) => {
 
 export const GetTasksByStatus = async (status: string, userId: number) => {
     const res = await fetch(url + "/Task/GetTasksByStatus/" + status + "/" + userId);
-    const data = await res.json();
-    userData = data;
-    return userData;
+    const data: ITaskArr[] = await res.json();
+    return data;
 }
 export const GetTaskByID = async (taskID: number) => {
     const res = await fetch(url + "/Task/GetTaskByID/" + taskID);

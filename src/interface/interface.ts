@@ -37,10 +37,22 @@ export interface IUserProfile {
     image: string
     username: string
 }
+export interface IUserProfileIndex {
+    [index: number]: {
+        id: number
+        firstName: string
+        lastName: string
+        contact: string
+        bio: string
+        image: string
+        username: string
+    }
+
+}
 
 
 export interface IProject {
-    ID: number
+    id: number
     UserId: number
     ProjectName: string
     isDeleted: boolean
@@ -57,4 +69,25 @@ export interface ITask {
     priority: string,
     status: string,
     isDeleted: boolean
+}
+export interface ITaskArr {
+    [index: number]: {
+        id: number,
+        projectID: number,
+        taskName: string,
+        taskDescription: string,
+        taskDuration: string,
+        userID: number,
+        dueDate: string,
+        priority: string,
+        status: string,
+        isDeleted: boolean
+    }
+
+}
+
+export interface IProjectUserIsIn {
+    id: number,
+    projectID: number,
+    userID: number
 }

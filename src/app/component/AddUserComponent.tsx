@@ -1,6 +1,7 @@
 
 
 import { useAppContext } from "@/Context/Context";
+import { IUserProfile } from "@/interface/interface";
 import { addUserToProject, getEntireUserProfile, } from "@/utils/DataService";
 import { getLocalStorageProjectId } from "@/utils/localStorage";
 import React, { useEffect, useState } from "react";
@@ -16,17 +17,17 @@ const AddUserComponent = (prop: { setAddUser: (input: string) => void; }) => {
 
 
   const addUserToProjectFunction = async () => {
-    if (enteredUser != "") {
-      let user: any = await getEntireUserProfile(enteredUser)
 
-      console.log("-----------------------------------------")
-      console.log(user[0].id)
-      console.log(projID)
-      await addUserToProject(user[0].id, projID);
-      setIsTrue(!isTrue)
-      data.setBoolUser(!data.boolUser)
+    let user: IUserProfile[] = await getEntireUserProfile(enteredUser)
 
-    }
+    console.log("-----------------------------------------")
+    console.log(user[0].id)
+    console.log(projID)
+    await addUserToProject(user[0].id, projID);
+    setIsTrue(!isTrue)
+    data.setBoolUser(!data.boolUser)
+
+
     setEnteredUser("");
 
   }

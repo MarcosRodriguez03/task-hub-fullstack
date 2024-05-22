@@ -20,7 +20,7 @@ import AddUserComponent from '@/app/component/AddUserComponent';
 import CreateTaskComponent from '@/app/component/CreateTaskComponent';
 import newData from '@/app/TestTask.json'
 import { getLocalStorage, getLocalStorageProjectId, saveLocalStorage } from '@/utils/localStorage';
-import { ITask } from '@/interface/interface';
+import { ITask, ITaskArr, IUserProfile } from '@/interface/interface';
 import { CreateTask, GetTasksByProjectID, GetTasksByStatus, GetUsersByProjectId, getEntireUserProfile, getEntireUserProfileById } from '@/utils/DataService';
 import { useAppContext } from '@/Context/Context';
 import ViewTaskComponent from '@/app/component/ViewTaskComponent';
@@ -32,8 +32,7 @@ import ConfirmDeleteComponent from '@/app/component/ConfirmDeleteComponent';
 const TaskPage = () => {
 
     const [mobileTitle, setMobileTitle] = useState<string>('Tasks');
-    const [toggleNotifications, setToggleNotifications] =
-        useState<string>("hidden lg:hidden");
+    const [toggleNotifications, setToggleNotifications] = useState<string>("hidden lg:hidden");
     const [homePage, setHomePage] = useState<string>('block lg:block');
     const [notificationsPageClick, setNotificationsPageClick] = useState<string>('hidden lg:hidden');
     const [profilePage, setProfilePage] = useState<string>('hidden lg:hidden');
@@ -41,18 +40,15 @@ const TaskPage = () => {
     const [taskPage, setTaskPage] = useState<string>("block lg:block");
     const [addUser, setAddUser] = useState<string>('hidden');
     const [createTask, setCreateTask] = useState<string>('hidden');
-    const [dummyData, setDummyData] = useState<any>(newData)
-    const [fullArr, setFullArr] = useState<any[]>([])
-    const [userArr, setUserArr] = useState<any[]>([])
+    const [fullArr, setFullArr] = useState<ITask[]>([])
+    const [userArr, setUserArr] = useState<IUserProfile[]>([])
     const [statusSet, setStatusSet] = useState<string>("Ideas")
 
     const [isCreate, setIsCreate] = useState<boolean>(true)
     const [barPercent, setBarPercent] = useState<string>("0%")
-    const [userProfile, setUserProfile] = useState<any>()
+    const [userProfile, setUserProfile] = useState<IUserProfile>()
 
-    const [viewTask, setViewTask] = useState<string>("hidden")
-    const [updateTaskId, setUpdateTaskId] = useState<number>(1)
-    const [doNothing, setDoNothing] = useState<string>("hidden lg:hidden")
+
     const [profileId, setProfileId] = useState<number>(4)
     const [pageBool, setPageBool] = useState<boolean>(true)
     const [isDeleteTask, setIsDeleteTask] = useState<boolean>(false)
@@ -90,7 +86,7 @@ const TaskPage = () => {
         const fetchData = async () => {
 
             let currentProjectId = getLocalStorageProjectId();
-            let currentDone: any = await GetTasksByStatus("Done", Number(currentProjectId))
+            let currentDone = await GetTasksByStatus("Done", Number(currentProjectId))
             let taskObjArr = await GetTasksByProjectID(currentProjectId);
             console.log(barPercent)
             setFullArr(taskObjArr);
@@ -110,11 +106,11 @@ const TaskPage = () => {
         const fetchUsers = async () => {
             let currentProjectId = getLocalStorageProjectId();
             let UsersByProjectId = await GetUsersByProjectId(currentProjectId);
-            // setUserArr(UsersByProjectId);
+
 
             let TaskUsersArr = []
             for (let i = 0; i < UsersByProjectId.length; i++) {
-                let person: any = await getEntireUserProfileById(UsersByProjectId[i].userID);
+                let person: IUserProfile = await getEntireUserProfileById(UsersByProjectId[i].userID);
                 console.log(person)
                 TaskUsersArr.push(person)
             }
@@ -127,7 +123,7 @@ const TaskPage = () => {
     useEffect(() => {
         const loadPicture = async () => {
             let username = getLocalStorage();
-            let fullProfile: any = await getEntireUserProfile(username)
+            let fullProfile = await getEntireUserProfile(username)
             setUserProfile(fullProfile[0].image)
         }
         loadPicture()
@@ -196,7 +192,7 @@ const TaskPage = () => {
                                         person.image && person.image != null ? <Image fill className='    w-[34px] h-[34px] rounded-[50px]' alt='pfp' src={person.image && person.image} /> : <Image src={emptyPfp} alt='default pfp' />
                                     }
                                 </div>
-                                <p className='w-[90px] text-[20px] text-center text-white hidden lg:block'>{person && person.username}</p>
+                                <p className=' truncate w-[90px] text-[20px] text-center text-white hidden lg:block'>{person && person.username}</p>
                             </div>
                         })}
 

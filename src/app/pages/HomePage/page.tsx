@@ -13,7 +13,7 @@ import CreateProjectComponent from "@/app/component/CreateProjectComponent";
 import EditProfileComponent from "@/app/component/EditProfileComponent";
 import { getLocalStorage, saveLocalStorageUserID } from "@/utils/localStorage";
 import { GetAllProjects, GetAllProjectsUserIsIn, GetTaskByID, getEntireUserProfile, getLoggedInUserData } from "@/utils/DataService";
-import { IProject } from "@/interface/interface";
+import { IProject, IProjectUserIsIn, IUserData, IUserProfile, IUserProfileIndex } from "@/interface/interface";
 import { useAppContext } from "@/Context/Context";
 import { url } from "inspector";
 import emptyPfp from '@/assets/emptyPfp.png';
@@ -30,9 +30,9 @@ const HomePage = () => {
     const [taskPage, setTaskPage] = useState<string>("block lg:block");
     const [createProject, setCreateProject] = useState<string>('hidden');
     const [editProfile, setEditProfile] = useState<string>('block');
-    const [allProjectsArr, setAllProjectsArr] = useState<any>([])
-    const [allProjectsArr2, setAllProjectsArr2] = useState<any>([])
-    const [userProfile, setUserProfile] = useState<any>()
+    const [allProjectsArr, setAllProjectsArr] = useState<IProjectUserIsIn[]>([])
+    const [allProjectsArr2, setAllProjectsArr2] = useState<IProject[]>([])
+    const [userProfile, setUserProfile] = useState<string>()
     const [nothing, setNothing] = useState<number>(0);
 
 
@@ -69,7 +69,7 @@ const HomePage = () => {
 
         const loadPicture = async () => {
             let username = getLocalStorage();
-            let fullProfile: any = await getEntireUserProfile(username)
+            let fullProfile: IUserProfileIndex = await getEntireUserProfile(username)
             setUserProfile(fullProfile[0].image);
 
 
@@ -163,8 +163,8 @@ const HomePage = () => {
                             </div>
                         </div>
                     </div>
-                    {allProjectsArr && allProjectsArr.map((project: any) => (
-                        allProjectsArr2 && allProjectsArr2.map((project2: any) => {
+                    {allProjectsArr && allProjectsArr.map((project: IProjectUserIsIn) => (
+                        allProjectsArr2 && allProjectsArr2.map((project2: IProject) => {
                             if (project.projectID === project2.id) {
                                 return (
                                     <ProjectCardComponent
@@ -172,7 +172,7 @@ const HomePage = () => {
                                         projectId={project.projectID}
                                         taskPage={setTaskPage}
                                         percent="0"
-                                        projectName={project2.projectName}
+                                        projectName={project2.ProjectName}
                                     />
                                 );
                             } else {
