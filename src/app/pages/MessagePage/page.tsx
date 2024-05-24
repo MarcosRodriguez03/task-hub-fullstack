@@ -10,7 +10,7 @@ import ProfilePageComponent from "@/app/components/ProfilePageComponent";
 import leftArrow from "../../../assets/leftArrow.png";
 import sendIcon from "../../../assets/sendIcon.png";
 import { getLocalStorage } from "@/utils/localStorage";
-import { AddMessage, GetDMS, GetSavedMessages, addDM, getEntireUserProfile, getEntireUserProfileById, getLoggedInUserData } from "@/utils/DataService";
+import { AddMessage, GetDMS, GetNotifications, GetSavedMessages, addDM, getEntireUserProfile, getEntireUserProfileById, getLoggedInUserData } from "@/utils/DataService";
 import { useAppContext } from "@/Context/Context";
 import emptyPfp from "@/assets/emptyPfp.png";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
@@ -23,7 +23,6 @@ export interface IMessages {
 }
 
 const MessagePage = () => {
-  const data = useAppContext();
 
   const [removeCol, setRemoveCol] = useState(" ");
   const [addCol, setAddCol] = useState("hidden");
@@ -41,8 +40,11 @@ const MessagePage = () => {
   const [directMessage, setDirectMessage] = useState<any>([]);
   const [savedMessage, setSavedMessage] = useState<IMessages[]>([]);
   const [isReal, setIsReal] = useState<boolean>(true);
+  const [displayNotif, setDisplayNotif] = useState<any[]>([]);
 
   const messageRef = useRef<HTMLDivElement>(null);
+
+  const data = useAppContext();
 
   const joinRoom = async (username: string, room: string) => {
     conn && await conn.stop();
@@ -195,6 +197,15 @@ const MessagePage = () => {
   }, [messages])
 
   useEffect(() => {
+    const callNotifications = async () => {
+      let notif = await GetNotifications(Number(usersId));
+      setDisplayNotif(notif);
+      console.log(notif);
+    }
+    callNotifications();
+  }, [toggleNotifications, notificationsPageClick, data.isNotif])
+
+  useEffect(() => {
     const loadPicture = async () => {
       let username = getLocalStorage();
       let fullProfile: any = await getEntireUserProfile(username);
@@ -231,7 +242,15 @@ const MessagePage = () => {
           Notifications
         </h1>
         <hr />
-        <NotificationBoxComponent id={1} message="Tyler sent a message" />
+        {
+          displayNotif && displayNotif.map((notif, idx) => {
+            return (
+              <div key={idx}>
+                <NotificationBoxComponent id={notif.id} message={notif.message} />
+              </div>
+            )
+          })
+        }
 
       </div>
       <div
@@ -459,7 +478,15 @@ const MessagePage = () => {
 
       <div className={notificationsPageClick}>
         <div className="mx-[20px] mb-[100px]">
-          <NotificationBoxComponent id={1} message="Tyler sent a message" />
+        {
+          displayNotif && displayNotif.map((notif, idx) => {
+            return (
+              <div key={idx}>
+                <NotificationBoxComponent id={notif.id} message={notif.message} />
+              </div>
+            )
+          })
+        }
 
         </div>
       </div>

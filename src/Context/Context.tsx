@@ -34,7 +34,8 @@ interface IContextValue {
     isClearDefault: boolean
     setIsClearDefault: (input: boolean) => void
 
-
+    isNotif:boolean
+    setIsNotif: (input:boolean) => void
 
 }
 
@@ -54,13 +55,14 @@ export const AppWrapper = ({ children, }: Readonly<{ children: React.ReactNode; 
     const [globalTaskId, setGlobalTaskId] = useState<number>(0)
     const [statusNum, setStatusNum] = useState<number>(1)
     const [isClearDefault, setIsClearDefault] = useState<boolean>(true)
+    const [isNotif, setIsNotif] = useState<boolean>(true);
 
 
     return (
         <Context.Provider value={{
             pageTwoName, setPageTwoName, setPageTwoName2, pageTwoName2, pageTwoName3, setPageTwoName3, pageTwoName4, setPageTwoName4, globalUserId,
             setGlobalUserId, currentProjectId, setCurrentProjectId, boolUser, setBoolUser, isProfileOpen, setIsProfileOpen, setGlobalTaskId, globalTaskId, setGlobalTaskName, globalTaskName, statusNum
-            , setStatusNum, isClearDefault, setIsClearDefault
+            , setStatusNum, isClearDefault, setIsClearDefault, isNotif, setIsNotif
         }}>
             {children}
         </Context.Provider>
