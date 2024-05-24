@@ -102,6 +102,18 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
         status: useStatus == "" ? taskObj && taskObj.status : useStatus,
         isDeleted: false
     };
+    // const dummy: ITask = {
+    //     id: prop.boolDetermine == true ? 0 : useTaskId,
+    //     projectID: useProjectID,
+    //     taskName: useTaskName == "" ? taskObj && taskObj.taskName : useTaskName,
+    //     taskDescription: useTaskDescription == "" ? taskObj && taskObj.taskDescription : useTaskDescription,
+    //     taskDuration: useTaskDuration == "" ? taskObj && taskObj.taskDuration : useTaskDuration,
+    //     userID: useUserID == 0 ? taskObj && taskObj.userID : useUserID,
+    //     dueDate: useDueDate == "" ? taskObj && taskObj.dueDate : useDueDate,
+    //     priority: usePriority == "" ? taskObj && taskObj.priority : usePriority,
+    //     status: data.useStatus,
+    //     isDeleted: false
+    // };
 
 
 
@@ -135,6 +147,8 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
             try {
                 const taskInfo: any = await GetTaskByID(prop.taskId && prop.taskId);
                 setTaskObj(taskInfo)
+                console.log(taskInfo)
+                setUsePriority(taskInfo && taskInfo.priority)
             } catch (error) {
 
             }
@@ -156,7 +170,7 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
 
 
 
-    }, [useProjectID, useTaskName, data.boolUser])
+    }, [useProjectID, useTaskName, data.boolUser, data.isOpenTask])
     return (
         <div className='  absolute top-1/2 -translate-y-1/2 z-[100] justify-center  flex w-full bg-black bg-opacity-80 h-screen  items-center'>
 
@@ -232,7 +246,9 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
 
                     <div className='  md:w-fit md:ml-auto'>
                         <p className=' ml-2 pb-2 text-[16px] text-[#808080]'>Status</p>
+
                         <select
+                            defaultValue={taskObj && taskObj.status}
                             onChange={(e) => setUseStatus(e.target.value)}
                             className=' bg-[#282828] text-white border-[#808080] lg:w-[180px] text-[16px]  w-full   rounded-[10px] mb-[25px]'>
                             <option value="Ideas" className='text-center'>Ideas</option>

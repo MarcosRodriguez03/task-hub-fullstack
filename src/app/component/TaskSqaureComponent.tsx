@@ -134,6 +134,7 @@ const TaskSqaureComponent = (props: iTaskSqaure) => {
                         onClick={(event) => {
                             event.stopPropagation();
                             setCreateTask('block')
+                            data.setIsOpenTask(!data.isOpenTask)
                         }}
                         className='font-bold text-[20px] z rounded-[5px] py-[2px] px-[10px] text-[#7A7A7A] bg-[#353535]'>Edit</button>
                 </div>

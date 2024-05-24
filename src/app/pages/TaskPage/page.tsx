@@ -223,7 +223,8 @@ const TaskPage = () => {
                                             setCreateTaskTwo('block')
                                             setIsCreate(true)
                                             data.setStatusNum(1)
-                                            setStatus("Ideas")
+
+                                            data.setUseStatus("Ideas")
 
                                         }}
                                         alt="add" className='w-[30px] h-[30px] cursor-pointer' src={purplePlus} />
@@ -237,7 +238,7 @@ const TaskPage = () => {
                                             setCreateTaskTwo('block')
                                             setIsCreate(true)
                                             data.setStatusNum(2)
-                                            setStatus("In progress")
+                                            data.setUseStatus("In progress")
 
 
                                         }}
@@ -252,7 +253,7 @@ const TaskPage = () => {
                                             setCreateTaskTwo('block')
                                             setIsCreate(true)
                                             data.setStatusNum(3)
-                                            setStatus("Done")
+                                            data.setUseStatus("Done")
 
 
                                         }}

@@ -21,7 +21,7 @@ const CreateTaskTwoComponent = (prop: { passingValue: string, taskId: number, bo
     const [useUserID, serUseUserID] = useState<number>(0)
     const [useDueDate, setUseDueDate] = useState<string>("")
     const [usePriority, setUsePriority] = useState<string>("Low Urgency");
-    const [useStatus, setUseStatus] = useState<string>("Ideas");
+    const [useStatus, setUseStatus] = useState<string>(data.useStatus);
     const [useIsDeleted, setUseIsDeleted] = useState<boolean>(false)
     const [isTrue, setIsTrue] = useState<boolean>(true);
     const [relationTable, setRelationTable] = useState<any>();
@@ -42,7 +42,7 @@ const CreateTaskTwoComponent = (prop: { passingValue: string, taskId: number, bo
         } else {
             setBtnDisable(false);
         }
-    }, [useTaskName])
+    }, [useTaskName, data.useStatus])
 
 
     const handleCreateTask = async () => {
@@ -74,6 +74,9 @@ const CreateTaskTwoComponent = (prop: { passingValue: string, taskId: number, bo
         setUseTaskDescription("");
         setUseDueDate("");
         setUseTaskDuration("");
+        setUsePriority("Low Urgency")
+        serUseUserID(0)
+
 
 
     }
@@ -98,7 +101,7 @@ const CreateTaskTwoComponent = (prop: { passingValue: string, taskId: number, bo
         userID: useUserID == 0 ? taskObj && taskObj.userID : useUserID,
         dueDate: useDueDate == "" ? taskObj && taskObj.dueDate : useDueDate,
         priority: usePriority == "" ? taskObj && taskObj.priority : usePriority,
-        status: useStatus == "" ? taskObj && taskObj.status : useStatus,
+        status: data.useStatus,
         isDeleted: false
     };
 
@@ -168,8 +171,7 @@ const CreateTaskTwoComponent = (prop: { passingValue: string, taskId: number, bo
                     <input
 
                         maxLength={20}
-                        defaultValue={taskObj && taskObj.taskName}
-
+                        value={useTaskName}
 
 
                         onChange={(e) => { setUseTaskName(e.target.value); }}
@@ -182,7 +184,7 @@ const CreateTaskTwoComponent = (prop: { passingValue: string, taskId: number, bo
                 <div className='w-auto h-[40px] rounded-[10px] mb-[25px] bg-[#282828] border-b border-[#808080]'>
                     <input
                         maxLength={200}
-                        defaultValue={taskObj && taskObj.taskDescription}
+                        value={useTaskDescription}
                         onChange={(e) => setUseTaskDescription(e.target.value)}
                         type="text" placeholder='' className='h-[40px] placeholder:text-white text-white w-full rounded-[10px] border border-transparent bg-transparent' />
                 </div>
@@ -191,7 +193,7 @@ const CreateTaskTwoComponent = (prop: { passingValue: string, taskId: number, bo
                 <div className='w-auto h-[40px] rounded-[10px] mb-[25px] bg-[#282828] border-b border-[#808080]'>
                     <input
                         maxLength={20}
-                        defaultValue={taskObj && taskObj.taskDuration}
+                        value={useTaskDuration}
                         onChange={(e) => setUseTaskDuration(e.target.value)}
                         type="text" placeholder="" className='h-[40px] placeholder:text-white text-white w-full rounded-[10px] border border-transparent bg-transparent' />
                 </div>
@@ -200,6 +202,7 @@ const CreateTaskTwoComponent = (prop: { passingValue: string, taskId: number, bo
                     <div className='  md:w-fit'>
                         <p className=' ml-2 pb-2 text-[16px] text-[#808080]'>Assign User</p>
                         <select
+                            value={useUserID}
                             onChange={handleUserIDChange}
                             className='bg-[#282828] text-white border-[#808080] lg:w-[180px] w-full rounded-[10px] mb-[25px]'
                         >
@@ -212,8 +215,8 @@ const CreateTaskTwoComponent = (prop: { passingValue: string, taskId: number, bo
                         <p className=' ml-2 pb-2 text-[16px] text-[#808080]'>Due date</p>
                         <div className='w-auto rounded-[10px] mb-[25px] relative z-[1]'>
                             <input
+                                value={useDueDate}
                                 onChange={(e) => setUseDueDate(e.target.value)}
-                                defaultValue={taskObj && taskObj.dueDate}
                                 type="date" className='text-center  placeholder:text-[#808080] text-white lg:w-[180px]  w-full rounded-[10px] bg-[#282828] border-[#808080]' />
                         </div>
                     </div>
@@ -223,9 +226,10 @@ const CreateTaskTwoComponent = (prop: { passingValue: string, taskId: number, bo
                     <div className='  md:w-fit '>
                         <p className=' ml-2 pb-2 text-[16px] text-[#808080]'>Priority</p>
                         <select
-                            defaultValue={taskObj && taskObj.priority}
+                            value={usePriority}
                             onChange={(e) => setUsePriority(e.target.value)}
                             className=' bg-[#282828] text-white border-[#808080] lg:w-[180px]  w-full   rounded-[10px] mb-[25px]'>
+
                             <option value="Low Urgency" className='text-center'>Low Urgency</option>
                             <option value="Medium Urgency" className='text-center'>Medium Urgency</option>
                             <option value="High Urgency" className='text-center'>High Urgency </option>
@@ -235,7 +239,9 @@ const CreateTaskTwoComponent = (prop: { passingValue: string, taskId: number, bo
                     <div className='  md:w-fit md:ml-auto'>
                         <p className=' ml-2 pb-2 text-[16px] text-[#808080]'>Status</p>
                         <select
-                            onChange={(e) => { setUseStatus(e.target.value) }}
+
+                            value={data.useStatus}
+                            onChange={(e) => { data.setUseStatus(e.target.value) }}
                             className=' bg-[#282828] text-white border-[#808080] lg:w-[180px] text-[16px]  w-full   rounded-[10px] mb-[25px]'>
                             <option value="Ideas" className='text-center'>Ideas</option>
                             <option value="In progress" className='text-center'>In progress</option>
@@ -255,6 +261,12 @@ const CreateTaskTwoComponent = (prop: { passingValue: string, taskId: number, bo
                     <button
                         onClick={() => {
                             prop.setCreateTask('hidden')
+                            setUseTaskName("");
+                            setUseTaskDescription("");
+                            setUseDueDate("");
+                            setUseTaskDuration("");
+                            setUsePriority("Low Urgency")
+                            serUseUserID(0)
                         }}
                         className='bg-[#5C5C5C] hover:bg-[#7b7b7b] rounded-[10px] me-[25px] font-semibold'>
                         <p className='text-white text-[16px] px-[20px] py-[10px]'>Cancel</p>
