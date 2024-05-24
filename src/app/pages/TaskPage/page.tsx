@@ -21,7 +21,7 @@ import CreateTaskComponent from '@/app/component/CreateTaskComponent';
 import newData from '@/app/TestTask.json'
 import { getLocalStorage, getLocalStorageProjectId, saveLocalStorage } from '@/utils/localStorage';
 import { ITask, ITaskArr, IUserProfile } from '@/interface/interface';
-import { CreateTask, GetTasksByProjectID, GetTasksByStatus, GetUsersByProjectId, getEntireUserProfile, getEntireUserProfileById } from '@/utils/DataService';
+import { CreateTask, GetNotifications, GetTasksByProjectID, GetTasksByStatus, GetUsersByProjectId, getEntireUserProfile, getEntireUserProfileById } from '@/utils/DataService';
 import { useAppContext } from '@/Context/Context';
 import ViewTaskComponent from '@/app/component/ViewTaskComponent';
 import ConfirmDeleteComponent from '@/app/component/ConfirmDeleteComponent';
@@ -55,6 +55,7 @@ const TaskPage = () => {
     const [pageBool, setPageBool] = useState<boolean>(true)
     const [isDeleteTask, setIsDeleteTask] = useState<boolean>(false)
     const [status, setStatus] = useState<string>("")
+    const [displayNotif, setDisplayNotif] = useState<any[]>([]);
 
 
     const data = useAppContext();
@@ -132,6 +133,15 @@ const TaskPage = () => {
         loadPicture()
     }, [data.pageTwoName4, data.pageTwoName])
 
+    useEffect(() => {
+        const callNotifications = async () => {
+          let notif = await GetNotifications(Number(data.globalUserId));
+          setDisplayNotif(notif);
+          console.log(notif);
+        }
+        callNotifications();
+      }, [toggleNotifications, notificationsPageClick, data.isNotif])
+
 
 
     return (
@@ -178,7 +188,15 @@ const TaskPage = () => {
             <div className={`${toggleNotifications} absolute right-[105px] w-[520px] z-30 px-[20px] bg-[#181818] border-[#808080] border-[1px] rounded-[10px] drop-shadow-2xl shadow-2xl h-[85vh] overflow-y-auto -mt-0.5`}>
                 <h1 className="text-white font-semibold text-[25px] mt-4 mb-3">Notifications</h1>
                 <hr />
-                <NotificationBoxComponent id={1} message="Tyler sent a message" />
+                {
+          displayNotif && displayNotif.map((notif, idx) => {
+            return (
+              <div key={idx}>
+                <NotificationBoxComponent id={notif.id} message={notif.message} />
+              </div>
+            )
+          })
+        }
 
             </div>
 
@@ -364,7 +382,15 @@ const TaskPage = () => {
 
             < div className={notificationsPageClick} >
                 <div className="mx-[20px] mb-[100px]">
-                    <NotificationBoxComponent id={1} message="Tyler sent a message" />
+                {
+          displayNotif && displayNotif.map((notif, idx) => {
+            return (
+              <div key={idx}>
+                <NotificationBoxComponent id={notif.id} message={notif.message} />
+              </div>
+            )
+          })
+        }
 
                 </div>
             </div >
