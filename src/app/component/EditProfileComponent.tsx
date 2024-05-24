@@ -127,37 +127,37 @@ const EditProfileComponent = (prop: {
           <div className="grid lg:grid-cols-12">
             <div className="order-2 lg:order-1 lg:col-span-8">
               <input
-                onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   if (!/\s/.test(e.target.value)) {
                     handleFirst(e.target.value);
                   }
                 }}
                 value={first}
                 maxLength={40}
-                className="mb-[20px] rounded-[10px] bg-[#282828] border-[#808080] border-b-[1px] focus:outline-none px-[20px] w-full lg:w-[561px] h-[44px] text-[20px] text-[#808080] placeholder:text-[#808080]"
+                className="mb-[20px] rounded-[10px] bg-[#282828] border-[#808080] border-b-[1px] focus:outline-none px-[20px] w-full lg:w-[561px] h-[44px] text-[20px] text-white placeholder:text-[#808080]"
                 placeholder="First name"
               />
               <input
-                onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   if (!/\s/.test(e.target.value)) {
                     handleSecond(e.target.value);
                   }
                 }}
                 value={second}
                 maxLength={40}
-                className="mb-[20px] rounded-[10px] bg-[#282828] border-[#808080] border-b-[1px] focus:outline-none px-[20px] w-full lg:w-[561px] h-[44px] text-[20px] text-[#808080] placeholder:text-[#808080]"
+                className="mb-[20px] rounded-[10px] bg-[#282828] border-[#808080] border-b-[1px] focus:outline-none px-[20px] w-full lg:w-[561px] h-[44px] text-[20px] text-white placeholder:text-[#808080]"
                 placeholder="Last name"
               />
               <input
                 onChange={handleContact}
                 maxLength={100}
-                className="mb-[20px] rounded-[10px] bg-[#282828] border-[#808080] border-b-[1px] focus:outline-none px-[20px] w-full lg:w-[561px] h-[44px] text-[20px] text-[#808080] placeholder:text-[#808080]"
+                className="mb-[20px] rounded-[10px] bg-[#282828] border-[#808080] border-b-[1px] focus:outline-none px-[20px] w-full lg:w-[561px] h-[44px] text-[20px] text-white placeholder:text-[#808080]"
                 placeholder="Contact"
               />
               <textarea
                 onChange={handleBio}
                 maxLength={400}
-                className="mb-[20px] rounded-[10px] bg-[#282828] border-0 border-b-[1px] border-[#808080] outline-none py-[10px] px-[20px] w-full lg:w-[561px] h-[150px] lg:h-[250px] text-[20px] text-[#808080] placeholder:text-[#808080]"
+                className="mb-[20px] rounded-[10px] bg-[#282828] border-0 border-b-[1px] border-[#808080] outline-none py-[10px] px-[20px] w-full lg:w-[561px] h-[150px] lg:h-[250px] text-[20px] text-white placeholder:text-[#808080]"
                 placeholder="Bio"
               ></textarea>
             </div>
@@ -181,11 +181,11 @@ const EditProfileComponent = (prop: {
                 <button onClick={handleClickBtn} className="mt-[25px] lg:mt-[15px] bg-[#282828] border-[1px] border-[#808080] h-[50px] w-[250px] text-[24px] font-semibold text-white rounded-[10px]">
                   Upload Photo
                 </button>
-                <div 
-                onClick={() => {
-                  setImage(null);
-                }}
-                className="my-[15px] leading-[29px] cursor-pointer text-[#CB76F2] text-[24px] text-center">
+                <div
+                  onClick={() => {
+                    setImage(null);
+                  }}
+                  className="my-[15px] leading-[29px] cursor-pointer text-[#CB76F2] text-[24px] text-center">
                   Remove Photo
                 </div>
               </div>

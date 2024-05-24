@@ -41,6 +41,7 @@ type iTaskSqaure = {
     setIsDeleteTask: (input: boolean) => void
 
 
+
 }
 
 const TaskSqaureComponent = (props: iTaskSqaure) => {
@@ -52,6 +53,7 @@ const TaskSqaureComponent = (props: iTaskSqaure) => {
 
     const [viewTask, setViewTask] = useState<string>("hidden")
     const [updateTaskId, setUpdateTaskId] = useState<number>(1)
+
 
     // const handleDelete = async (event: any) => {
     //     event.stopPropagation();
@@ -107,7 +109,7 @@ const TaskSqaureComponent = (props: iTaskSqaure) => {
                 <div className='flex justify-between py-[21px]'>
                     <div className='flex items-center '>
                         <Image alt="icon" src={checkPriority(props.priority)} className='h-[30px] w-[30px] me-[10px]' />
-                        <p className='text-white text-[24px]'>{props.taskName}</p>
+                        <p className=' truncate text-white text-[24px]'>{props.taskName}</p>
                     </div>
                     <Image
                         onClick={(event) => {

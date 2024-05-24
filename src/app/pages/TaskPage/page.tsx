@@ -212,8 +212,11 @@ const TaskPage = () => {
                                     <p className='text-[24px] text-white'>Ideas</p>
                                     <Image
                                         onClick={() => {
+                                            data.setIsClearDefault(false)
                                             setCreateTask('block')
                                             setIsCreate(true)
+                                            data.setStatusNum(1)
+
                                         }}
                                         alt="add" className='w-[30px] h-[30px] cursor-pointer' src={purplePlus} />
                                 </div>
@@ -222,8 +225,12 @@ const TaskPage = () => {
                                     <p className='text-[24px] text-white'>In Progress</p>
                                     <Image
                                         onClick={() => {
+                                            data.setIsClearDefault(false)
                                             setCreateTask('block')
                                             setIsCreate(true)
+                                            data.setStatusNum(2)
+
+
                                         }}
                                         alt="add" className='w-[30px] h-[30px] cursor-pointer' src={greenPlus} />
                                 </div>
@@ -232,8 +239,11 @@ const TaskPage = () => {
                                     <p className='text-[24px] text-white'>Done</p>
                                     <Image
                                         onClick={() => {
+                                            data.setIsClearDefault(false)
                                             setCreateTask('block')
                                             setIsCreate(true)
+                                            data.setStatusNum(3)
+
                                         }}
                                         alt="add" className='w-[30px] h-[30px] cursor-pointer' src={redPlus} />
                                 </div>
@@ -309,6 +319,7 @@ const TaskPage = () => {
                                     onClick={() => {
                                         setCreateTask('block')
                                         setIsCreate(true)
+                                        data.setStatusNum(1)
                                     }}
                                     className='cursor-pointer mt-[20px] col-span-3 h-[50px] bg-[#181818] border border-[#525252] rounded-[10px] flex items-center justify-between'>
                                     <p className='ml-[25px] text-[20px] text-white'>Create Task</p>
