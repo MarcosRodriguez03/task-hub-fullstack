@@ -311,3 +311,27 @@ export const GetSavedMessages = async (room:Number) => {
     let data = await res.json();
     return data;
 }
+
+export const GetNotifications = async (userID:Number) => {
+    const res = await fetch(url + '/Project/GetAllNotificationsUserHas/' + userID)
+    let data = await res.json();
+    return data;
+}
+
+export const DeleteNotification = async (notificationID: number) => {
+    const res = await fetch(url + `/Project/DeleteNotification/${notificationID}`, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': "application/json"
+        },
+        body: JSON.stringify({ notificationID })
+    });
+    if (!res.ok) {
+        const message = "An error has occurred: " + res.status;
+        throw new Error(message);
+    }
+
+    const data = await res.json();
+    console.log(data);
+    return data;
+};
