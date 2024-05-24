@@ -54,7 +54,7 @@ export interface IUserProfileIndex {
 export interface IProject {
     id: number
     UserId: number
-    ProjectName: string
+    projectName: string
     isDeleted: boolean
 }
 
@@ -93,7 +93,7 @@ export interface IProjectUserIsIn {
 }
 
 export interface IMessage {
-    SenderID:number,
-    Room:number,
-    Message:string
+    SenderID: number,
+    Room: number,
+    Message: string
 }

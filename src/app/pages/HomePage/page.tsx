@@ -53,6 +53,7 @@ const HomePage = () => {
             setAllProjectsArr(allProjects)
 
             let allProjects2 = await GetAllProjects()
+            console.log(allProjects2)
             setAllProjectsArr2(allProjects2)
 
 
@@ -156,7 +157,7 @@ const HomePage = () => {
                         </div>
                     </div>
                     {allProjectsArr && allProjectsArr.map((project: IProjectUserIsIn) => (
-                        allProjectsArr2 && allProjectsArr2.map((project2: IProject) => {
+                        allProjectsArr2 && allProjectsArr2.map((project2) => {
                             if (project.projectID === project2.id) {
                                 return (
                                     <ProjectCardComponent
@@ -164,7 +165,7 @@ const HomePage = () => {
                                         projectId={project.projectID}
                                         taskPage={setTaskPage}
                                         percent="0"
-                                        projectName={project2.ProjectName}
+                                        projectName={project2 && project2.projectName}
                                     />
                                 );
                             } else {

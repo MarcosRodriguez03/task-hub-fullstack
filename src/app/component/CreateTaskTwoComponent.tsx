@@ -1,3 +1,4 @@
+
 import React, { useEffect, useId, useRef, useState } from 'react'
 import { Dropdown } from "flowbite-react";
 import greenPlus from '@/assets/greenPlus.png'
@@ -9,7 +10,7 @@ import { getLocalStorage, getLocalStorageProjectId, getLocalStorageTaskId, getLo
 import { useAppContext } from '@/Context/Context';
 
 
-const CreateTaskTwoComponent = (prop: { taskId: number, boolDetermine: boolean, setCreateTask: (input: string) => void; }) => {
+const CreateTaskTwoComponent = (prop: { passingValue: string, taskId: number, boolDetermine: boolean, setCreateTask: (input: string) => void; }) => {
     const data = useAppContext()
     const [useProjectID, setUseProjectID] = useState<number>(0);
     const [useTaskId, setTaskId] = useState<number>(0);
@@ -45,38 +46,36 @@ const CreateTaskTwoComponent = (prop: { taskId: number, boolDetermine: boolean, 
 
 
     const handleCreateTask = async () => {
-        if (prop.boolDetermine == true) {
 
-            if (data.statusNum == 1) {
-                dummy.status = "Ideas"
-                console.log("12345432")
 
-            } else if (data.statusNum == 2) {
-                dummy.status = "In progress"
-                console.log("12345432")
+        // if (data.statusNum == 1 && useStatus  ) {
+        //     dummy.status = "Ideas"
+        //     console.log("12345432")
 
-            } else if (data.statusNum == 3) {
+        // } else if (data.statusNum == 2) {
+        //     dummy.status = "In progress"
+        //     console.log("12345432")
 
-                dummy.status = "Done"
-                console.log("12345432")
+        // } else if (data.statusNum == 3) {
 
-            } else {
+        //     dummy.status = "Done"
+        //     console.log("12345432")
 
-            }
+        // } else {
 
-            console.log(dummy)
-            await CreateTask(dummy)
-            data.setPageTwoName3(!data.pageTwoName3)
+        // }  
 
-            setUseTaskName("");
-            setUseTaskDescription("");
-            setUseDueDate("");
-            setUseTaskDuration("");
 
-        } else {
-            await EditTask(dummy)
-            data.setPageTwoName3(!data.pageTwoName3)
-        }
+        console.log(dummy)
+        await CreateTask(dummy)
+        data.setPageTwoName3(!data.pageTwoName3)
+
+        setUseTaskName("");
+        setUseTaskDescription("");
+        setUseDueDate("");
+        setUseTaskDuration("");
+
+
     }
 
     const handleUserIDChange = (e: any) => {
@@ -86,18 +85,29 @@ const CreateTaskTwoComponent = (prop: { taskId: number, boolDetermine: boolean, 
 
     };
 
+
+
+
+
     const dummy: ITask = {
         id: prop.boolDetermine == true ? 0 : useTaskId,
         projectID: useProjectID,
-        taskName: useTaskName,
-        taskDescription: useTaskDescription,
-        taskDuration: useTaskDuration,
-        userID: useUserID,
-        dueDate: useDueDate,
-        priority: usePriority,
-        status: useStatus,
+        taskName: useTaskName == "" ? taskObj && taskObj.taskName : useTaskName,
+        taskDescription: useTaskDescription == "" ? taskObj && taskObj.taskDescription : useTaskDescription,
+        taskDuration: useTaskDuration == "" ? taskObj && taskObj.taskDuration : useTaskDuration,
+        userID: useUserID == 0 ? taskObj && taskObj.userID : useUserID,
+        dueDate: useDueDate == "" ? taskObj && taskObj.dueDate : useDueDate,
+        priority: usePriority == "" ? taskObj && taskObj.priority : usePriority,
+        status: useStatus == "" ? taskObj && taskObj.status : useStatus,
         isDeleted: false
     };
+
+
+
+
+
+
+
 
     const OpenDropDown = () => {
         if (open == "hidden") {
@@ -109,6 +119,9 @@ const CreateTaskTwoComponent = (prop: { taskId: number, boolDetermine: boolean, 
 
     useEffect(() => {
         const loadAll = async () => {
+
+
+
             console.log(data.isClearDefault)
 
             let numb: number = getLocalStorageUserID()
@@ -155,7 +168,7 @@ const CreateTaskTwoComponent = (prop: { taskId: number, boolDetermine: boolean, 
                     <input
 
                         maxLength={20}
-
+                        defaultValue={taskObj && taskObj.taskName}
 
 
 
@@ -169,7 +182,7 @@ const CreateTaskTwoComponent = (prop: { taskId: number, boolDetermine: boolean, 
                 <div className='w-auto h-[40px] rounded-[10px] mb-[25px] bg-[#282828] border-b border-[#808080]'>
                     <input
                         maxLength={200}
-
+                        defaultValue={taskObj && taskObj.taskDescription}
                         onChange={(e) => setUseTaskDescription(e.target.value)}
                         type="text" placeholder='' className='h-[40px] placeholder:text-white text-white w-full rounded-[10px] border border-transparent bg-transparent' />
                 </div>
@@ -178,7 +191,7 @@ const CreateTaskTwoComponent = (prop: { taskId: number, boolDetermine: boolean, 
                 <div className='w-auto h-[40px] rounded-[10px] mb-[25px] bg-[#282828] border-b border-[#808080]'>
                     <input
                         maxLength={20}
-
+                        defaultValue={taskObj && taskObj.taskDuration}
                         onChange={(e) => setUseTaskDuration(e.target.value)}
                         type="text" placeholder="" className='h-[40px] placeholder:text-white text-white w-full rounded-[10px] border border-transparent bg-transparent' />
                 </div>
@@ -200,7 +213,7 @@ const CreateTaskTwoComponent = (prop: { taskId: number, boolDetermine: boolean, 
                         <div className='w-auto rounded-[10px] mb-[25px] relative z-[1]'>
                             <input
                                 onChange={(e) => setUseDueDate(e.target.value)}
-
+                                defaultValue={taskObj && taskObj.dueDate}
                                 type="date" className='text-center  placeholder:text-[#808080] text-white lg:w-[180px]  w-full rounded-[10px] bg-[#282828] border-[#808080]' />
                         </div>
                     </div>
@@ -210,7 +223,7 @@ const CreateTaskTwoComponent = (prop: { taskId: number, boolDetermine: boolean, 
                     <div className='  md:w-fit '>
                         <p className=' ml-2 pb-2 text-[16px] text-[#808080]'>Priority</p>
                         <select
-
+                            defaultValue={taskObj && taskObj.priority}
                             onChange={(e) => setUsePriority(e.target.value)}
                             className=' bg-[#282828] text-white border-[#808080] lg:w-[180px]  w-full   rounded-[10px] mb-[25px]'>
                             <option value="Low Urgency" className='text-center'>Low Urgency</option>
@@ -222,7 +235,7 @@ const CreateTaskTwoComponent = (prop: { taskId: number, boolDetermine: boolean, 
                     <div className='  md:w-fit md:ml-auto'>
                         <p className=' ml-2 pb-2 text-[16px] text-[#808080]'>Status</p>
                         <select
-                            onChange={(e) => setUseStatus(e.target.value)}
+                            onChange={(e) => { setUseStatus(e.target.value) }}
                             className=' bg-[#282828] text-white border-[#808080] lg:w-[180px] text-[16px]  w-full   rounded-[10px] mb-[25px]'>
                             <option value="Ideas" className='text-center'>Ideas</option>
                             <option value="In progress" className='text-center'>In progress</option>
@@ -231,6 +244,9 @@ const CreateTaskTwoComponent = (prop: { taskId: number, boolDetermine: boolean, 
                     </div>
 
                 </div>
+
+
+
 
 
                 <hr className='border-t-1 border-[#808080]' />
@@ -250,6 +266,8 @@ const CreateTaskTwoComponent = (prop: { taskId: number, boolDetermine: boolean, 
                                 prop.setCreateTask('hidden')
                                 // setIsTrue(!isTrue)  
                             }
+
+
                         }}
                         className={btnDisable ? 'bg-[#6a3e7e] text-[#838383] cursor-default rounded-[10px] font-semibold' : 'bg-[#CB76F2] text-white hover:bg-[#d186f3] rounded-[10px] font-semibold'}>
                         <p className=' text-[16px] px-[18px] py-[10px]'>{prop.boolDetermine == true ? "Create Task" : "Save"}</p>

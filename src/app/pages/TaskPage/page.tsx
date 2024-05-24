@@ -25,6 +25,7 @@ import { CreateTask, GetTasksByProjectID, GetTasksByStatus, GetUsersByProjectId,
 import { useAppContext } from '@/Context/Context';
 import ViewTaskComponent from '@/app/component/ViewTaskComponent';
 import ConfirmDeleteComponent from '@/app/component/ConfirmDeleteComponent';
+import CreateTaskTwoComponent from '@/app/component/CreateTaskTwoComponent';
 
 
 
@@ -40,6 +41,7 @@ const TaskPage = () => {
     const [taskPage, setTaskPage] = useState<string>("block lg:block");
     const [addUser, setAddUser] = useState<string>('hidden');
     const [createTask, setCreateTask] = useState<string>('hidden');
+    const [createTaskTwo, setCreateTaskTwo] = useState<string>('hidden');
     const [fullArr, setFullArr] = useState<ITask[]>([])
     const [userArr, setUserArr] = useState<IUserProfile[]>([])
     const [statusSet, setStatusSet] = useState<string>("Ideas")
@@ -52,6 +54,7 @@ const TaskPage = () => {
     const [profileId, setProfileId] = useState<number>(4)
     const [pageBool, setPageBool] = useState<boolean>(true)
     const [isDeleteTask, setIsDeleteTask] = useState<boolean>(false)
+    const [status, setStatus] = useState<string>("")
 
 
     const data = useAppContext();
@@ -135,6 +138,10 @@ const TaskPage = () => {
 
         <div>
 
+            <div className={` ${createTaskTwo} z-50`}>
+                <CreateTaskTwoComponent passingValue={status} taskId={0} boolDetermine={isCreate} setCreateTask={setCreateTaskTwo} />
+            </div>
+
             <div className={isDeleteTask ? "block" : "hidden"}>
                 <ConfirmDeleteComponent isDeleteTask={isDeleteTask} setIsDeleteTask={setIsDeleteTask} />
             </div>
@@ -213,9 +220,10 @@ const TaskPage = () => {
                                     <Image
                                         onClick={() => {
                                             data.setIsClearDefault(false)
-                                            setCreateTask('block')
+                                            setCreateTaskTwo('block')
                                             setIsCreate(true)
                                             data.setStatusNum(1)
+                                            setStatus("Ideas")
 
                                         }}
                                         alt="add" className='w-[30px] h-[30px] cursor-pointer' src={purplePlus} />
@@ -226,9 +234,10 @@ const TaskPage = () => {
                                     <Image
                                         onClick={() => {
                                             data.setIsClearDefault(false)
-                                            setCreateTask('block')
+                                            setCreateTaskTwo('block')
                                             setIsCreate(true)
                                             data.setStatusNum(2)
+                                            setStatus("In progress")
 
 
                                         }}
@@ -240,9 +249,11 @@ const TaskPage = () => {
                                     <Image
                                         onClick={() => {
                                             data.setIsClearDefault(false)
-                                            setCreateTask('block')
+                                            setCreateTaskTwo('block')
                                             setIsCreate(true)
                                             data.setStatusNum(3)
+                                            setStatus("Done")
+
 
                                         }}
                                         alt="add" className='w-[30px] h-[30px] cursor-pointer' src={redPlus} />
