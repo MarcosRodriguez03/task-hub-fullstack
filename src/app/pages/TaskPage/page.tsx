@@ -171,8 +171,8 @@ const TaskPage = () => {
             <div className={`${toggleNotifications} absolute right-[105px] w-[520px] z-30 px-[20px] bg-[#181818] border-[#808080] border-[1px] rounded-[10px] drop-shadow-2xl shadow-2xl h-[85vh] overflow-y-auto -mt-0.5`}>
                 <h1 className="text-white font-semibold text-[25px] mt-4 mb-3">Notifications</h1>
                 <hr />
-                <NotificationBoxComponent message="Tyler sent a message" />
-                <NotificationBoxComponent message="Tyler sent a message" />
+                <NotificationBoxComponent id={1} message="Tyler sent a message" />
+
             </div>
 
             <div className={homePage}>
@@ -352,21 +352,8 @@ const TaskPage = () => {
 
             < div className={notificationsPageClick} >
                 <div className="mx-[20px] mb-[100px]">
-                    <NotificationBoxComponent message="Tyler sent a message" />
-                    <NotificationBoxComponent message="Tyler sent a message" />
-                    <NotificationBoxComponent message="Tyler sent a message" />
-                    <NotificationBoxComponent message="Tyler sent a message" />
-                    <NotificationBoxComponent message="Tyler sent a message" />
-                    <NotificationBoxComponent message="Tyler sent a message" />
-                    <NotificationBoxComponent message="Tyler sent a message" />
-                    <NotificationBoxComponent message="Tyler sent a message" />
-                    <NotificationBoxComponent message="Tyler sent a message" />
-                    <NotificationBoxComponent message="Tyler sent a message" />
-                    <NotificationBoxComponent message="Tyler sent a message" />
-                    <NotificationBoxComponent message="Tyler sent a message" />
-                    <NotificationBoxComponent message="Tyler sent a message" />
-                    <NotificationBoxComponent message="Tyler sent a message" />
-                    <NotificationBoxComponent message="Tyler sent a message" />
+                    <NotificationBoxComponent id={1} message="Tyler sent a message" />
+
                 </div>
             </div >
 
