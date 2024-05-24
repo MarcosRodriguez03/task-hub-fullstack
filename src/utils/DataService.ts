@@ -1,4 +1,4 @@
-import { IProject, ITask, ITaskArr, IToken, IUserData, IUserInfo, IUserProfile, } from "@/interface/interface";
+import { IMessage, IProject, ITask, ITaskArr, IToken, IUserData, IUserInfo, IUserProfile, } from "@/interface/interface";
 
 
 const url = "https://newtaskhubbackenddb.azurewebsites.net";
@@ -288,3 +288,26 @@ export const addDM = async (userID1: number, userID2: number) => {
     return data
 }
 
+export const AddMessage = async (message:IMessage) => {
+    const res = await fetch(url + `/Message/CreateMessage`, {
+        method: "POST",
+        headers: {
+            'Content-Type': "application/json"
+        },
+        body: JSON.stringify(message)
+    })
+    if (!res.ok) {
+        const message = "an error has occured " + res.status;
+        throw new Error(message);
+    }
+
+    const data = await res.json();
+    console.log(data);
+    return data
+}
+
+export const GetSavedMessages = async (room:Number) => {
+    const res = await fetch(url + '/Message/GetAllMessagesWithinRoom/' + room)
+    let data = await res.json();
+    return data;
+}

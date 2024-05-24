@@ -10,11 +10,12 @@ import ProfilePageComponent from "@/app/components/ProfilePageComponent";
 import leftArrow from "../../../assets/leftArrow.png";
 import sendIcon from "../../../assets/sendIcon.png";
 import { getLocalStorage } from "@/utils/localStorage";
-import { GetDMS, addDM, getEntireUserProfile, getEntireUserProfileById, getLoggedInUserData } from "@/utils/DataService";
+import { AddMessage, GetDMS, GetSavedMessages, addDM, getEntireUserProfile, getEntireUserProfileById, getLoggedInUserData } from "@/utils/DataService";
 import { useAppContext } from "@/Context/Context";
 import emptyPfp from "@/assets/emptyPfp.png";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import DirectMessagesComponent from "@/app/component/DirectMessagesComponent";
+import { IMessage } from "@/interface/interface";
 
 export interface IMessages {
   username: string;
@@ -38,11 +39,16 @@ const MessagePage = () => {
   const [userPfp, setUserPfp] = useState<string>('');
   const [username, setUsername] = useState<string>("");
   const [directMessage, setDirectMessage] = useState<any>([]);
+  const [savedMessage, setSavedMessage] = useState<IMessages[]>([]);
   const [isReal, setIsReal] = useState<boolean>(true);
 
   const messageRef = useRef<HTMLDivElement>(null);
 
   const joinRoom = async (username: string, room: string) => {
+    conn && await conn.stop();
+    const messageHistory = await GetSavedMessages(Number(room));
+    console.log(messageHistory);
+    setSavedMessage(messageHistory);
     try {
       const conn = new HubConnectionBuilder()
         .withUrl("https://newtaskhubbackenddb.azurewebsites.net/chat")
@@ -69,7 +75,6 @@ const MessagePage = () => {
   };
 
   const closeConnection = async () => {
-    setIsReal(!isReal);
     try {
       await conn.stop();
     } catch (e) {
@@ -77,7 +82,14 @@ const MessagePage = () => {
     }
   }
 
+  const messageAdd:IMessage = {
+    SenderID:Number(usersId),
+    Room:Number(chatRoom),
+    Message:message
+  }
+
   const sendMessage = async (message: any) => {
+    await AddMessage(messageAdd);
     try {
       conn && (await conn.invoke("SendMessage", message));
     } catch (e) {
@@ -91,6 +103,7 @@ const MessagePage = () => {
         let userID = await getLoggedInUserData(username);
         console.log(userID);
         await addDM(Number(usersId), userID.userId);
+        await render();
       }
     } catch (e) {
       console.log('hi');
@@ -99,7 +112,7 @@ const MessagePage = () => {
   }
 
   const render = async () => {
-    await setIsReal(!isReal);
+    setIsReal(!isReal);
   }
 
   useEffect(() => {
@@ -138,7 +151,6 @@ const MessagePage = () => {
   }, [isReal]);
 
   const handleOpen = () => {
-    setIsReal(!isReal);
     if (addCol == "hidden") {
       setAddCol("block");
       setRemoveCol("hidden ");
@@ -282,9 +294,7 @@ const MessagePage = () => {
               <Image
                 onClick={() => {
                   createNewDM();
-                  closeConnection();
-                  setIsReal(!isReal);
-                  setUsername('');
+                  setUsername("");
                 }}
                 className="cursor-pointer h-[40px] w-[40px]"
                 alt="src"
@@ -323,6 +333,26 @@ const MessagePage = () => {
               <div className="h-full flex  flex-col">
                 <div ref={messageRef} className="bg-black overflow-auto flex-1">
                   <div className="flex flex-col p-[15px] lg:p-[30px]">
+                  {
+                savedMessage && savedMessage.map((message:any, idx:number) => {
+                  return(
+                    <div key={idx} className={message.senderID == Number(usersId) ? "flex justify-end items-end mt-[30px]" : "flex items-end mt-[30px]"}>
+                          {/* {
+                            msg.username != usersId ?
+                            <img
+                            alt="pfp"
+                            src={userPfp && userPfp ? userPfp : emptyPfp}
+                            className="rounded-[50px] w-[40px] h-[40px] lg:w-[50px] lg:h-[50px]"
+                          /> : ''} */}
+                          <div className={message.senderID == Number(usersId) ? 'bg-[#CB76F2] text-white p-2 rounded-t-xl rounded-l-xl w-auto break-all' : 'bg-[#181818] rounded-t-xl rounded-r-xl text-white p-2 w-auto break-all'}>
+                            <p className="break-all">
+                              {message.message}
+                            </p>
+                          </div>
+                        </div>
+                  )
+                })
+              }
                     {messages &&
                       messages.map((msg: any, idx: number) => (
                         <div key={idx} className={msg.username == usersId ? "flex justify-end items-end mt-[30px]" : "flex items-end mt-[30px]"}>

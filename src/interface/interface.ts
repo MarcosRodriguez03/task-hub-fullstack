@@ -91,3 +91,9 @@ export interface IProjectUserIsIn {
     projectID: number,
     userID: number
 }
+
+export interface IMessage {
+    SenderID:number,
+    Room:number,
+    Message:string
+}
