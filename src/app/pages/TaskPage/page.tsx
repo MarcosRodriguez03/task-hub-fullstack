@@ -135,12 +135,12 @@ const TaskPage = () => {
 
     useEffect(() => {
         const callNotifications = async () => {
-          let notif = await GetNotifications(Number(data.globalUserId));
-          setDisplayNotif(notif);
-          console.log(notif);
+            let notif = await GetNotifications(Number(data.globalUserId));
+            setDisplayNotif(notif);
+            console.log(notif);
         }
         callNotifications();
-      }, [toggleNotifications, notificationsPageClick, data.isNotif])
+    }, [toggleNotifications, notificationsPageClick, data.isNotif])
 
 
 
@@ -189,14 +189,14 @@ const TaskPage = () => {
                 <h1 className="text-white font-semibold text-[25px] mt-4 mb-3">Notifications</h1>
                 <hr />
                 {
-          displayNotif && displayNotif.map((notif, idx) => {
-            return (
-              <div key={idx}>
-                <NotificationBoxComponent id={notif.id} message={notif.message} />
-              </div>
-            )
-          })
-        }
+                    displayNotif && displayNotif.map((notif, idx) => {
+                        return (
+                            <div key={idx}>
+                                <NotificationBoxComponent id={notif.id} message={notif.message} />
+                            </div>
+                        )
+                    })
+                }
 
             </div>
 
@@ -212,7 +212,7 @@ const TaskPage = () => {
 
                         {userArr && userArr.map((person, idx) => {
                             return <div key={idx} onClick={() => { setPageBool(false); setProfileId(person.id); setProfilePage(" block"); data.setIsProfileOpen(!data.isProfileOpen) }} className='cursor-pointer lg:mt-3' >
-                                <div className='  mx-auto  relative h-[34px] w-[34px]'>
+                                <div className='  lg:mx-auto ml-4   relative h-[34px] w-[34px]'>
                                     {
                                         person.image && person.image != null ? <Image fill className='    w-[34px] h-[34px] rounded-[50px]' alt='pfp' src={person.image && person.image} /> : <Image src={emptyPfp} alt='default pfp' />
                                     }
@@ -284,7 +284,7 @@ const TaskPage = () => {
                         {/* desktop task */}
                         <div className='hidden lg:block'>
                             <div className='  grid grid-cols-3 px-[30px] gap-[30px] absolute top-[109px]  bottom-[80px] w-full'>
-                                <div className=' w-full overflow-auto '>
+                                <div className=' w-full no-scrollbar overflow-auto   '>
                                     {/* leftInput */}
                                     {fullArr && fullArr.map((task: ITask) => (
                                         task.status === "Ideas" && (
@@ -297,7 +297,7 @@ const TaskPage = () => {
 
                                 </div>
 
-                                <div className=' w-full  overflow-auto'>
+                                <div className=' w-full  overflow-auto no-scrollbar'>
 
                                     {/* <p className='text-white'> middle input</p> */}
 
@@ -311,7 +311,7 @@ const TaskPage = () => {
 
                                 </div>
 
-                                <div className=' w-full overflow-auto '>
+                                <div className=' w-full overflow-auto no-scrollbar'>
 
                                     {/* <p className='text-white'>  right input</p> */}
 
@@ -359,7 +359,7 @@ const TaskPage = () => {
                         </div>
 
 
-                        <div className='lg:hidden  overflow-y-auto absolute top-[162px] left-0 right-0 bottom-0 px-[20px] lg:bottom-[80px]   '>
+                        <div className='lg:hidden no-scrollbar overflow-y-auto absolute top-[162px] left-0 right-0 bottom-0 px-[20px] lg:bottom-[80px]   '>
                             Content
                             {fullArr && fullArr.map((task: ITask) => (
                                 task.status === statusSet && (
@@ -382,15 +382,15 @@ const TaskPage = () => {
 
             < div className={notificationsPageClick} >
                 <div className="mx-[20px] mb-[100px]">
-                {
-          displayNotif && displayNotif.map((notif, idx) => {
-            return (
-              <div key={idx}>
-                <NotificationBoxComponent id={notif.id} message={notif.message} />
-              </div>
-            )
-          })
-        }
+                    {
+                        displayNotif && displayNotif.map((notif, idx) => {
+                            return (
+                                <div key={idx}>
+                                    <NotificationBoxComponent id={notif.id} message={notif.message} />
+                                </div>
+                            )
+                        })
+                    }
 
                 </div>
             </div >
