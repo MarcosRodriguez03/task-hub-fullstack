@@ -43,7 +43,7 @@ const CreateProjectComponent = (prop: { setCreateProject: (input: string) => voi
 
   const projectObject: IProject = {
     id: 0,
-    UserId: userID,
+    userID: userID,
     projectName: projectName,
     isDeleted: false,
   }

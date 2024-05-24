@@ -11,8 +11,8 @@ import NotificationBoxComponent from "@/app/components/NotificationBoxComponent"
 import ProfilePageComponent from "@/app/components/ProfilePageComponent";
 import CreateProjectComponent from "@/app/component/CreateProjectComponent";
 import EditProfileComponent from "@/app/component/EditProfileComponent";
-import { getLocalStorage, saveLocalStorageUserID } from "@/utils/localStorage";
-import { GetAllProjects, GetAllProjectsUserIsIn, GetTaskByID, getEntireUserProfile, getLoggedInUserData } from "@/utils/DataService";
+import { getLocalStorage, getLocalStorageUserID, saveLocalStorageUserID } from "@/utils/localStorage";
+import { GetAllProjects, GetAllProjectsUserIsIn, GetNotifications, GetTaskByID, getEntireUserProfile, getLoggedInUserData } from "@/utils/DataService";
 import { IProject, IProjectUserIsIn, IUserData, IUserProfile, IUserProfileIndex } from "@/interface/interface";
 import { useAppContext } from "@/Context/Context";
 import { url } from "inspector";
@@ -34,6 +34,8 @@ const HomePage = () => {
     const [allProjectsArr2, setAllProjectsArr2] = useState<IProject[]>([])
     const [userProfile, setUserProfile] = useState<string>()
     const [nothing, setNothing] = useState<number>(0);
+    const [displayNotif, setDisplayNotif] = useState<any[]>([]);
+    const [userIDuser, setuserIDuser] = useState<number>();
 
 
     const data = useAppContext()
@@ -45,6 +47,8 @@ const HomePage = () => {
 
         let profile = getLocalStorage();
         const loadAll = async () => {
+            let user = getLocalStorageUserID();
+            setuserIDuser(user);
             let usersID = await getLoggedInUserData(profile)
             data.setGlobalUserId(usersID.userId)
             saveLocalStorageUserID(usersID.userId)
@@ -89,6 +93,15 @@ const HomePage = () => {
 
     }
 
+    useEffect(() => {
+        const callNotifications = async () => {
+          let notif = await GetNotifications(Number(data.globalUserId));
+          setDisplayNotif(notif);
+          console.log(notif);
+        }
+        callNotifications();
+      }, [toggleNotifications, notificationsPageClick, data.isNotif])
+
     return (
         <div>
 
@@ -123,7 +136,15 @@ const HomePage = () => {
             <div className={`${toggleNotifications} absolute right-[105px] w-[520px] z-30 px-[20px] bg-[#181818] border-[#808080] border-[1px] rounded-[10px] drop-shadow-2xl shadow-2xl h-[85vh] overflow-y-auto -mt-0.5`}>
                 <h1 className="text-white font-semibold text-[25px] mt-4 mb-3">Notifications</h1>
                 <hr />
-                <NotificationBoxComponent id={1} message="Tyler sent a message" />
+                {
+          displayNotif && displayNotif.map((notif, idx) => {
+            return (
+              <div key={idx}>
+                <NotificationBoxComponent id={notif.id} message={notif.message} />
+              </div>
+            )
+          })
+        }
 
             </div>
 
@@ -164,7 +185,7 @@ const HomePage = () => {
                                         key={project.projectID}
                                         projectId={project.projectID}
                                         taskPage={setTaskPage}
-                                        percent="0"
+                                        owner={project2.userID == userIDuser ? '' : 'invisible'}
                                         projectName={project2 && project2.projectName}
                                     />
                                 );
@@ -180,7 +201,15 @@ const HomePage = () => {
 
             <div className={notificationsPageClick}>
                 <div className="mx-[20px] mb-[100px]">
-                    <NotificationBoxComponent id={1} message="Tyler sent a message" />
+                {
+          displayNotif && displayNotif.map((notif, idx) => {
+            return (
+              <div key={idx}>
+                <NotificationBoxComponent id={notif.id} message={notif.message} />
+              </div>
+            )
+          })
+        }
 
                 </div>
             </div>

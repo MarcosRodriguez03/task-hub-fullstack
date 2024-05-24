@@ -53,7 +53,7 @@ export interface IUserProfileIndex {
 
 export interface IProject {
     id: number
-    UserId: number
+    userID: number
     projectName: string
     isDeleted: boolean
 }

@@ -335,3 +335,21 @@ export const DeleteNotification = async (notificationID: number) => {
     console.log(data);
     return data;
 };
+
+export const DeleteProject = async (projectID: number) => {
+    const res = await fetch(url + `/Project/DeleteProject/${projectID}`, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': "application/json"
+        },
+        body: JSON.stringify({ projectID })
+    });
+    if (!res.ok) {
+        const message = "An error has occurred: " + res.status;
+        throw new Error(message);
+    }
+
+    const data = await res.json();
+    console.log(data);
+    return data;
+};
