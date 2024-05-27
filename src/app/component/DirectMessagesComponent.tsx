@@ -4,9 +4,10 @@ import React, { useEffect, useState } from 'react'
 import Image from "next/image";
 import homeLogo from "@/assets/homelogo.png";
 import emptyPfp from "@/assets/emptyPfp.png";
-import { getEntireUserProfileById, getLoggedInUserData } from '@/utils/DataService';
+import { RemoveDM, getEntireUserProfileById, getLoggedInUserData } from '@/utils/DataService';
+import exit from "@/assets/removeIcon.png";
 
-const DirectMessagesComponent = (prop: {id:number, focus:string, chatid:number}) => {
+const DirectMessagesComponent = (prop: {id:number, focus:string, chatid:number, render:() => void, stop: () => void}) => {
 
     const [name, setName] = useState<string>();
     const [image, setImage] = useState<any>();
@@ -14,12 +15,16 @@ const DirectMessagesComponent = (prop: {id:number, focus:string, chatid:number})
     useEffect(() => {
         const userProfile = async () => {
             let arr = await getEntireUserProfileById(prop.id);
-            console.log(arr);
             setName(arr.username);
             setImage(arr.image);
         }
         userProfile();
     }, [])
+
+    const removeDirectMessage = async () => {
+      await RemoveDM(prop.id);
+      await prop.render();
+    }
 
 
   return (
@@ -40,7 +45,13 @@ const DirectMessagesComponent = (prop: {id:number, focus:string, chatid:number})
                   
                   <p className="text-white">{name && name}</p>
                 </div>
-                {/* <Image alt="x" src={exit} className="hidden  h-[40px] w-[40px]" /> */}
+                <Image
+                onClick={(event) => {
+                  prop.stop();
+                  event.stopPropagation();
+                  removeDirectMessage();
+                }}
+                alt="x" src={exit} className="  h-[25px] w-[25px]" />
               </div>
   )
 }

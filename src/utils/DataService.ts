@@ -358,3 +358,21 @@ export const DeleteProject = async (projectID: number) => {
 
     return data;
 };
+
+export const RemoveDM = async (id: number) => {
+    const res = await fetch(url + `/Message/DeleteDM/${id}`, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': "application/json"
+        },
+        body: JSON.stringify({ id })
+    });
+    if (!res.ok) {
+        const message = "An error has occurred: " + res.status;
+        throw new Error(message);
+    }
+
+    const data = await res.json();
+
+    return data;
+};

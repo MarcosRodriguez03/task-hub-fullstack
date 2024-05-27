@@ -49,7 +49,6 @@ const MessagePage = () => {
   const joinRoom = async (username: string, room: string) => {
     conn && await conn.stop();
     const messageHistory = await GetSavedMessages(Number(room));
-    console.log(messageHistory);
     setSavedMessage(messageHistory);
     try {
       const conn = new HubConnectionBuilder()
@@ -72,15 +71,14 @@ const MessagePage = () => {
 
       setConnection(conn);
     } catch (e) {
-      console.log("hi");
     }
+    await render();
   };
 
   const closeConnection = async () => {
     try {
       await conn.stop();
     } catch (e) {
-      console.log('closed');
     }
   }
 
@@ -95,7 +93,6 @@ const MessagePage = () => {
     try {
       conn && (await conn.invoke("SendMessage", message));
     } catch (e) {
-      console.log("hi");
     }
   };
 
@@ -103,12 +100,10 @@ const MessagePage = () => {
     try {
       if (username != "") {
         let userID = await getLoggedInUserData(username);
-        console.log(userID);
         await addDM(Number(usersId), userID.userId);
         await render();
       }
     } catch (e) {
-      console.log('hi');
     }
 
   }
@@ -128,7 +123,6 @@ const MessagePage = () => {
 
     const userUsername = async () => {
       if (otherUserID != "") {
-        console.log(otherUserID);
         let user = await getEntireUserProfileById(Number(otherUserID));
         setUserPfp(user.username);
       }
@@ -200,7 +194,6 @@ const MessagePage = () => {
     const callNotifications = async () => {
       let notif = await GetNotifications(Number(usersId));
       setDisplayNotif(notif);
-      console.log(notif);
     }
     callNotifications();
   }, [toggleNotifications, notificationsPageClick, data.isNotif])
@@ -296,6 +289,24 @@ const MessagePage = () => {
                 onChange={(e) => {
                   setUsername(e.target.value);
                 }}
+                onKeyDown={(
+                  e: any
+                ) => {
+                  if (
+                    (e as React.KeyboardEvent<HTMLInputElement>).key === "Enter"
+                  ) {
+                    e.preventDefault();
+                    if(username != ""){
+                      setUsername(
+                      (e as React.ChangeEvent<HTMLInputElement>).target.value
+                    );
+                    createNewDM();
+                    setUsername("");
+                  }
+                  
+                }
+                
+                }}
                 value={username}
                 maxLength={25}
                 placeholder="Search username"
@@ -315,6 +326,7 @@ const MessagePage = () => {
             <div className=" absolute  top-[93px] w-full lg:w-1/4 bottom-0 overflow-auto">
               {
                 directMessage && directMessage.map((dm: any) => {
+                  if(dm.isVisible){
                   return (
                     <div key={dm.id} onClick={() => {
                       setOtherUserID(usersId == dm.userID1 ? dm.userID2 : dm.userID1);
@@ -323,9 +335,14 @@ const MessagePage = () => {
                       joinRoom(usersId, `${dm.room}`);
                       handleOpen();
                     }}>
-                      <DirectMessagesComponent chatid={dm.id} id={usersId == dm.userID1 ? dm.userID2 : dm.userID1} focus={chatRoom == dm.room ? 'lg:bg-[#252525]' : 'bg-[#181818]'} />
+                      <DirectMessagesComponent chatid={dm.id} id={usersId == dm.userID1 ? dm.userID2 : dm.userID1} focus={chatRoom == dm.room ? 'lg:bg-[#252525]' : 'bg-[#181818]'} render={render} stop={closeConnection} />
                     </div>
+
+                  
+                    
                   )
+                  }
+                  
                 })
               }
 
