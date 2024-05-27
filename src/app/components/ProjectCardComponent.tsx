@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { saveLocalStorage, saveLocalStorageProjectId } from "@/utils/localStorage";
 import { useAppContext } from "@/Context/Context";
 import { DeleteProject, GetTasksByProjectID, GetTasksByStatus } from "@/utils/DataService";
+import ConfirmDeleteComponent from "../component/ConfirmDeleteComponent";
 
 
 const ProjectCardComponent = (prop: {
@@ -16,6 +17,7 @@ const ProjectCardComponent = (prop: {
   projectId: number
 }) => {
   const [barPercent, setBarPercent] = useState<string>("0%")
+  const [isDeleteProject, setIsDeleteProject] = useState<boolean>(false)
 
   const data = useAppContext()
   let currentProjectId = prop.projectId
@@ -68,10 +70,14 @@ const ProjectCardComponent = (prop: {
 
   }, []);
 
-  const handleDeleteProject = async () => {
-    await DeleteProject(prop.projectId);
-    data.setPageTwoName2(`${!data.pageTwoName2}`);
-  }
+
+
+  // const handleDeleteProject = async () => {
+  //   await DeleteProject(prop.projectId);
+  //   data.setPageTwoName2(`${!data.pageTwoName2}`);
+  // }
+
+
 
   return (
 
@@ -83,16 +89,24 @@ const ProjectCardComponent = (prop: {
         GoToTask()
       }}
       className="lg:grid lg:justify-center">
+
+      <div className={isDeleteProject ? "block" : "hidden"}>
+        <ConfirmDeleteComponent projectId={prop.projectId} isTrue={false} projectName={prop.projectName} isDeleteTask={isDeleteProject} setIsDeleteTask={setIsDeleteProject} />
+      </div>
       <div className="h-[100px] lg:h-[340px] w-full lg:w-[240px] 2xl:h-[365px] 2xl:w-[290px] bg-[#181818] rounded-[15px] border-[#525252] border-[1px] lg:border-[3px] cursor-pointer lg:text-center mb-[20px] 2xl:mb-[30px]">
         <div className="lg:grid lg:justify-end lg:me-[15px] 2xl:me-[25px] lg:mt-[15px] 2xl:mt-[25px] mb-[13px]">
           <div className="flex justify-between px-[25px] lg:px-0 lg:justify-normal lg:grid mt-[10px] lg:mt-0">
             <p className="block lg:hidden text-white text-[20px] truncate">{prop.projectName}</p>
-            <Image 
-            onClick={(event) => {
-              event.stopPropagation();
-              handleDeleteProject();
-            }}
-            src={removeIcon} className={`h-[30px] w-[30px] ${prop.owner}`} alt="remove icon" />
+            <Image
+              onClick={(event) => {
+                // event.stopPropagation();
+                // handleDeleteProject();
+
+                event.stopPropagation();
+
+                setIsDeleteProject(true)
+              }}
+              src={removeIcon} className={`h-[30px] w-[30px] ${prop.owner}`} alt="remove icon" />
           </div>
           <div className="block lg:hidden mt-[10px] ms-[21px] me-[29px]">
             <hr className="bg-[#525252] border-0 h-px" />

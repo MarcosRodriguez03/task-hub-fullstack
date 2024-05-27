@@ -17,6 +17,7 @@ import { IProject, IProjectUserIsIn, IUserData, IUserProfile, IUserProfileIndex 
 import { useAppContext } from "@/Context/Context";
 import { url } from "inspector";
 import emptyPfp from '@/assets/emptyPfp.png';
+import ConfirmDeleteComponent from "@/app/component/ConfirmDeleteComponent";
 
 
 const HomePage = () => {
@@ -38,10 +39,12 @@ const HomePage = () => {
     const [userIDuser, setuserIDuser] = useState<number>();
 
 
+
     const data = useAppContext()
 
     useEffect(() => {
         document.body.style.backgroundColor = "#080808";
+
 
 
 
@@ -68,7 +71,7 @@ const HomePage = () => {
 
 
 
-    }, [data.pageTwoName2]);
+    }, [data.pageTwoName2, data.turnFalse]);
 
     useEffect(() => {
 
@@ -95,15 +98,17 @@ const HomePage = () => {
 
     useEffect(() => {
         const callNotifications = async () => {
-          let notif = await GetNotifications(Number(data.globalUserId));
-          setDisplayNotif(notif);
-          console.log(notif);
+            let notif = await GetNotifications(Number(data.globalUserId));
+            setDisplayNotif(notif);
+            console.log(notif);
         }
         callNotifications();
-      }, [toggleNotifications, notificationsPageClick, data.isNotif])
+    }, [toggleNotifications, notificationsPageClick, data.isNotif])
 
     return (
         <div>
+
+
 
 
 
@@ -137,14 +142,14 @@ const HomePage = () => {
                 <h1 className="text-white font-semibold text-[25px] mt-4 mb-3">Notifications</h1>
                 <hr />
                 {
-          displayNotif && displayNotif.map((notif, idx) => {
-            return (
-              <div key={idx}>
-                <NotificationBoxComponent id={notif.id} message={notif.message} />
-              </div>
-            )
-          })
-        }
+                    displayNotif && displayNotif.map((notif, idx) => {
+                        return (
+                            <div key={idx}>
+                                <NotificationBoxComponent id={notif.id} message={notif.message} />
+                            </div>
+                        )
+                    })
+                }
 
             </div>
 
@@ -201,15 +206,15 @@ const HomePage = () => {
 
             <div className={notificationsPageClick}>
                 <div className="mx-[20px] mb-[100px]">
-                {
-          displayNotif && displayNotif.map((notif, idx) => {
-            return (
-              <div key={idx}>
-                <NotificationBoxComponent id={notif.id} message={notif.message} />
-              </div>
-            )
-          })
-        }
+                    {
+                        displayNotif && displayNotif.map((notif, idx) => {
+                            return (
+                                <div key={idx}>
+                                    <NotificationBoxComponent id={notif.id} message={notif.message} />
+                                </div>
+                            )
+                        })
+                    }
 
                 </div>
             </div>

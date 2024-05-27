@@ -153,7 +153,7 @@ const TaskPage = () => {
             </div>
 
             <div className={isDeleteTask ? "block" : "hidden"}>
-                <ConfirmDeleteComponent isDeleteTask={isDeleteTask} setIsDeleteTask={setIsDeleteTask} />
+                <ConfirmDeleteComponent projectName='' projectId={0} isTrue={true} isDeleteTask={isDeleteTask} setIsDeleteTask={setIsDeleteTask} />
             </div>
 
 
