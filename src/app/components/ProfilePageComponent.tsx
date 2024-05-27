@@ -30,7 +30,6 @@ const ProfilePageComponent = (prop: {
   const [profileImage, setProfileImage] = useState<string>("");
   const [currentUser, setCurrentUser] = useState<number>(0);
   const [ownProject, setOwnProject] = useState<number>(0)
-  const [createProject, setCreateProject] = useState<string>('hidden');
 
 
 
@@ -100,14 +99,13 @@ const ProfilePageComponent = (prop: {
 
   return (
     <div>
-      <div className={createProject}>
-        < ImageIsTooBigComponent />
-      </div>
+
 
 
       <div className={editProfile}>
-        <EditProfileComponent setOpenTooBig={setCreateProject} setEditProfile={setEditProfile} />
+        <EditProfileComponent setEditProfile={setEditProfile} />
       </div>
+
       <div className="w-full lg:bg-black lg:bg-opacity-80 h-screen absolute right-0 lg:z-40">
         <span className="hidden lg:flex items-center bg-[#181818] border-l border-[#808080] w-[604px] absolute right-0 px-[30px] pb-[20px] pt-[30px] ">
           <button

@@ -11,14 +11,15 @@ import { useAppContext } from "@/Context/Context";
 import { IUserInfo, IUserProfile } from "@/interface/interface";
 import greenPlus from "@/assets/greenPlus.png"
 import emptyPfp from '@/assets/emptyPfp.png';
+import ImageIsTooBigComponent from "./ImageIsTooBigComponent";
 
 
 
 const EditProfileComponent = (prop: {
   setEditProfile: (input: string) => void;
-  setOpenTooBig: (input: string) => void;
-}) => {
 
+}) => {
+  const [imageTooBig, setImageTooBig] = useState<string>('hidden');
   const [inputID, setInputID] = useState<number>(0)
   const [first, setFirst] = useState<string>("");
   const [second, setSecond] = useState<string>("");
@@ -37,7 +38,7 @@ const EditProfileComponent = (prop: {
   const data = useAppContext()
 
   const handleOpenTooBig = () => {
-    prop.setOpenTooBig('block');
+    setImageTooBig('block');
     console.log("i work")
   }
 
@@ -96,7 +97,7 @@ const EditProfileComponent = (prop: {
 
     const maxSizeInBytes = .5 * 1024 * 1024; // 5MB
     if (file && file.size > maxSizeInBytes) {
-      alert('');
+
       handleOpenTooBig()
       // Reset the input to clear the selected file
       return e.target.value = '';
@@ -121,12 +122,14 @@ const EditProfileComponent = (prop: {
 
 
 
-    <div className="min-h-screen min-w-screen z-40">
+    <div className="z-50">
+      <div className={imageTooBig}>
+        <ImageIsTooBigComponent setCreateProject={setImageTooBig} />
+      </div>
 
 
-
-      <div className="fixed  inset-0 bg-black bg-opacity-80 z-40"></div>
-      <div className="fixed inset-0 flex items-center justify-center z-50">
+      <div className="fixed h-screen w-screen  inset-0 bg-black bg-opacity-80 z-[49]"></div>
+      <div className="fixed inset-0 flex items-center justify-center z-[49]">
         <div className=" bg-[#181818] border-[#808080] border-[1px] mx-[10px] w-full lg:w-[941px] p-[30px] h-[80vh] lg:h-[650px] rounded-[10px] shadow-md overflow-auto">
           <p className="hidden lg:block font-semibold text-[30px] text-white leading-[48px] mb-[20px]">
             Edit Profile

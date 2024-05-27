@@ -1,19 +1,28 @@
 import React from 'react'
 
-const ImageIsTooBigComponent = () => {
+
+interface IimageTooBig {
+    setCreateProject: (input: string) => void
+
+}
+
+const ImageIsTooBigComponent = (prop: IimageTooBig) => {
     return (
-        <div className=' fixed bg-black bg-opacity-80  z-50 w-full h-full fixed flex justify-center items-center '>
-            <div className='z-50 w-[full] h-[full] px-8 py-16 bg-[#181818]  rounded-md flex flex-col items-center justify-center' >
-                <p className=' text-lg lg:text-2xl text-center text-white '>File size exceeds the limit (5MB). Please choose a smaller file.</p>
+        <div className=' fixed bg-black bg-opacity-90 z-50   h-screen w-screen '>
+            <div className='fixed  z-50 flex justify-center items-center h-full w-full'>
+                <div className='w-[325px] sm:w-[500px] px-4 h-[full] py-16 bg-[#181818]  rounded-md flex flex-col items-center justify-center' >
+                    <p className=' text-lg lg:text-2xl text-center text-white '>File size exceeds the limit (5MB). Please choose a smaller file.</p>
 
-                <button
-                    onClick={() => {
+                    <button
+                        onClick={() => {
 
-
-                    }}
-                    className={" mt-4 hover:bg-[#d186f3]  h-[44px] w-[80px] bg-[#CB76F2] rounded-[10px] text-white text-[20px] font-semibold"}>Ok
-                </button>
+                            prop.setCreateProject('hidden')
+                        }}
+                        className={" mt-4 hover:bg-[#d186f3]  h-[44px] w-[80px] bg-[#CB76F2] rounded-[10px] text-white text-[20px] font-semibold"}>Ok
+                    </button>
+                </div>
             </div>
+
 
         </div>
     )
