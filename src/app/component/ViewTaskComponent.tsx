@@ -40,19 +40,27 @@ const ViewTaskComponent = (props: IViewTask) => {
 
                         <p className='text-white text-[20px]'>Task Name</p>
                         <p className='text-[#808080]'>{taskObject && taskObject.taskName}</p>
-                        <p className='text-white text-[20px]'>Task Description</p>
+
+
+                        <p className='text-white text-[20px]'>{taskObject && taskObject.taskDescription != null ? "Task Description" : ""}</p>
                         <p className='text-[#808080]'>{taskObject && taskObject.taskDescription}</p>
-                        <p className='text-white text-[20px]'>Task Duration</p>
+
+                        <p className='text-white text-[20px]'>{taskObject && taskObject.taskDuration != null ? "Task Duration" : ""}</p>
                         <p className='text-[#808080]'>{taskObject && taskObject.taskDuration}</p>
-                        <p className='text-white text-[20px]'>Task UserID</p>
-                        <p className='text-[#808080]'>{taskObject && taskObject.userID}</p>
-                        <p className='text-white text-[20px]'>Task Priority</p>
+
+                        {/* <p className='text-white text-[20px]'>Task UserID</p>
+                        <p className='text-[#808080]'>{taskObject && taskObject.userID}</p> */}
+
+                        <p className='text-white text-[20px]'>{taskObject && taskObject.priority != null ? "Task Priority" : ""}</p>
                         <p className='text-[#808080]'>{taskObject && taskObject.priority}</p>
-                        <p className='text-white text-[20px]'>Task Due Date</p>
+
+                        <p className='text-white text-[20px]'>{taskObject && taskObject.dueDate != null ? "Due Date" : ""}</p>
                         <p className='text-[#808080]'>{taskObject && taskObject.dueDate}</p>
+
                         <p className='text-white text-[20px]'>Task Status</p>
                         <p className='text-[#808080]'>{taskObject && taskObject.status}</p>
-                        <p className='text-white text-[20px]'>Assigned User</p>
+
+                        <p className='text-white text-[20px]'>{username && username != "Assigned User" ? "Assigned User" : ""}</p>
                         <p className='text-[#808080]'>{username && username.username}</p>
                     </div>
 

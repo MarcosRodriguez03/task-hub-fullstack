@@ -68,7 +68,7 @@ const CreateProjectComponent = (prop: { setCreateProject: (input: string) => voi
     <div>
       <div className="fixed inset-0 bg-black bg-opacity-80 z-50"></div>
       <div className="fixed inset-0 flex items-center justify-center z-50">
-        <div className=" bg-[#181818] border-[#808080] border-[1px] mx-[10px] w-full md:w-[424px] h-[242px] p-[30px] rounded-[10px] shadow-md">
+        <div className=" bg-[#181818] border-[#808080] border-[1px] mx-[10px] w-full md:w-[424px] h-[200px] p-[30px] rounded-[10px] shadow-md">
           <input
             required
             onChange={(e) => {
@@ -80,16 +80,7 @@ const CreateProjectComponent = (prop: { setCreateProject: (input: string) => voi
             maxLength={40}
             value={projectName}
             className="mb-[25px] rounded-[10px] bg-[#282828] border-[#808080] border-b-[1px] focus:outline-none px-[20px] w-full md:w-[364px] h-[44px] text-[20px] text-[#808080] placeholder:text-[#808080]" placeholder="Project name" />
-          <input
-            onChange={(e) => {
-              if (!/[^a-zA-Z0-9\s]/.test(e.target.value)) {
-                e.preventDefault();
-                setAddedUser(e.target.value)
-              }
-            }}
-            maxLength={25}
-            value={addedUser}
-            className="rounded-[10px] bg-[#282828] border-[#808080] border-b-[1px] focus:outline-none px-[20px] w-full md:w-[364px] h-[44px] text-[20px] text-[#808080] placeholder:text-[#808080]" placeholder="Add username" />
+
           <div className="mt-[25px] flex justify-end">
             <button
               onClick={() => {

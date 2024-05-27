@@ -23,7 +23,7 @@ export const createAccount = async (createdUser: IUserInfo) => {
     }
 
     const data = await res.json();
-    console.log(data);
+
     return data
 
 }
@@ -125,7 +125,7 @@ export const createProject = async (newProject: IProject) => {
     }
 
     const data = await res.json();
-    console.log(data);
+
     return data
 }
 export const addUserToProject = async (userID: number, projectID: number) => {
@@ -146,7 +146,7 @@ export const addUserToProject = async (userID: number, projectID: number) => {
     }
 
     const data = await res.json();
-    console.log(data);
+
     return data
 }
 
@@ -187,7 +187,7 @@ export const CreateTask = async (TaskObj: ITask) => {
     }
 
     const data = await res.json();
-    console.log(data);
+
     return data
 }
 
@@ -205,7 +205,7 @@ export const DeleteTask = async (TaskId: number) => {
     }
 
     const data = await res.json();
-    console.log(data);
+
     return data;
 };
 
@@ -223,7 +223,7 @@ export const RemoveUserFromProjectByID = async (userID: number, projectID: numbe
     }
 
     const data = await res.json();
-    console.log(data);
+
     return data;
 };
 
@@ -284,11 +284,10 @@ export const addDM = async (userID1: number, userID2: number) => {
     }
 
     const data = await res.json();
-    console.log(data);
     return data
 }
 
-export const AddMessage = async (message:IMessage) => {
+export const AddMessage = async (message: IMessage) => {
     const res = await fetch(url + `/Message/CreateMessage`, {
         method: "POST",
         headers: {
@@ -302,18 +301,24 @@ export const AddMessage = async (message:IMessage) => {
     }
 
     const data = await res.json();
-    console.log(data);
+
     return data
 }
 
-export const GetSavedMessages = async (room:Number) => {
+export const GetSavedMessages = async (room: Number) => {
     const res = await fetch(url + '/Message/GetAllMessagesWithinRoom/' + room)
     let data = await res.json();
     return data;
 }
 
-export const GetNotifications = async (userID:Number) => {
+export const GetNotifications = async (userID: Number) => {
     const res = await fetch(url + '/Project/GetAllNotificationsUserHas/' + userID)
+    let data = await res.json();
+    return data;
+}
+
+export const GetProjectByID = async (projId: Number) => {
+    const res = await fetch(url + '/Project/GetProjectByID/ ' + projId)
     let data = await res.json();
     return data;
 }
@@ -332,7 +337,7 @@ export const DeleteNotification = async (notificationID: number) => {
     }
 
     const data = await res.json();
-    console.log(data);
+
     return data;
 };
 
@@ -350,6 +355,6 @@ export const DeleteProject = async (projectID: number) => {
     }
 
     const data = await res.json();
-    console.log(data);
+
     return data;
 };

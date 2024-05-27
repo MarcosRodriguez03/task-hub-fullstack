@@ -16,6 +16,7 @@ import emptyPfp from '@/assets/emptyPfp.png';
 
 const EditProfileComponent = (prop: {
   setEditProfile: (input: string) => void;
+  setOpenTooBig: (input: string) => void;
 }) => {
 
   const [inputID, setInputID] = useState<number>(0)
@@ -34,6 +35,11 @@ const EditProfileComponent = (prop: {
   const handleBio = (e: any) => setBio(e.target.value);
 
   const data = useAppContext()
+
+  const handleOpenTooBig = () => {
+    prop.setOpenTooBig('block');
+    console.log("i work")
+  }
 
   useEffect(() => {
     let profile = getLocalStorage()
@@ -90,7 +96,8 @@ const EditProfileComponent = (prop: {
 
     const maxSizeInBytes = .5 * 1024 * 1024; // 5MB
     if (file && file.size > maxSizeInBytes) {
-      alert('File size exceeds the limit (5MB). Please choose a smaller file.');
+      alert('');
+      handleOpenTooBig()
       // Reset the input to clear the selected file
       return e.target.value = '';
     }
@@ -114,11 +121,11 @@ const EditProfileComponent = (prop: {
 
 
 
-    <div className="min-h-screen min-w-screen">
+    <div className="min-h-screen min-w-screen z-40">
 
 
 
-      <div className="fixed  inset-0 bg-black bg-opacity-80 z-50"></div>
+      <div className="fixed  inset-0 bg-black bg-opacity-80 z-40"></div>
       <div className="fixed inset-0 flex items-center justify-center z-50">
         <div className=" bg-[#181818] border-[#808080] border-[1px] mx-[10px] w-full lg:w-[941px] p-[30px] h-[80vh] lg:h-[650px] rounded-[10px] shadow-md overflow-auto">
           <p className="hidden lg:block font-semibold text-[30px] text-white leading-[48px] mb-[20px]">

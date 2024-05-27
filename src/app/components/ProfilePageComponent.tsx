@@ -6,13 +6,15 @@ import emptyPfp from "@/assets/emptyPfp.png";
 import EditProfileComponent from "../component/EditProfileComponent";
 import { useRouter } from "next/navigation";
 import { getLocalStorage, getLocalStorageProjectId, getLocalStorageUserID } from "@/utils/localStorage";
-import { RemoveUserFromProjectByID, getEntireUserProfile, getEntireUserProfileById } from "@/utils/DataService";
+import { GetProjectByID, RemoveUserFromProjectByID, getEntireUserProfile, getEntireUserProfileById } from "@/utils/DataService";
 import { useAppContext } from "@/Context/Context";
+import ImageIsTooBigComponent from "../component/ImageIsTooBigComponent";
 
 const ProfilePageComponent = (prop: {
   pageProfile: (input: string) => void;
   pageProfileId: number;
   pageBool: boolean;
+
 
 }) => {
 
@@ -27,6 +29,9 @@ const ProfilePageComponent = (prop: {
   const [profileBio, setProfileBio] = useState<string>("")
   const [profileImage, setProfileImage] = useState<string>("");
   const [currentUser, setCurrentUser] = useState<number>(0);
+  const [ownProject, setOwnProject] = useState<number>(0)
+  const [createProject, setCreateProject] = useState<string>('hidden');
+
 
 
   const { pageTwoName } = useAppContext();
@@ -35,12 +40,21 @@ const ProfilePageComponent = (prop: {
   useEffect(() => {
     let user = getLocalStorage();
     let userId = getLocalStorageUserID();
-    console.log(userId)
+    let projId = getLocalStorageProjectId();
+
+
     setCurrentUser(userId)
+
     const loadProfile = async () => {
+      if (projId == null) {
+        let owner: any = await GetProjectByID(projId)
+        setOwnProject(owner.userID)
+
+      }
+
       if (prop.pageBool == true) {
         let fullProfile: any = await getEntireUserProfile(user)
-        console.log(fullProfile)
+
         setUsername(fullProfile[0].username);
         setProfileFirstName(fullProfile[0].firstName)
         setProfileLastName(fullProfile[0].lastName)
@@ -49,7 +63,7 @@ const ProfilePageComponent = (prop: {
         setProfileImage(fullProfile[0].image)
       } else {
         let fullProfile: any = await getEntireUserProfileById(prop.pageProfileId)
-        console.log(fullProfile)
+
         setUsername(fullProfile && fullProfile.username);
         setProfileFirstName(fullProfile && fullProfile.firstName)
         setProfileLastName(fullProfile && fullProfile.lastName)
@@ -86,8 +100,13 @@ const ProfilePageComponent = (prop: {
 
   return (
     <div>
+      <div className={createProject}>
+        < ImageIsTooBigComponent />
+      </div>
+
+
       <div className={editProfile}>
-        <EditProfileComponent setEditProfile={setEditProfile} />
+        <EditProfileComponent setOpenTooBig={setCreateProject} setEditProfile={setEditProfile} />
       </div>
       <div className="w-full lg:bg-black lg:bg-opacity-80 h-screen absolute right-0 lg:z-40">
         <span className="hidden lg:flex items-center bg-[#181818] border-l border-[#808080] w-[604px] absolute right-0 px-[30px] pb-[20px] pt-[30px] ">
@@ -151,11 +170,17 @@ const ProfilePageComponent = (prop: {
               </button>
             </div> :
               <div className="flex justify-center mb-6 w-full">
-                <button
-                  onClick={() => { handleKickUser(); data.setPageTwoName4(!data.pageTwoName4); prop.pageProfile("hidden") }}
-                  className="bg-[#ED473D] text-[24px] text-white font-semibold h-[49px] w-full max-w-[174px] rounded-[10px]">
-                  Remove
-                </button>
+                {ownProject && currentUser == ownProject ?
+                  <button
+                    onClick={() => { handleKickUser(); data.setPageTwoName4(!data.pageTwoName4); prop.pageProfile("hidden") }}
+                    className="bg-[#ED473D] text-[24px] text-white font-semibold h-[49px] w-full max-w-[174px] rounded-[10px]">
+                    Remove
+                  </button> :
+                  <div>
+
+                  </div>
+                }
+
               </div>
 
             }

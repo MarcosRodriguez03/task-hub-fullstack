@@ -10,6 +10,7 @@ import loginLogo from '@/assets/loginLogo.png'
 import TaskPage from "./pages/TaskPage/page";
 import { useAppContext } from "@/Context/Context";
 import { saveLocalStorage, saveLocalStorageUserID } from "@/utils/localStorage";
+import ImageIsTooBigComponent from "./component/ImageIsTooBigComponent";
 
 
 

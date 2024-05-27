@@ -28,7 +28,7 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
     const [userOptions, setUserOptions] = useState<any>([]);
     const [userID, setUserID] = useState<number>(0);
     const [taskObj, setTaskObj] = useState<any>()
-    const [btnDisable, setBtnDisable] = useState<boolean>(true);
+    // const [btnDisable, setBtnDisable] = useState<boolean>(true);
 
 
 
@@ -36,13 +36,13 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
     const [open, setOpen] = useState("hidden");
     const id = useId()
 
-    useEffect(() => {
-        if (useTaskName === '') {
-            setBtnDisable(true);
-        } else {
-            setBtnDisable(false);
-        }
-    }, [useTaskName])
+    // useEffect(() => {
+    //     if (useTaskName === '') {
+    //         setBtnDisable(true);
+    //     } else {
+    //         setBtnDisable(false);
+    //     }
+    // }, [useTaskName])
 
 
     const handleCreateTask = async () => {
@@ -50,22 +50,22 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
 
             if (data.statusNum == 1) {
                 dummy.status = "Ideas"
-                console.log("12345432")
+
 
             } else if (data.statusNum == 2) {
                 dummy.status = "In progress"
-                console.log("12345432")
+
 
             } else if (data.statusNum == 3) {
 
                 dummy.status = "Done"
-                console.log("12345432")
+
 
             } else {
 
             }
 
-            console.log(dummy)
+
             await CreateTask(dummy)
             data.setPageTwoName3(!data.pageTwoName3)
 
@@ -132,14 +132,14 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
 
     useEffect(() => {
         const loadAll = async () => {
-            console.log(data.isClearDefault)
+
 
             let numb: number = getLocalStorageUserID()
             setUserID(numb)
-            console.log(useTaskName)
+
 
             let num: string = getLocalStorageTaskId()
-            console.log(prop.taskId)
+
             setTaskId(prop.taskId)
 
             let projectID = getLocalStorageProjectId();
@@ -147,7 +147,7 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
             try {
                 const taskInfo: any = await GetTaskByID(prop.taskId && prop.taskId);
                 setTaskObj(taskInfo)
-                console.log(taskInfo)
+
                 setUsePriority(taskInfo && taskInfo.priority)
             } catch (error) {
 
@@ -283,7 +283,7 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
 
 
                         }}
-                        className={btnDisable ? 'bg-[#6a3e7e] text-[#838383] cursor-default rounded-[10px] font-semibold' : 'bg-[#CB76F2] text-white hover:bg-[#d186f3] rounded-[10px] font-semibold'}>
+                        className={'bg-[#CB76F2] text-white hover:bg-[#d186f3] rounded-[10px] font-semibold'}>
                         <p className=' text-[16px] px-[18px] py-[10px]'>{prop.boolDetermine == true ? "Create Task" : "Save"}</p>
                     </button>
                 </div>
