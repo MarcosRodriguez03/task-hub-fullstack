@@ -253,9 +253,9 @@ export const GetTasksByStatus = async (status: string, userId: number) => {
 }
 export const GetTaskByID = async (taskID: number) => {
     const res = await fetch(url + "/Task/GetTaskByID/" + taskID);
-    const data = await res.json();
-    userData = data;
-    return userData;
+    const data: ITask = await res.json();
+
+    return data;
 }
 
 

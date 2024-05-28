@@ -9,6 +9,7 @@ import { getLocalStorage, getLocalStorageProjectId, getLocalStorageUserID } from
 import { GetProjectByID, RemoveUserFromProjectByID, getEntireUserProfile, getEntireUserProfileById } from "@/utils/DataService";
 import { useAppContext } from "@/Context/Context";
 import ImageIsTooBigComponent from "../component/ImageIsTooBigComponent";
+import { IProject, IUserProfile } from "@/interface/interface";
 
 const ProfilePageComponent = (prop: {
   pageProfile: (input: string) => void;
@@ -46,13 +47,13 @@ const ProfilePageComponent = (prop: {
 
     const loadProfile = async () => {
       if (projId == null) {
-        let owner: any = await GetProjectByID(projId)
+        let owner: IProject = await GetProjectByID(projId)
         setOwnProject(owner.userID)
 
       }
 
       if (prop.pageBool == true) {
-        let fullProfile: any = await getEntireUserProfile(user)
+        let fullProfile: IUserProfile[] = await getEntireUserProfile(user)
 
         setUsername(fullProfile[0].username);
         setProfileFirstName(fullProfile[0].firstName)
@@ -61,7 +62,7 @@ const ProfilePageComponent = (prop: {
         setProfileBio(fullProfile[0].bio)
         setProfileImage(fullProfile[0].image)
       } else {
-        let fullProfile: any = await getEntireUserProfileById(prop.pageProfileId)
+        let fullProfile: IUserProfile = await getEntireUserProfileById(prop.pageProfileId)
 
         setUsername(fullProfile && fullProfile.username);
         setProfileFirstName(fullProfile && fullProfile.firstName)

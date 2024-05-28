@@ -5,7 +5,7 @@ import greenPlus from '@/assets/greenPlus.png'
 import highWarning from '@/assets/highWarning.png'
 import Image from 'next/image';
 import { CreateTask, EditTask, GetTaskByID, GetUsersByProjectId, getEntireUserProfileById } from '@/utils/DataService';
-import { ITask } from '@/interface/interface';
+import { ITask, ITaskArr, IrealtionTable } from '@/interface/interface';
 import { getLocalStorage, getLocalStorageProjectId, getLocalStorageTaskId, getLocalStorageUserID } from '@/utils/localStorage';
 import { useAppContext } from '@/Context/Context';
 
@@ -24,8 +24,7 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
     const [useStatus, setUseStatus] = useState<string>("Ideas");
     const [useIsDeleted, setUseIsDeleted] = useState<boolean>(false)
     const [isTrue, setIsTrue] = useState<boolean>(true);
-    const [relationTable, setRelationTable] = useState<any>();
-    const [userOptions, setUserOptions] = useState<any>([]);
+    const [userOptions, setUserOptions] = useState<React.ReactNode[]>([]);
     const [userID, setUserID] = useState<number>(0);
     const [taskObj, setTaskObj] = useState<any>()
     // const [btnDisable, setBtnDisable] = useState<boolean>(true);
@@ -102,25 +101,6 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
         status: useStatus == "" ? taskObj && taskObj.status : useStatus,
         isDeleted: false
     };
-    // const dummy: ITask = {
-    //     id: prop.boolDetermine == true ? 0 : useTaskId,
-    //     projectID: useProjectID,
-    //     taskName: useTaskName == "" ? taskObj && taskObj.taskName : useTaskName,
-    //     taskDescription: useTaskDescription == "" ? taskObj && taskObj.taskDescription : useTaskDescription,
-    //     taskDuration: useTaskDuration == "" ? taskObj && taskObj.taskDuration : useTaskDuration,
-    //     userID: useUserID == 0 ? taskObj && taskObj.userID : useUserID,
-    //     dueDate: useDueDate == "" ? taskObj && taskObj.dueDate : useDueDate,
-    //     priority: usePriority == "" ? taskObj && taskObj.priority : usePriority,
-    //     status: data.useStatus,
-    //     isDeleted: false
-    // };
-
-
-
-
-
-
-
 
     const OpenDropDown = () => {
         if (open == "hidden") {
@@ -145,7 +125,7 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
             let projectID = getLocalStorageProjectId();
             setUseProjectID(projectID)
             try {
-                const taskInfo: any = await GetTaskByID(prop.taskId && prop.taskId);
+                const taskInfo: ITask = await GetTaskByID(prop.taskId && prop.taskId);
                 setTaskObj(taskInfo)
 
                 setUsePriority(taskInfo && taskInfo.priority)
@@ -155,9 +135,9 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
 
 
 
-            let relations = await GetUsersByProjectId(projectID);
+            let relations: IrealtionTable[] = await GetUsersByProjectId(projectID);
 
-            const options = await Promise.all(relations.map(async (ele: any) => {
+            const options: React.ReactNode[] = await Promise.all(relations.map(async (ele) => {
                 const user = await getEntireUserProfileById(ele.userID);
                 return <option key={ele.userID} value={ele && ele.userID} className='text-center'>{user.username}</option>;
             }));

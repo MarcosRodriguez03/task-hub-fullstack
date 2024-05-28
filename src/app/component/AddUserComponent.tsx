@@ -20,9 +20,8 @@ const AddUserComponent = (prop: { setAddUser: (input: string) => void; }) => {
 
     let user: IUserProfile[] = await getEntireUserProfile(enteredUser)
 
-    console.log("-----------------------------------------")
-    console.log(user[0].id)
-    console.log(projID)
+
+
     await addUserToProject(user[0].id, projID);
     setIsTrue(!isTrue)
     data.setBoolUser(!data.boolUser)
@@ -43,7 +42,6 @@ const AddUserComponent = (prop: { setAddUser: (input: string) => void; }) => {
   useEffect(() => {
     let currentProjectId = getLocalStorageProjectId()
     setProjID(currentProjectId)
-    console.log(enteredUser)
 
 
   }, [data.pageTwoName2, enteredUser])

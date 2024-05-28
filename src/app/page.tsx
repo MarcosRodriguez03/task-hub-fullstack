@@ -78,7 +78,7 @@ export default function Home() {
     } else {
       //login logic here
       let token: IToken = await login(userData);
-      console.log(token)
+
 
       //checks to see if we succeed
       if (token.token != null) {

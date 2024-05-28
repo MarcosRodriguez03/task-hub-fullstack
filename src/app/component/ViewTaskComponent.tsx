@@ -1,4 +1,4 @@
-import { IUserData } from '@/interface/interface'
+import { ITask, IUserData, IUserProfile } from '@/interface/interface'
 import { GetTaskByID, getEntireUserProfile, getEntireUserProfileById } from '@/utils/DataService'
 import React, { useEffect, useState } from 'react'
 
@@ -10,16 +10,16 @@ interface IViewTask {
 }
 
 const ViewTaskComponent = (props: IViewTask) => {
-    const [taskObject, setTaskObject] = useState<any>()
-    const [username, SetUsername] = useState<any>("")
+    const [taskObject, setTaskObject] = useState<ITask>()
+    const [username, SetUsername] = useState<IUserProfile>()
 
     useEffect(() => {
 
         const loadAll = async () => {
             try {
-                const taskInfo: any = await GetTaskByID(props.taskID && props.taskID);
+                const taskInfo: ITask = await GetTaskByID(props.taskID && props.taskID);
                 if (props.ID > 0) {
-                    const username: any = await getEntireUserProfileById(props.ID && props.ID)
+                    const username: IUserProfile = await getEntireUserProfileById(props.ID && props.ID)
                     SetUsername(username)
                 }
 
@@ -48,9 +48,6 @@ const ViewTaskComponent = (props: IViewTask) => {
                         <p className='text-white text-[20px]'>{taskObject && taskObject.taskDuration != null ? "Task Duration" : ""}</p>
                         <p className='text-[#808080]'>{taskObject && taskObject.taskDuration}</p>
 
-                        {/* <p className='text-white text-[20px]'>Task UserID</p>
-                        <p className='text-[#808080]'>{taskObject && taskObject.userID}</p> */}
-
                         <p className='text-white text-[20px]'>{taskObject && taskObject.priority != null ? "Task Priority" : ""}</p>
                         <p className='text-[#808080]'>{taskObject && taskObject.priority}</p>
 
@@ -60,7 +57,7 @@ const ViewTaskComponent = (props: IViewTask) => {
                         <p className='text-white text-[20px]'>Task Status</p>
                         <p className='text-[#808080]'>{taskObject && taskObject.status}</p>
 
-                        <p className='text-white text-[20px]'>{username && username != "Assigned User" ? "Assigned User" : ""}</p>
+                        <p className='text-white text-[20px]'>{username && username.username != "Assigned User" ? "Assigned User" : ""}</p>
                         <p className='text-[#808080]'>{username && username.username}</p>
                     </div>
 

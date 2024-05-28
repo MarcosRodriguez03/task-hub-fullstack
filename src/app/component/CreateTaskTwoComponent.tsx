@@ -5,7 +5,7 @@ import greenPlus from '@/assets/greenPlus.png'
 import highWarning from '@/assets/highWarning.png'
 import Image from 'next/image';
 import { CreateTask, EditTask, GetTaskByID, GetUsersByProjectId, getEntireUserProfileById } from '@/utils/DataService';
-import { ITask } from '@/interface/interface';
+import { ITask, IrealtionTable } from '@/interface/interface';
 import { getLocalStorage, getLocalStorageProjectId, getLocalStorageTaskId, getLocalStorageUserID } from '@/utils/localStorage';
 import { useAppContext } from '@/Context/Context';
 
@@ -24,15 +24,10 @@ const CreateTaskTwoComponent = (prop: { passingValue: string, taskId: number, bo
     const [useStatus, setUseStatus] = useState<string>(data.useStatus);
     const [useIsDeleted, setUseIsDeleted] = useState<boolean>(false)
     const [isTrue, setIsTrue] = useState<boolean>(true);
-    const [relationTable, setRelationTable] = useState<any>();
-    const [userOptions, setUserOptions] = useState<any>([]);
+    const [userOptions, setUserOptions] = useState<React.ReactNode[]>([]);
     const [userID, setUserID] = useState<number>(0);
     const [taskObj, setTaskObj] = useState<any>()
     const [btnDisable, setBtnDisable] = useState<boolean>(true);
-
-
-
-
     const [open, setOpen] = useState("hidden");
     const id = useId()
 
@@ -47,26 +42,6 @@ const CreateTaskTwoComponent = (prop: { passingValue: string, taskId: number, bo
 
     const handleCreateTask = async () => {
 
-
-        // if (data.statusNum == 1 && useStatus  ) {
-        //     dummy.status = "Ideas"
-        //     console.log("12345432")
-
-        // } else if (data.statusNum == 2) {
-        //     dummy.status = "In progress"
-        //     console.log("12345432")
-
-        // } else if (data.statusNum == 3) {
-
-        //     dummy.status = "Done"
-        //     console.log("12345432")
-
-        // } else {
-
-        // }  
-
-
-        console.log(dummy)
         await CreateTask(dummy)
         data.setPageTwoName3(!data.pageTwoName3)
 
@@ -76,16 +51,11 @@ const CreateTaskTwoComponent = (prop: { passingValue: string, taskId: number, bo
         setUseTaskDuration("");
         setUsePriority("Low Urgency")
         serUseUserID(0)
-
-
-
     }
 
     const handleUserIDChange = (e: any) => {
 
         serUseUserID(e.target.value);
-
-
     };
 
 
@@ -105,13 +75,6 @@ const CreateTaskTwoComponent = (prop: { passingValue: string, taskId: number, bo
         isDeleted: false
     };
 
-
-
-
-
-
-
-
     const OpenDropDown = () => {
         if (open == "hidden") {
             setOpen("block")
@@ -122,23 +85,18 @@ const CreateTaskTwoComponent = (prop: { passingValue: string, taskId: number, bo
 
     useEffect(() => {
         const loadAll = async () => {
-
-
-
-            console.log(data.isClearDefault)
-
             let numb: number = getLocalStorageUserID()
             setUserID(numb)
-            console.log(useTaskName)
+
 
             let num: string = getLocalStorageTaskId()
-            console.log(prop.taskId)
+
             setTaskId(prop.taskId)
 
             let projectID = getLocalStorageProjectId();
             setUseProjectID(projectID)
             try {
-                const taskInfo: any = await GetTaskByID(prop.taskId && prop.taskId);
+                const taskInfo = await GetTaskByID(prop.taskId && prop.taskId);
                 setTaskObj(taskInfo)
             } catch (error) {
 
@@ -146,9 +104,9 @@ const CreateTaskTwoComponent = (prop: { passingValue: string, taskId: number, bo
 
 
 
-            let relations = await GetUsersByProjectId(projectID);
+            let relations: IrealtionTable[] = await GetUsersByProjectId(projectID);
 
-            const options = await Promise.all(relations.map(async (ele: any) => {
+            const options: React.ReactNode[] = await Promise.all(relations.map(async (ele) => {
                 const user = await getEntireUserProfileById(ele.userID);
                 return <option key={ele.userID} value={ele && ele.userID} className='text-center'>{user.username}</option>;
             }));

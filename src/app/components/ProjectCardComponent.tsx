@@ -8,6 +8,7 @@ import { saveLocalStorage, saveLocalStorageProjectId } from "@/utils/localStorag
 import { useAppContext } from "@/Context/Context";
 import { DeleteProject, GetTasksByProjectID, GetTasksByStatus } from "@/utils/DataService";
 import ConfirmDeleteComponent from "../component/ConfirmDeleteComponent";
+import { IProject, ITask, ITaskArr } from "@/interface/interface";
 
 
 const ProjectCardComponent = (prop: {
@@ -32,8 +33,6 @@ const ProjectCardComponent = (prop: {
 
   const getPercent = (numOne: number, numTwo: number) => {
 
-    console.log(numTwo)
-
     let percent = (numOne / numTwo) * 100;
 
     if (isNaN(percent)) {
@@ -52,12 +51,8 @@ const ProjectCardComponent = (prop: {
     const fetchData = async () => {
       try {
         let currentProjectId = prop.projectId;
-        let currentDone: any = await GetTasksByStatus("Done", Number(currentProjectId))
+        let currentDone: ITaskArr[] = await GetTasksByStatus("Done", Number(currentProjectId))
         let taskObjArr = await GetTasksByProjectID(currentProjectId);
-        console.log(barPercent)
-
-
-
         getPercent(await currentDone.length, await taskObjArr.length)
       } catch (error) {
         console.error("Error fetching tasks:", error);
@@ -99,9 +94,6 @@ const ProjectCardComponent = (prop: {
             <p className="block lg:hidden text-white text-[20px] truncate">{prop.projectName}</p>
             <Image
               onClick={(event) => {
-                // event.stopPropagation();
-                // handleDeleteProject();
-
                 event.stopPropagation();
 
                 setIsDeleteProject(true)

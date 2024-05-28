@@ -15,7 +15,7 @@ const ConfirmDeleteComponent = (props: Iconfirm) => {
 
     const [hideConfirm, setHideConfirm] = useState("block")
 
-    const handleDelete = async (event: any) => {
+    const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation();
         await DeleteTask(data.globalTaskId)
         data.setPageTwoName3(!data.pageTwoName3)
@@ -24,7 +24,7 @@ const ConfirmDeleteComponent = (props: Iconfirm) => {
 
     }
 
-    const handleDeleteProject = async (event: any) => {
+    const handleDeleteProject = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation();
         await DeleteProject(props.projectId);
         data.setPageTwoName2(`${!data.pageTwoName2}`);

@@ -12,6 +12,15 @@ export interface IUserInfo {
     password: string;
 }
 
+export interface IrealtionTable {
+
+    id: number
+    projectID: number
+    userID: number
+
+
+}
+
 // this is getting our users info id and username
 export interface IUserData {
     userId: number

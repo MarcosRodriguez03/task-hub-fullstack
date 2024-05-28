@@ -56,11 +56,9 @@ const HomePage = () => {
             data.setGlobalUserId(usersID.userId)
             saveLocalStorageUserID(usersID.userId)
             let allProjects = await GetAllProjectsUserIsIn(usersID.userId)
-            console.log(allProjects)
             setAllProjectsArr(allProjects)
 
             let allProjects2 = await GetAllProjects()
-            console.log(allProjects2)
             setAllProjectsArr2(allProjects2)
 
 
@@ -100,7 +98,6 @@ const HomePage = () => {
         const callNotifications = async () => {
             let notif = await GetNotifications(Number(data.globalUserId));
             setDisplayNotif(notif);
-            console.log(notif);
         }
         callNotifications();
     }, [toggleNotifications, notificationsPageClick, data.isNotif])

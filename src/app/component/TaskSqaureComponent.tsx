@@ -54,19 +54,6 @@ const TaskSqaureComponent = (props: iTaskSqaure) => {
     const [viewTask, setViewTask] = useState<string>("hidden")
     const [updateTaskId, setUpdateTaskId] = useState<number>(1)
 
-
-    // const handleDelete = async (event: any) => {
-    //     event.stopPropagation();
-    //     await DeleteTask(props.taskId)
-    //     data.setPageTwoName3(!data.pageTwoName3)
-
-    // }
-
-
-
-
-
-
     useEffect(() => {
         const loadAll = async () => {
             if (props.ID == 0) {
@@ -74,7 +61,7 @@ const TaskSqaureComponent = (props: iTaskSqaure) => {
             } else {
                 let arr = await getEntireUserProfileById(props.ID)
                 setUserPfp(arr)
-                console.log(props.ID)
+
             }
         }
         loadAll()

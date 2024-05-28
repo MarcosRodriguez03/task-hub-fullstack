@@ -92,16 +92,15 @@ const TaskPage = () => {
             let currentProjectId = getLocalStorageProjectId();
             let currentDone = await GetTasksByStatus("Done", Number(currentProjectId))
             let taskObjArr = await GetTasksByProjectID(currentProjectId);
-            console.log(barPercent)
+
             setFullArr(taskObjArr);
             getPercent(currentDone.length, taskObjArr.length)
-            console.log(taskObjArr)
+
 
 
         };
 
-        // Call fetchData when the component mounts (empty dependency array)
-        // This ensures it runs once when the component initially renders
+
         fetchData();
 
     }, [data.pageTwoName3]);
@@ -115,7 +114,7 @@ const TaskPage = () => {
             let TaskUsersArr = []
             for (let i = 0; i < UsersByProjectId.length; i++) {
                 let person: IUserProfile = await getEntireUserProfileById(UsersByProjectId[i].userID);
-                console.log(person)
+
                 TaskUsersArr.push(person)
             }
             setUserArr(TaskUsersArr)
@@ -137,7 +136,7 @@ const TaskPage = () => {
         const callNotifications = async () => {
             let notif = await GetNotifications(Number(data.globalUserId));
             setDisplayNotif(notif);
-            console.log(notif);
+
         }
         callNotifications();
     }, [toggleNotifications, notificationsPageClick, data.isNotif])

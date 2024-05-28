@@ -30,16 +30,16 @@ const EditProfileComponent = (prop: {
   const [profilePage, setProfilePage] = useState<string>('hidden');
   const [userProfile, setUserProfile] = useState<string>("")
 
-  const handleFirst = (e: any) => setFirst(e);
-  const handleSecond = (e: any) => setSecond(e);
+  const handleFirst = (e: string) => setFirst(e);
+  const handleSecond = (e: string) => setSecond(e);
   const handleContact = (e: React.ChangeEvent<HTMLInputElement>) => setContact(e.target.value);
-  const handleBio = (e: any) => setBio(e.target.value);
+  const handleBio = (e: React.ChangeEvent<HTMLInputElement | any>) => setBio(e.target.value);
 
   const data = useAppContext()
 
   const handleOpenTooBig = () => {
     setImageTooBig('block');
-    console.log("i work")
+
   }
 
   useEffect(() => {
@@ -58,7 +58,7 @@ const EditProfileComponent = (prop: {
   useEffect(() => {
     const loadPicture = async () => {
       let username = getLocalStorage();
-      let fullProfile: any = await getEntireUserProfile(username)
+      let fullProfile: IUserProfile[] = await getEntireUserProfile(username)
       setImage(fullProfile[0].image)
 
 
@@ -104,7 +104,7 @@ const EditProfileComponent = (prop: {
     }
 
 
-    console.log(file);
+
     if (file) {
       let reader = new FileReader();
       reader.onload = () => {
