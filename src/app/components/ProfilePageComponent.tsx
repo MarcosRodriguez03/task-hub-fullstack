@@ -39,6 +39,7 @@ const ProfilePageComponent = (prop: {
 
   useEffect(() => {
     let user = getLocalStorage();
+
     let userId = getLocalStorageUserID();
     let projId = getLocalStorageProjectId();
 
@@ -46,8 +47,10 @@ const ProfilePageComponent = (prop: {
     setCurrentUser(userId)
 
     const loadProfile = async () => {
-      if (projId == null) {
+
+      if (projId != null) {
         let owner: IProject = await GetProjectByID(projId)
+
         setOwnProject(owner.userID)
 
       }
@@ -97,6 +100,8 @@ const ProfilePageComponent = (prop: {
       setEditProfile('hidden');
     }
   }
+
+
 
   return (
     <div>
