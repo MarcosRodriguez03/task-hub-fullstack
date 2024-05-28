@@ -21,7 +21,7 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
     const [useUserID, serUseUserID] = useState<number>(0)
     const [useDueDate, setUseDueDate] = useState<string>("")
     const [usePriority, setUsePriority] = useState<string>("Low Urgency");
-    const [useStatus, setUseStatus] = useState<string>("Ideas");
+    const [useStatus, setUseStatus] = useState<string>("");
     const [useIsDeleted, setUseIsDeleted] = useState<boolean>(false)
     const [isTrue, setIsTrue] = useState<boolean>(true);
     const [userOptions, setUserOptions] = useState<React.ReactNode[]>([]);
@@ -215,8 +215,9 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
                     <div className='  md:w-fit '>
                         <p className=' ml-2 pb-2 text-[16px] text-[#808080]'>Priority</p>
                         <select
-                            value={taskObj && taskObj.priority}
+
                             onChange={(e) => { setUsePriority(e.target.value), taskObj.priority = e.target.value }}
+                            value={taskObj && taskObj.priority}
                             className=' bg-[#282828] text-white border-[#808080] lg:w-[180px]  w-full   rounded-[10px] mb-[25px]'>
                             <option value="Low Urgency" className='text-center'>Low Urgency</option>
                             <option value="Medium Urgency" className='text-center'>Medium Urgency</option>
