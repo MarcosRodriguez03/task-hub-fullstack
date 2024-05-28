@@ -26,6 +26,7 @@ import { useAppContext } from '@/Context/Context';
 import ViewTaskComponent from '@/app/component/ViewTaskComponent';
 import ConfirmDeleteComponent from '@/app/component/ConfirmDeleteComponent';
 import CreateTaskTwoComponent from '@/app/component/CreateTaskTwoComponent';
+import UserDoesntExist from '@/app/component/UserDoesntExist';
 
 
 
@@ -56,6 +57,7 @@ const TaskPage = () => {
     const [isDeleteTask, setIsDeleteTask] = useState<boolean>(false)
     const [status, setStatus] = useState<string>("")
     const [displayNotif, setDisplayNotif] = useState<any[]>([]);
+    const [createProject, setCreateProject] = useState<string>('hidden');
 
 
     const data = useAppContext();
@@ -146,6 +148,10 @@ const TaskPage = () => {
     return (
 
         <div>
+
+            <div className={data.createProject}>
+                <UserDoesntExist setCreateProject={data.setCreateProject} />
+            </div>
 
             <div className={` ${createTaskTwo} z-50`}>
                 <CreateTaskTwoComponent passingValue={status} taskId={0} boolDetermine={isCreate} setCreateTask={setCreateTaskTwo} />

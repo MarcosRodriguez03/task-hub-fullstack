@@ -5,6 +5,7 @@ import { IUserProfile } from "@/interface/interface";
 import { addUserToProject, getEntireUserProfile, } from "@/utils/DataService";
 import { getLocalStorageProjectId } from "@/utils/localStorage";
 import React, { useEffect, useState } from "react";
+import UserDoesntExist from "./UserDoesntExist";
 
 const AddUserComponent = (prop: { setAddUser: (input: string) => void; }) => {
 
@@ -12,6 +13,7 @@ const AddUserComponent = (prop: { setAddUser: (input: string) => void; }) => {
   const [projID, setProjID] = useState<number>(0)
   const [isTrue, setIsTrue] = useState<Boolean>(true)
   const [btnDisable, setBtnDisable] = useState<boolean>(true);
+  const [createProject, setCreateProject] = useState<string>('hidden');
 
   const data = useAppContext()
 
@@ -20,15 +22,16 @@ const AddUserComponent = (prop: { setAddUser: (input: string) => void; }) => {
 
     let user: IUserProfile[] = await getEntireUserProfile(enteredUser)
 
+    try {
+      await addUserToProject(user[0].id, projID);
+      setIsTrue(!isTrue);
+      data.setBoolUser(!data.boolUser);
+      setEnteredUser("");
+    } catch (error) {
+      data.setCreateProject("block")
+      setEnteredUser("");
 
-
-    await addUserToProject(user[0].id, projID);
-    setIsTrue(!isTrue)
-    data.setBoolUser(!data.boolUser)
-
-
-    setEnteredUser("");
-
+    }
   }
 
   useEffect(() => {
@@ -48,8 +51,11 @@ const AddUserComponent = (prop: { setAddUser: (input: string) => void; }) => {
 
   return (
     <div>
-      <div className="fixed inset-0 bg-black bg-opacity-80 z-50"></div>
-      <div className="fixed inset-0 flex items-center justify-center z-50">
+
+
+
+      <div className="fixed inset-0 bg-black bg-opacity-80 z-[49]"></div>
+      <div className="fixed inset-0 flex items-center justify-center z-[49]">
         <div className=" bg-[#181818] border-[#808080] border-[1px] mx-[10px] w-full md:w-[424px] h-[173px] p-[30px] rounded-[10px] shadow-md">
           <input
             onChange={(e) => {

@@ -44,6 +44,12 @@ interface IContextValue {
     turnFalse: boolean
     setTurnFalse: (input: boolean) => void
 
+    createProject: string
+    setCreateProject: (input: string) => void
+    messageCheck: string
+    setMessageCheck: (input: string) => void
+
+
 }
 
 export const Context = createContext<IContextValue>({} as IContextValue);
@@ -66,13 +72,16 @@ export const AppWrapper = ({ children, }: Readonly<{ children: React.ReactNode; 
     const [useStatus, setUseStatus] = useState<string>("");
     const [isOpenTask, setIsOpenTask] = useState(true)
     const [turnFalse, setTurnFalse] = useState(false)
+    const [createProject, setCreateProject] = useState("hidden")
+    const [messageCheck, setMessageCheck] = useState("hidden")
 
 
     return (
         <Context.Provider value={{
             pageTwoName, setPageTwoName, setPageTwoName2, pageTwoName2, pageTwoName3, setPageTwoName3, pageTwoName4, setPageTwoName4, globalUserId,
             setGlobalUserId, currentProjectId, setCurrentProjectId, boolUser, setBoolUser, isProfileOpen, setIsProfileOpen, setGlobalTaskId, globalTaskId, setGlobalTaskName, globalTaskName, statusNum
-            , setStatusNum, isClearDefault, setIsClearDefault, isNotif, setIsNotif, useStatus, setUseStatus, isOpenTask, setIsOpenTask, turnFalse, setTurnFalse
+            , setStatusNum, isClearDefault, setIsClearDefault, isNotif, setIsNotif, useStatus, setUseStatus, isOpenTask, setIsOpenTask, turnFalse, setTurnFalse, createProject,
+            setCreateProject, messageCheck, setMessageCheck
         }}>
             {children}
         </Context.Provider>

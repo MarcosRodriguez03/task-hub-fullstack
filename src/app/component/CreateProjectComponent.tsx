@@ -28,6 +28,7 @@ const CreateProjectComponent = (prop: { setCreateProject: (input: string) => voi
 
   const handleOnClick = async () => {
     let projID = await createProject(projectObject)
+    setProjectName("")
 
     if (addedUser != "") {
       let addedUserId = await getLoggedInUserData(addedUser)

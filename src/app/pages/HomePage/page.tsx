@@ -18,6 +18,7 @@ import { useAppContext } from "@/Context/Context";
 import { url } from "inspector";
 import emptyPfp from '@/assets/emptyPfp.png';
 import ConfirmDeleteComponent from "@/app/component/ConfirmDeleteComponent";
+import UserDoesntExist from "@/app/component/UserDoesntExist";
 
 
 const HomePage = () => {

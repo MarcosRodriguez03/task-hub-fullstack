@@ -16,6 +16,7 @@ import emptyPfp from "@/assets/emptyPfp.png";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import DirectMessagesComponent from "@/app/component/DirectMessagesComponent";
 import { IMessage } from "@/interface/interface";
+import UserDoesntExist from "@/app/component/UserDoesntExist";
 
 export interface IMessages {
   username: string;
@@ -82,10 +83,10 @@ const MessagePage = () => {
     }
   }
 
-  const messageAdd:IMessage = {
-    SenderID:Number(usersId),
-    Room:Number(chatRoom),
-    Message:message
+  const messageAdd: IMessage = {
+    SenderID: Number(usersId),
+    Room: Number(chatRoom),
+    Message: message
   }
 
   const sendMessage = async (message: any) => {
@@ -98,13 +99,14 @@ const MessagePage = () => {
 
   const createNewDM = async () => {
     try {
-      if (username != "") {
-        let userID = await getLoggedInUserData(username);
-        await addDM(Number(usersId), userID.userId);
-        await render();
-      }
+      let userID = await getLoggedInUserData(username);
+      await addDM(Number(usersId), userID.userId);
+      await render();
     } catch (e) {
+      data.setCreateProject("block")
     }
+
+
 
   }
 
@@ -209,6 +211,11 @@ const MessagePage = () => {
 
   return (
     <div>
+
+      <div className={data.createProject}>
+        <UserDoesntExist setCreateProject={data.setCreateProject} />
+      </div>
+
       <div className={profilePage}>
         <ProfilePageComponent pageBool={true} pageProfileId={data.globalUserId} pageProfile={setProfilePage} />
       </div>
@@ -296,16 +303,16 @@ const MessagePage = () => {
                     (e as React.KeyboardEvent<HTMLInputElement>).key === "Enter"
                   ) {
                     e.preventDefault();
-                    if(username != ""){
+                    if (username != "") {
                       setUsername(
-                      (e as React.ChangeEvent<HTMLInputElement>).target.value
-                    );
-                    createNewDM();
-                    setUsername("");
+                        (e as React.ChangeEvent<HTMLInputElement>).target.value
+                      );
+                      createNewDM();
+                      setUsername("");
+                    }
+
                   }
-                  
-                }
-                
+
                 }}
                 value={username}
                 maxLength={25}
@@ -326,23 +333,23 @@ const MessagePage = () => {
             <div className=" absolute  top-[93px] w-full lg:w-1/4 bottom-0 overflow-auto">
               {
                 directMessage && directMessage.map((dm: any) => {
-                  if(dm.isVisible){
-                  return (
-                    <div key={dm.id} onClick={() => {
-                      setOtherUserID(usersId == dm.userID1 ? dm.userID2 : dm.userID1);
-                      closeConnection();
-                      setChatRoom(dm.room);
-                      joinRoom(usersId, `${dm.room}`);
-                      handleOpen();
-                    }}>
-                      <DirectMessagesComponent chatid={dm.id} id={usersId == dm.userID1 ? dm.userID2 : dm.userID1} focus={chatRoom == dm.room ? 'lg:bg-[#252525]' : 'bg-[#181818]'} render={render} stop={closeConnection} />
-                    </div>
+                  if (dm.isVisible) {
+                    return (
+                      <div key={dm.id} onClick={() => {
+                        setOtherUserID(usersId == dm.userID1 ? dm.userID2 : dm.userID1);
+                        closeConnection();
+                        setChatRoom(dm.room);
+                        joinRoom(usersId, `${dm.room}`);
+                        handleOpen();
+                      }}>
+                        <DirectMessagesComponent chatid={dm.id} id={usersId == dm.userID1 ? dm.userID2 : dm.userID1} focus={chatRoom == dm.room ? 'lg:bg-[#252525]' : 'bg-[#181818]'} render={render} stop={closeConnection} />
+                      </div>
 
-                  
-                    
-                  )
+
+
+                    )
                   }
-                  
+
                 })
               }
 
@@ -361,26 +368,26 @@ const MessagePage = () => {
               <div className="h-full flex  flex-col">
                 <div ref={messageRef} className="bg-black overflow-auto flex-1">
                   <div className="flex flex-col p-[15px] lg:p-[30px]">
-                  {
-                savedMessage && savedMessage.map((message:any, idx:number) => {
-                  return(
-                    <div key={idx} className={message.senderID == Number(usersId) ? "flex justify-end items-end mt-[30px]" : "flex items-end mt-[30px]"}>
-                          {/* {
+                    {
+                      savedMessage && savedMessage.map((message: any, idx: number) => {
+                        return (
+                          <div key={idx} className={message.senderID == Number(usersId) ? "flex justify-end items-end mt-[30px]" : "flex items-end mt-[30px]"}>
+                            {/* {
                             msg.username != usersId ?
                             <img
                             alt="pfp"
                             src={userPfp && userPfp ? userPfp : emptyPfp}
                             className="rounded-[50px] w-[40px] h-[40px] lg:w-[50px] lg:h-[50px]"
                           /> : ''} */}
-                          <div className={message.senderID == Number(usersId) ? 'bg-[#CB76F2] text-white p-2 rounded-t-xl rounded-l-xl w-auto break-all' : 'bg-[#181818] rounded-t-xl rounded-r-xl text-white p-2 w-auto break-all'}>
-                            <p className="break-all">
-                              {message.message}
-                            </p>
+                            <div className={message.senderID == Number(usersId) ? 'bg-[#CB76F2] text-white p-2 rounded-t-xl rounded-l-xl w-auto break-all' : 'bg-[#181818] rounded-t-xl rounded-r-xl text-white p-2 w-auto break-all'}>
+                              <p className="break-all">
+                                {message.message}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                  )
-                })
-              }
+                        )
+                      })
+                    }
                     {messages &&
                       messages.map((msg: any, idx: number) => (
                         <div key={idx} className={msg.username == usersId ? "flex justify-end items-end mt-[30px]" : "flex items-end mt-[30px]"}>
@@ -495,15 +502,15 @@ const MessagePage = () => {
 
       <div className={notificationsPageClick}>
         <div className="mx-[20px] mb-[100px]">
-        {
-          displayNotif && displayNotif.map((notif, idx) => {
-            return (
-              <div key={idx}>
-                <NotificationBoxComponent id={notif.id} message={notif.message} />
-              </div>
-            )
-          })
-        }
+          {
+            displayNotif && displayNotif.map((notif, idx) => {
+              return (
+                <div key={idx}>
+                  <NotificationBoxComponent id={notif.id} message={notif.message} />
+                </div>
+              )
+            })
+          }
 
         </div>
       </div>
