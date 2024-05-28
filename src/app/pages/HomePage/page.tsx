@@ -79,9 +79,6 @@ const HomePage = () => {
             let fullProfile: IUserProfileIndex = await getEntireUserProfile(username)
             setUserProfile(fullProfile[0].image);
 
-
-
-
         }
         loadPicture()
 

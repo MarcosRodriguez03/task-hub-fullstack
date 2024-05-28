@@ -55,7 +55,7 @@ const ProjectCardComponent = (prop: {
         let taskObjArr = await GetTasksByProjectID(currentProjectId);
         getPercent(await currentDone.length, await taskObjArr.length)
       } catch (error) {
-        console.error("Error fetching tasks:", error);
+        console.error("");
       }
     };
 

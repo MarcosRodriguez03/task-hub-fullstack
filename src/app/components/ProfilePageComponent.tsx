@@ -49,9 +49,13 @@ const ProfilePageComponent = (prop: {
     const loadProfile = async () => {
 
       if (projId != null) {
-        let owner: IProject = await GetProjectByID(projId)
+        try {
+          let owner: IProject = await GetProjectByID(projId)
+          setOwnProject(owner.userID)
+        } catch (e) {
+          console.log("")
+        }
 
-        setOwnProject(owner.userID)
 
       }
 
