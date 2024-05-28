@@ -17,7 +17,7 @@ import ImageIsTooBigComponent from "./component/ImageIsTooBigComponent";
 export default function Home() {
   const [username, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [switchBool, setSwitchBool] = useState<boolean>(true);
+  const [switchBool, setSwitchBool] = useState<boolean>(false);
   const [hideModel, setHideModel] = useState("hidden");
   const [modelBool, setModelBool] = useState(true);
   const [textBox1, setTextBox1] = useState("block");

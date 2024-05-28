@@ -21,10 +21,11 @@ const DirectMessagesComponent = (prop: {id:number, focus:string, chatid:number, 
         userProfile();
     }, [])
 
-    const removeDirectMessage = async () => {
-      await RemoveDM(prop.id);
-      await prop.render();
-    }
+    // const removeDirectMessage = async () => {
+    //   console.log(prop.id);
+    //   await RemoveDM(prop.id);
+    //   prop.render();
+    // }
 
 
   return (
@@ -47,11 +48,11 @@ const DirectMessagesComponent = (prop: {id:number, focus:string, chatid:number, 
                 </div>
                 <Image
                 onClick={(event) => {
+                  // removeDirectMessage();
                   prop.stop();
                   event.stopPropagation();
-                  removeDirectMessage();
                 }}
-                alt="x" src={exit} className="  h-[25px] w-[25px]" />
+                alt="x" src={exit} className="invisible  h-[25px] w-[25px]" />
               </div>
   )
 }
