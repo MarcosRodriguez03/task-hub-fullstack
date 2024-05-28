@@ -215,8 +215,8 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
                     <div className='  md:w-fit '>
                         <p className=' ml-2 pb-2 text-[16px] text-[#808080]'>Priority</p>
                         <select
-                            defaultValue={taskObj && taskObj.priority}
-                            onChange={(e) => setUsePriority(e.target.value)}
+                            value={taskObj && taskObj.priority}
+                            onChange={(e) => { setUsePriority(e.target.value), taskObj.priority = e.target.value }}
                             className=' bg-[#282828] text-white border-[#808080] lg:w-[180px]  w-full   rounded-[10px] mb-[25px]'>
                             <option value="Low Urgency" className='text-center'>Low Urgency</option>
                             <option value="Medium Urgency" className='text-center'>Medium Urgency</option>
@@ -228,8 +228,8 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
                         <p className=' ml-2 pb-2 text-[16px] text-[#808080]'>Status</p>
 
                         <select
-                            defaultValue={taskObj && taskObj.status}
-                            onChange={(e) => setUseStatus(e.target.value)}
+                            value={taskObj && taskObj.status}
+                            onChange={(e) => { setUseStatus(e.target.value), taskObj.status = e.target.value }}
                             className=' bg-[#282828] text-white border-[#808080] lg:w-[180px] text-[16px]  w-full   rounded-[10px] mb-[25px]'>
                             <option value="Ideas" className='text-center'>Ideas</option>
                             <option value="In progress" className='text-center'>In progress</option>
