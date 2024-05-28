@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AppWrapper } from "@/Context/Context";
+import img from "@/assets/logo.png"
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -15,6 +16,9 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
 
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href={img.src} />
+      </head>
 
       <body className={inter.className}>
         <AppWrapper>
