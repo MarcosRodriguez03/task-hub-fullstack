@@ -257,18 +257,14 @@ const TaskPage = () => {
                                 </div>
                                 <p className=' truncate w-[90px] text-[20px] text-center text-white hidden lg:block'>{person && person.username}</p>
 
+
                             </div>
+
                         })}
 
-                        {/* <>
-                            <Image
-
-                                className='bg-white absolute bottom-10  lg:mt-[20px] w-[34px] h-[34px] cursor-pointer' alt='add' src={leaveProject} />
-                        </> */}
-
                         {
-                            ownProject && ownProject != currentUserId ? <div className='cursor-pointer mt-auto mb-12 pt-6'  >
-                                <div className='  lg:mx-auto ml-4   relative h-[34px] w-[34px]'>
+                            ownProject && ownProject != currentUserId ? <div className='cursor-pointer mr-6 lg:mr-0 ml-auto lg:ml-0 lg:mt-auto lg:mb-12 lg:pt-6'  >
+                                <div className='  lg:mx-auto ml-4    relative lg:h-[34px] lg:w-[34px] h-[30px] w-[30px]'>
 
                                     <Image onClick={() => { setLeave("block") }} src={leaveProject} alt='default pfp' />
 
@@ -404,9 +400,15 @@ const TaskPage = () => {
 
                                 <div
                                     onClick={() => {
-                                        setCreateTask('block')
+                                        // setCreateTask('block')
+                                        // setIsCreate(true)
+                                        // data.setStatusNum(1)
+
+                                        data.setIsClearDefault(false)
+                                        setCreateTaskTwo('block')
                                         setIsCreate(true)
                                         data.setStatusNum(1)
+                                        data.setUseStatus("Ideas")
                                     }}
                                     className='cursor-pointer mt-[20px] col-span-3 h-[50px] bg-[#181818] border border-[#525252] rounded-[10px] flex items-center justify-between'>
                                     <p className='ml-[25px] text-[20px] text-white'>Create Task</p>
