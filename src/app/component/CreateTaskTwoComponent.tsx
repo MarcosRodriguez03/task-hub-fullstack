@@ -234,7 +234,7 @@ const CreateTaskTwoComponent = (prop: { passingValue: string, taskId: number, bo
                             if (taskObj && taskObj.taskName != "" || useTaskName != "") {
                                 handleCreateTask()
                                 prop.setCreateTask('hidden')
-                                // setIsTrue(!isTrue)  
+
                             }
 
 

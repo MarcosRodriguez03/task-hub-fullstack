@@ -135,16 +135,7 @@ const MessagePage = () => {
 
 
 
-    // const handleClickOutside = () => {
-    //     if(toggleNotifications == "hidden lg:block"){
-    //         setToggleNotifications("hidden lg:hidden");
-    //     }
-    // }
-    // document.addEventListener('mousedown', handleClickOutside);
 
-    // return () => {
-    //     document.removeEventListener('mousedown', handleClickOutside);
-    // }
 
   }, [isReal]);
 

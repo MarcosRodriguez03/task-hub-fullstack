@@ -59,18 +59,11 @@ const ProjectCardComponent = (prop: {
       }
     };
 
-    // Call fetchData when the component mounts (empty dependency array)
-    // This ensures it runs once when the component initially renders
     fetchData();
 
   }, []);
 
 
-
-  // const handleDeleteProject = async () => {
-  //   await DeleteProject(prop.projectId);
-  //   data.setPageTwoName2(`${!data.pageTwoName2}`);
-  // }
 
 
 

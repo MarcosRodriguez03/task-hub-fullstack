@@ -23,6 +23,7 @@ export default function Home() {
   const [textBox1, setTextBox1] = useState("block");
   const [textBox2, setTextBox2] = useState("block");
   const [btnDisable, setBtnDisable] = useState<boolean>(true);
+  const [text, setText] = useState<string>("");
 
   const data = useAppContext();
 
@@ -43,32 +44,39 @@ export default function Home() {
   }
 
   const handleSubmit = async () => {
-    //letting our user data inside of an object so we can put it in our post fetch
+
     let userData = {
       username: username,
       password: password
     }
 
     if (switchBool === true) {
-      if (username != "" && password != "") {
+      if (username != "" && password != "" && password.length >= 8) {
+
         if (await createAccount(userData)) {
           setModelBool(true)
           setTextBox1("block")
           setTextBox2("hidden")
           setHideModel("block")
           setSwitchBool(!switchBool)
+          setText("Account Successfully Created")
+
 
         } else {
           setTextBox1("block")
           setTextBox2("hidden")
           setModelBool(false)
           setHideModel("block")
+          setText("An Error has Occured when Creating Account. Username already taken.")
+
         }
       } else {
         setTextBox1("block")
         setTextBox2("hidden")
         setModelBool(false)
         setHideModel("block")
+        setText("Password must contain more than 8 characters.")
+
       }
 
 
@@ -76,11 +84,11 @@ export default function Home() {
       setUserName("")
 
     } else {
-      //login logic here
+
       let token: IToken = await login(userData);
 
 
-      //checks to see if we succeed
+
       if (token.token != null) {
 
         localStorage.clear();
@@ -107,7 +115,7 @@ export default function Home() {
 
 
   return (
-    // <TaskPage />
+
     <div className="bg-image">
       <div className="grid lg:grid-cols-2 grid-cols-1">
 
@@ -191,7 +199,11 @@ export default function Home() {
       <div className={`${hideModel} fixed inset-0 flex items-center justify-center bg-black bg-opacity-80`}>
 
         <div className={` ${textBox1} bg-[#181818] h-[225px] max-w-[500px] w-full rounded-xl shadow-[20px] p-[30px] flex-col flex justify-center mx-[15px] items-center`}>
-          <h1 className="text-lg lg:text-2xl font-bold text-center text-white"> {modelBool ? "Account Successfully Created" : "An Error has Occured when Creating Account. Please try again."}</h1>
+
+
+          {/* <h1 className="text-lg lg:text-2xl font-bold text-center text-white"> {modelBool ? "Account Successfully Created" : "An Error has Occured when Creating Account. Please try again."}</h1> */}
+          <h1 className="text-lg lg:text-2xl font-bold text-center text-white">{text}</h1>
+
           <button
             onClick={() => { setHideModel("hidden") }}
             className={modelBool ? "mt-[20px] bg-[#04BAAD] hover:bg-[#86f3ec]  text-white font-bold py-2 px-10 rounded" : "mt-[20px] bg-[#EC5A52] hover:bg-[#ff6961]  text-white font-bold py-2 px-10 rounded"}>

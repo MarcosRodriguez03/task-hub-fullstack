@@ -27,7 +27,7 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
     const [userOptions, setUserOptions] = useState<React.ReactNode[]>([]);
     const [userID, setUserID] = useState<number>(0);
     const [taskObj, setTaskObj] = useState<any>()
-    // const [btnDisable, setBtnDisable] = useState<boolean>(true);
+
 
 
 
@@ -35,13 +35,7 @@ const CreateTaskComponent = (prop: { taskId: number, boolDetermine: boolean, set
     const [open, setOpen] = useState("hidden");
     const id = useId()
 
-    // useEffect(() => {
-    //     if (useTaskName === '') {
-    //         setBtnDisable(true);
-    //     } else {
-    //         setBtnDisable(false);
-    //     }
-    // }, [useTaskName])
+
 
 
     const handleCreateTask = async () => {

@@ -95,11 +95,11 @@ const EditProfileComponent = (prop: {
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
-    const maxSizeInBytes = .5 * 1024 * 1024; // 5MB
+    const maxSizeInBytes = .5 * 1024 * 1024;
     if (file && file.size > maxSizeInBytes) {
 
       handleOpenTooBig()
-      // Reset the input to clear the selected file
+
       return e.target.value = '';
     }
 
@@ -108,10 +108,10 @@ const EditProfileComponent = (prop: {
     if (file) {
       let reader = new FileReader();
       reader.onload = () => {
-        setImage(reader.result as string); // Set image state with selected file data (converted to Base64 string)
+        setImage(reader.result as string);
 
       }
-      reader.readAsDataURL(file); // Read file as data URL
+      reader.readAsDataURL(file);
 
     } else {
       console.error("No file selected");

@@ -9,6 +9,7 @@ interface IimageTooBig {
 
 const ImageIsTooBigComponent = (prop: IimageTooBig) => {
     return (
+
         <div className=' fixed bg-black bg-opacity-90 z-50   h-screen w-screen '>
             <div className='fixed  z-50 flex justify-center items-center h-full w-full'>
                 <div className='w-[325px] sm:w-[500px] px-4 h-[full] py-16 bg-[#181818]  rounded-md flex flex-col items-center justify-center' >

@@ -19,14 +19,17 @@ import ProfilePageComponent from '@/app/components/ProfilePageComponent';
 import AddUserComponent from '@/app/component/AddUserComponent';
 import CreateTaskComponent from '@/app/component/CreateTaskComponent';
 import newData from '@/app/TestTask.json'
-import { getLocalStorage, getLocalStorageProjectId, saveLocalStorage } from '@/utils/localStorage';
-import { ITask, ITaskArr, IUserProfile } from '@/interface/interface';
-import { CreateTask, GetNotifications, GetTasksByProjectID, GetTasksByStatus, GetUsersByProjectId, getEntireUserProfile, getEntireUserProfileById } from '@/utils/DataService';
+import { getLocalStorage, getLocalStorageProjectId, getLocalStorageUserID, saveLocalStorage } from '@/utils/localStorage';
+import { IProject, ITask, ITaskArr, IUserProfile } from '@/interface/interface';
+import { CreateTask, GetNotifications, GetProjectByID, GetTasksByProjectID, GetTasksByStatus, GetUsersByProjectId, RemoveUserFromProjectByID, getEntireUserProfile, getEntireUserProfileById } from '@/utils/DataService';
 import { useAppContext } from '@/Context/Context';
 import ViewTaskComponent from '@/app/component/ViewTaskComponent';
 import ConfirmDeleteComponent from '@/app/component/ConfirmDeleteComponent';
 import CreateTaskTwoComponent from '@/app/component/CreateTaskTwoComponent';
 import UserDoesntExist from '@/app/component/UserDoesntExist';
+import leaveProject from '@/assets/leaveProject.png'
+import { useRouter } from 'next/navigation';
+import DoYouWantToLeaveComponent from '@/app/component/DoYouWantToLeaveComponent';
 
 
 
@@ -58,10 +61,21 @@ const TaskPage = () => {
     const [status, setStatus] = useState<string>("")
     const [displayNotif, setDisplayNotif] = useState<any[]>([]);
     const [createProject, setCreateProject] = useState<string>('hidden');
+    const [ownProject, setOwnProject] = useState<number>(0)
+    const [currentUserId, setCurrentUserId] = useState<number>(0);
+    const [leave, setLeave] = useState<string>("hidden")
 
 
     const data = useAppContext();
 
+    const router = useRouter()
+
+    const handleLeave = async () => {
+        let projId = getLocalStorageProjectId();
+        await RemoveUserFromProjectByID(currentUserId, projId)
+        data.setBoolUser(!data.boolUser);
+        router.push('./HomePage')
+    }
 
     const handleAddUser = () => {
         setAddUser('block');
@@ -91,7 +105,23 @@ const TaskPage = () => {
     useEffect(() => {
         const fetchData = async () => {
 
+
+
             let currentProjectId = getLocalStorageProjectId();
+            let userId = getLocalStorageUserID();
+            setCurrentUserId(userId)
+
+            if (currentProjectId != null) {
+                try {
+                    let owner: IProject = await GetProjectByID(currentProjectId)
+                    setOwnProject(owner.userID)
+                } catch (e) {
+                    console.log("")
+                }
+
+            }
+
+
             let currentDone = await GetTasksByStatus("Done", Number(currentProjectId))
             let taskObjArr = await GetTasksByProjectID(currentProjectId);
 
@@ -152,6 +182,9 @@ const TaskPage = () => {
             <div className={data.createProject}>
                 <UserDoesntExist setCreateProject={data.setCreateProject} />
             </div>
+            <div className={`${leave} z-50`}>
+                <DoYouWantToLeaveComponent leaveFunation={handleLeave} setCreateProject={setLeave} />
+            </div>
 
             <div className={` ${createTaskTwo} z-50`}>
                 <CreateTaskTwoComponent passingValue={status} taskId={0} boolDetermine={isCreate} setCreateTask={setCreateTaskTwo} />
@@ -207,7 +240,7 @@ const TaskPage = () => {
 
             <div className={homePage}>
                 <div className="flex flex-col lg:flex-row bg-[#080808] absolute top-[80px] lg:top-[70px] bottom-[80px] lg:bottom-0 w-full" >
-                    <div className="border-y lg:border-r border-[#525252] lg:w-[100px] items-center w-full lg:h-full h-[54px] bg-[#181818] flex lg:flex-col overflow-x-scroll  lg:overflow-auto ">
+                    <div className="border-y lg:border-r border-[#525252] lg:w-[100px] items-center w-full lg:h-full h-[54px] bg-[#181818] flex lg:flex-col overflow-x-scroll no-scrollbar  lg:overflow-auto ">
 
                         <>
                             <Image
@@ -223,8 +256,27 @@ const TaskPage = () => {
                                     }
                                 </div>
                                 <p className=' truncate w-[90px] text-[20px] text-center text-white hidden lg:block'>{person && person.username}</p>
+
                             </div>
                         })}
+
+                        {/* <>
+                            <Image
+
+                                className='bg-white absolute bottom-10  lg:mt-[20px] w-[34px] h-[34px] cursor-pointer' alt='add' src={leaveProject} />
+                        </> */}
+
+                        {
+                            ownProject && ownProject != currentUserId ? <div className='cursor-pointer mt-auto mb-12 pt-6'  >
+                                <div className='  lg:mx-auto ml-4   relative h-[34px] w-[34px]'>
+
+                                    <Image onClick={() => { setLeave("block") }} src={leaveProject} alt='default pfp' />
+
+                                </div>
+
+                            </div> : <div></div>
+                        }
+
 
 
 
