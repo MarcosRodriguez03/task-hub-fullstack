@@ -38,10 +38,25 @@ const HomePage = () => {
     const [nothing, setNothing] = useState<number>(0);
     const [displayNotif, setDisplayNotif] = useState<any[]>([]);
     const [userIDuser, setuserIDuser] = useState<number>();
+    const [isNotification, setIsNotification] = useState<boolean>(true);
 
 
 
     const data = useAppContext()
+
+    useEffect(() => {
+        const callNotifications = async () => {
+            let notif = await GetNotifications(Number(data.globalUserId));
+            setDisplayNotif(notif);
+            if(notif.length != 0){
+                setIsNotification(true);
+            }else{
+                setIsNotification(false);
+            }
+
+        }
+        callNotifications();
+    })
 
     useEffect(() => {
         document.body.style.backgroundColor = "#080808";
@@ -66,6 +81,7 @@ const HomePage = () => {
 
         }
         loadAll()
+        
 
 
 
@@ -96,6 +112,11 @@ const HomePage = () => {
         const callNotifications = async () => {
             let notif = await GetNotifications(Number(data.globalUserId));
             setDisplayNotif(notif);
+            if(notif.length != 0){
+                setIsNotification(true);
+            }else{
+                setIsNotification(false);
+            }
         }
         callNotifications();
     }, [toggleNotifications, notificationsPageClick, data.isNotif])
@@ -129,6 +150,7 @@ const HomePage = () => {
                 pageProfile={setProfilePage}
                 profilePicture={userProfile}
                 pageBool={handleNothing}
+                isNotification = {isNotification}
             />
 
 

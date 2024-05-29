@@ -29,6 +29,7 @@ const NavBarComponent = (prop: {
   profilePicture: any;
   closeTop: () => void;
   pageBool: (input: boolean) => void
+  isNotification : boolean
 }) => {
 
 
@@ -80,7 +81,8 @@ const NavBarComponent = (prop: {
                 onClick={GoToMessage}
               />
             </div>
-            <div className="my-auto">
+            <div className="my-auto relative">
+              <div className={prop.isNotification ? "absolute right-8 rounded-full bg-[#EC5A52] w-[10px] h-[10px]" : "invisible"}></div>
               <Image
                 onClick={() => {
                   if (prop.notificationCheck === "hidden lg:hidden") {
@@ -140,7 +142,8 @@ const NavBarComponent = (prop: {
 
             />
           </div>
-          <div className="my-auto cursor-pointer">
+          <div className="my-auto relative cursor-pointer">
+            <div className={ prop.isNotification ?  "z-0 absolute right-0 rounded-full bg-[#EC5A52] w-[10px] h-[10px]" : "invisible"}></div>
             <Image
               onClick={() => {
                 prop.homePage('hidden lg:block');
@@ -166,7 +169,7 @@ const NavBarComponent = (prop: {
             prop.setTitle('Profile');
             prop.closeTop();
           }} className="my-auto rounded-[50px]  h-[50px] w-[50px] cursor-pointer">
-            <div className=" relative w-[50px] h-[50px] rounded-[50px]">
+              <div className=" relative w-[50px] h-[50px] rounded-[50px]" >
               <Image fill className="h-[50px] w-[50px] rounded-[50px]" src={prop.profilePicture ? prop.profilePicture : emptyPfp} alt="profile picture" />
             </div>
           </div>

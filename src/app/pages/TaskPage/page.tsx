@@ -64,11 +64,26 @@ const TaskPage = () => {
     const [ownProject, setOwnProject] = useState<number>(0)
     const [currentUserId, setCurrentUserId] = useState<number>(0);
     const [leave, setLeave] = useState<string>("hidden")
+    const [isNotification, setIsNotification] = useState<boolean>(true);
 
 
     const data = useAppContext();
 
     const router = useRouter()
+
+    useEffect(() => {
+        const callNotifications = async () => {
+            let notif = await GetNotifications(Number(data.globalUserId));
+            setDisplayNotif(notif);
+            if(notif.length != 0){
+                setIsNotification(true);
+            }else{
+                setIsNotification(false);
+            }
+
+        }
+        callNotifications();
+    })
 
     const handleLeave = async () => {
         let projId = getLocalStorageProjectId();
@@ -168,6 +183,11 @@ const TaskPage = () => {
         const callNotifications = async () => {
             let notif = await GetNotifications(Number(data.globalUserId));
             setDisplayNotif(notif);
+            if(notif.length != 0){
+                setIsNotification(true);
+            }else{
+                setIsNotification(false);
+            }
 
         }
         callNotifications();
@@ -221,6 +241,7 @@ const TaskPage = () => {
                 pageProfile={setProfilePage}
                 profilePicture={userProfile}
                 pageBool={setPageBool}
+                isNotification = {isNotification}
             />
 
             <div className={`${toggleNotifications} absolute right-[105px] w-[520px] z-30 px-[20px] bg-[#181818] border-[#808080] border-[1px] rounded-[10px] drop-shadow-2xl shadow-2xl h-[85vh] overflow-y-auto -mt-0.5`}>

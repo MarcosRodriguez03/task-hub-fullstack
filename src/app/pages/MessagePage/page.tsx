@@ -47,6 +47,20 @@ const MessagePage = () => {
 
   const data = useAppContext();
 
+  useEffect(() => {
+    const callNotifications = async () => {
+        let notif = await GetNotifications(Number(data.globalUserId));
+        setDisplayNotif(notif);
+        if(notif.length != 0){
+            setIsNotification(true);
+        }else{
+            setIsNotification(false);
+        }
+
+    }
+    callNotifications();
+})
+
   const joinRoom = async (username: string, room: string) => {
     conn && await conn.stop();
     const messageHistory = await GetSavedMessages(Number(room));
@@ -130,6 +144,7 @@ const MessagePage = () => {
       }
 
     }
+    
     userUsername();
     populateData();
 
@@ -170,6 +185,7 @@ const MessagePage = () => {
   const [messagesPage, setMessagesPage] = useState<string>("block lg:block");
   const [taskPage, setTaskPage] = useState<string>("block lg:block");
   const [userProfile, setUserProfile] = useState<any>();
+  const [isNotification, setIsNotification] = useState<boolean>(true);
 
   const handleDoNothing = () => {
 
@@ -187,6 +203,11 @@ const MessagePage = () => {
     const callNotifications = async () => {
       let notif = await GetNotifications(Number(usersId));
       setDisplayNotif(notif);
+      if(notif.length != 0){
+        setIsNotification(true);
+    }else{
+        setIsNotification(false);
+    }
     }
     callNotifications();
   }, [toggleNotifications, notificationsPageClick, data.isNotif])
@@ -225,6 +246,7 @@ const MessagePage = () => {
         pageProfile={setProfilePage}
         profilePicture={userProfile}
         pageBool={handleDoNothing}
+        isNotification = {isNotification}
       />
       <div
         className={`${toggleNotifications} absolute right-[105px] w-[520px] z-30 px-[20px] bg-[#181818] border-[#808080] border-[1px] rounded-[10px] drop-shadow-2xl shadow-2xl h-[85vh] overflow-y-auto -mt-0.5`}
